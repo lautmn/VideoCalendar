@@ -35,6 +35,8 @@
 		3C04F1621CE32696006374A1 /* calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F1611CE32696006374A1 /* calendar.png */; };
 		3C04F1641CE3286D006374A1 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F1631CE3286D006374A1 /* home.png */; };
 		3C04F16E1CE36A93006374A1 /* insert2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F16D1CE36A93006374A1 /* insert2.png */; };
+		3C3DEEE21CEA003C009809BF /* firstBG.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C3DEEE01CEA003C009809BF /* firstBG.png */; };
+		3C3DEEE31CEA003C009809BF /* firstImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C3DEEE11CEA003C009809BF /* firstImage.png */; };
 		3C6942411CE50531008DF05A /* ImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C6942401CE50531008DF05A /* ImageBrowser.m */; };
 		3C6942491CE5AA5D008DF05A /* detail2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942481CE5AA5D008DF05A /* detail2.png */; };
 		3C69424B1CE5AF2C008DF05A /* say.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C69424A1CE5AF2C008DF05A /* say.png */; };
@@ -49,8 +51,6 @@
 		3C6942611CE614D2008DF05A /* browse2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942601CE614D2008DF05A /* browse2.png */; };
 		3C6942641CE62F2A008DF05A /* myVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942621CE62F2A008DF05A /* myVideo.png */; };
 		3C6942651CE62F2A008DF05A /* tool.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942631CE62F2A008DF05A /* tool.png */; };
-		3CFA5F7F1CE370A300B31214 /* detail.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFA5F7E1CE370A300B31214 /* detail.png */; };
-		3CFA5F811CE3749E00B31214 /* dayDetail.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFA5F801CE3749E00B31214 /* dayDetail.png */; };
 		3CFA5F851CE38EB100B31214 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFA5F841CE38EB100B31214 /* DetailViewController.m */; };
 		3CFA5F871CE4502000B31214 /* insert.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFA5F861CE4501F00B31214 /* insert.png */; };
 		E6DFA5EFDB06D492C8C72825 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D124FD1C54A190BCA81FF78 /* libPods.a */; };
@@ -125,6 +125,8 @@
 		3C04F1611CE32696006374A1 /* calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar.png; sourceTree = "<group>"; };
 		3C04F1631CE3286D006374A1 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		3C04F16D1CE36A93006374A1 /* insert2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert2.png; sourceTree = "<group>"; };
+		3C3DEEE01CEA003C009809BF /* firstBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firstBG.png; sourceTree = "<group>"; };
+		3C3DEEE11CEA003C009809BF /* firstImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firstImage.png; sourceTree = "<group>"; };
 		3C69423F1CE50531008DF05A /* ImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageBrowser.h; sourceTree = "<group>"; };
 		3C6942401CE50531008DF05A /* ImageBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageBrowser.m; sourceTree = "<group>"; };
 		3C6942481CE5AA5D008DF05A /* detail2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail2.png; sourceTree = "<group>"; };
@@ -140,8 +142,6 @@
 		3C6942601CE614D2008DF05A /* browse2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browse2.png; sourceTree = "<group>"; };
 		3C6942621CE62F2A008DF05A /* myVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myVideo.png; sourceTree = "<group>"; };
 		3C6942631CE62F2A008DF05A /* tool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tool.png; sourceTree = "<group>"; };
-		3CFA5F7E1CE370A300B31214 /* detail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = detail.png; sourceTree = "<group>"; };
-		3CFA5F801CE3749E00B31214 /* dayDetail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dayDetail.png; sourceTree = "<group>"; };
 		3CFA5F841CE38EB100B31214 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		3CFA5F861CE4501F00B31214 /* insert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert.png; sourceTree = "<group>"; };
 		667EABB150DDD23C2D575A6A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -280,12 +280,12 @@
 				3C69424E1CE5B62B008DF05A /* home2.png */,
 				3C6942481CE5AA5D008DF05A /* detail2.png */,
 				3C6942521CE5B924008DF05A /* setting.png */,
-				3CFA5F801CE3749E00B31214 /* dayDetail.png */,
+				3C3DEEE01CEA003C009809BF /* firstBG.png */,
+				3C3DEEE11CEA003C009809BF /* firstImage.png */,
 				3C69424A1CE5AF2C008DF05A /* say.png */,
 				3C6942501CE5B78D008DF05A /* imgtitle4.png */,
 				3CFA5F861CE4501F00B31214 /* insert.png */,
 				3C69424C1CE5B50A008DF05A /* insert3.png */,
-				3CFA5F7E1CE370A300B31214 /* detail.png */,
 				3C6942601CE614D2008DF05A /* browse2.png */,
 				3C6942541CE5BB40008DF05A /* setting2.png */,
 				3C04F16D1CE36A93006374A1 /* insert2.png */,
@@ -423,8 +423,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3CFA5F811CE3749E00B31214 /* dayDetail.png in Resources */,
 				3C69425F1CE5DF68008DF05A /* action2.png in Resources */,
+				3C3DEEE21CEA003C009809BF /* firstBG.png in Resources */,
 				3C04F16E1CE36A93006374A1 /* insert2.png in Resources */,
 				3C6942491CE5AA5D008DF05A /* detail2.png in Resources */,
 				EB5E3B811CD1EE7600C5DA4D /* Main.storyboard in Resources */,
@@ -437,9 +437,9 @@
 				3C6942651CE62F2A008DF05A /* tool.png in Resources */,
 				3C04F1571CE1D57C006374A1 /* blackBackground.jpg in Resources */,
 				3C04F15B1CE1D57C006374A1 /* VideoStoryboard.storyboard in Resources */,
-				3CFA5F7F1CE370A300B31214 /* detail.png in Resources */,
 				3C04F1621CE32696006374A1 /* calendar.png in Resources */,
 				08BC99541CE89F8400B2443E /* Animals.mp3 in Resources */,
+				3C3DEEE31CEA003C009809BF /* firstImage.png in Resources */,
 				3C69424D1CE5B50A008DF05A /* insert3.png in Resources */,
 				3C04F1581CE1D57C006374A1 /* selected.png in Resources */,
 				3C04F1591CE1D57C006374A1 /* selected@3x.png in Resources */,
