@@ -12,17 +12,17 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <DropboxSDK/DropboxSDK.h>
 #import "AVTableViewController.h"
-
+#import "AppDelegate.h"
 
 @interface DetailViewController ()
 {
-    BOOL isOpen;
-    AVPlayerLayer * playerLayer;
-    //id timeObsever;
+    AVPlayerLayer * playerLayer;           //播放影片的layer
+   
 }
 @property (nonatomic,strong) AVPlayer *player;
 @property (weak, nonatomic) IBOutlet UISlider *AVSlider;
 @property (weak, nonatomic) IBOutlet UIImageView *playImageView;
+@property(nonatomic,strong)UIProgressView * pv;
 
 
 
@@ -33,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.playImageView.hidden = true;
-    
+    [self.AVSlider setThumbImage:[UIImage imageNamed:@"uncolorslider.png"] forState:UIControlStateNormal];
 //    UITapGestureRecognizer *touch  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchImageView)];
 //    [self.playImageView setUserInteractionEnabled:YES];
 //    [self.playImageView addGestureRecognizer:touch];
@@ -112,7 +112,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-//播放玩通知
+//播放完通知
 -(void)playbackFinished:(NSNotification *)notification{
    
         _AVSlider.value = 0;
@@ -145,19 +145,24 @@
 
 #pragma mark - slider
 - (IBAction)AVSliderBt:(id)sender {
+    if (self.player.rate==0)  //暫停狀態
+    {
+        AVPlayerItem *playerItem=_player.currentItem;
+        CGFloat current = self.AVSlider.value;
+        float total = CMTimeGetSeconds([playerItem duration]);
+        [_player seekToTime:CMTimeMake(current*total, 1) toleranceBefore:CMTimeMake(1, 100) toleranceAfter:CMTimeMake(1, 100)];
+    }else{                        //播放中的無狀態
     [_player pause];
     AVPlayerItem *playerItem=_player.currentItem;
     //從這裡開始播放
     CGFloat current = self.AVSlider.value;
     //獲取總時長
     float total = CMTimeGetSeconds([playerItem duration]);
-    //進行播放
-    //[_player seekToTime:CMTimeMake(current * total,1)];
     //獲取進度 and刻度
     [_player seekToTime:CMTimeMake(current*total, 1) toleranceBefore:CMTimeMake(1, 100) toleranceAfter:CMTimeMake(1, 100)];
     //播放
     [_player play];
-
+    }
 }
 
 
@@ -176,6 +181,11 @@
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     AVPlayerItem *playerItem=object;
+    if (self.player.rate==1) {
+        self.playImageView.hidden = true;
+    }else{
+        self.playImageView.hidden = false;
+    }
     if ([keyPath isEqualToString:@"status"]) {
         AVPlayerStatus status= [[change objectForKey:@"new"] intValue];
         if(status==AVPlayerStatusReadyToPlay){
@@ -257,71 +267,6 @@
     
 }
 
-#pragma mark - share
-- (IBAction)shareToFBBtnPressed:(id)sender
-{
-    //壓縮
-//    NSURL * url = [NSURL URLWithString:self.test];
-//    NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-//    NSString * name = [NSString stringWithFormat:@"file://"];
-//    NSString * name2 = [name stringByAppendingString:path];
-//    NSString * filename = [NSString stringWithFormat:@"/123.mp4"];
-//    NSString * finallyname = [name2 stringByAppendingString:filename];
-//    NSURL * outputURL =[NSURL URLWithString:finallyname];
-//    
-//    NSLog(@"outputURL:  %@ ", outputURL);
-//    
-//    
-//    [self lowQuailtyWithInputURL:url outputURL:outputURL blockHandler:nil];
-}
-//- (void) lowQuailtyWithInputURL:(NSURL*)inputURL
-//                      outputURL:(NSURL*)outputURL
-//                   blockHandler:(void (^)(AVAssetExportSession*))handler
-//{
-//    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:inputURL options:nil];
-//    AVAssetExportSession *session = [[AVAssetExportSession alloc] initWithAsset:asset     presetName:AVAssetExportPresetLowQuality];
-//    session.outputURL = outputURL;
-//    session.outputFileType = AVFileTypeMPEG4;
-//    session.shouldOptimizeForNetworkUse = YES;
-//    [session exportAsynchronouslyWithCompletionHandler:^(void)
-//     {
-//         //handler(session);
-//         switch (session.status) {
-//                 
-//             case AVAssetExportSessionStatusUnknown:
-//                 
-//                 NSLog(@"AVAssetExportSessionStatusUnknown");
-//                 
-//                 break;
-//                 
-//             case AVAssetExportSessionStatusWaiting:
-//                 
-//                 NSLog(@"AVAssetExportSessionStatusWaiting");
-//                 
-//                 break;
-//                 
-//             case AVAssetExportSessionStatusExporting:
-//                 
-//                 NSLog(@"AVAssetExportSessionStatusExporting");
-//                 
-//                 break;
-//                 
-//             case AVAssetExportSessionStatusCompleted:
-//                 
-//                 NSLog(@"AVAssetExportSessionStatusCompleted");
-//                 
-//                 break;
-//                 
-//             case AVAssetExportSessionStatusFailed:
-//                 
-//                 NSLog(@"AVAssetExportSessionStatusFailed");
-//                 
-//                 break;
-//       
-//         }
-//     }];
-//}
-
 
 #pragma mark - Upload DropBox
 //連線DropBox
@@ -344,15 +289,54 @@
                     toPath:targetPath
              withParentRev:nil
                   fromPath:self.path];
+    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[self restClient] cancelFileUpload:self.path];
+        [[self restClient] cancelAllRequests];
+    }];
+    [alertcontroller addAction:understand];
+    
+    
+    [self presentViewController:alertcontroller animated:YES completion:^{
+        
+        self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+        self.pv.frame = CGRectMake(0,60 , 270, 30);
+        
+        self.pv.progress = 0;
+        //self.pv.backgroundColor = [UIColor greenColor];
+        self.pv.tintColor = [UIColor greenColor];
+    
+        
+        
+        
+        [alertcontroller.view addSubview:self.pv];
+    }];
+    
+    
 }
+
+
 //上傳成功
 -(void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
 
              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
+    //如果在背景跳通知
+    UILocalNotification * ln = [UILocalNotification new];
+    ln.soundName = UILocalNotificationDefaultSoundName;
+    ln.alertBody = @"這是detail上傳成功";
+    ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:1.0];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
     
     
+   NSLog(@"File uploaded successfully: %@", metadata.path);
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertcontroller addAction:understand];
     
-    NSLog(@"File uploaded successfully: %@", metadata.path);
+    
+    [self presentViewController:alertcontroller animated:YES completion:nil];
+    
     
 }
 
@@ -360,6 +344,19 @@
 -(void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
     
     NSLog(@"File upload failed - %@", error);
+    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳失敗" message:@"請再試一次"preferredStyle:UIAlertControllerStyleAlert];
+  
+    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+
+    [alertcontroller addAction:understand];
     
+    
+    [self presentViewController:alertcontroller animated:YES completion:nil];
+
+    
+}
+-(void)restClient:(DBRestClient *)client uploadProgress:(CGFloat)progress forFile:(NSString *)destPath from:(NSString *)srcPath
+{
+    self.pv.progress = progress;
 }
 @end

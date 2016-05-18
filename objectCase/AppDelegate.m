@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import <DropboxSDK/DropboxSDK.h>
 
 @interface AppDelegate ()
 
@@ -18,6 +18,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
+    UIUserNotificationSettings * settings= [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    [application registerUserNotificationSettings:settings];
+
     DBSession * session = [[DBSession alloc]initWithAppKey:@"aqf7x7bmxpj6wty" appSecret:@"hue5fkfolovx394" root:kDBRootAppFolder];
     session.delegate = self;
     [DBSession setSharedSession:session];
@@ -25,6 +29,7 @@
 
     return YES;
 }
+
 -(void)sessionDidReceiveAuthorizationFailure:(DBSession *)session userId:(NSString *)userId
 {
     NSLog(@"認證錯誤");
@@ -41,13 +46,26 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
+        _alertDate=[[NSDate date] dateByAddingTimeInterval:60*60*24*7];
+    NSLog(@"%@",_alertDate);
+    UIApplication* app = [UIApplication sharedApplication];
+    UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
+    
+    notifyAlarm.fireDate = _alertDate;
+    notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
+    notifyAlarm.repeatInterval = 0;
+    notifyAlarm.soundName = UILocalNotificationDefaultSoundName;
+    notifyAlarm.alertBody = [NSString stringWithFormat: @"已經有7天以上沒有開啟影音日記了！趕快來紀錄您的生活點滴吧！"];
+    notifyAlarm.applicationIconBadgeNumber=1;
+    [app scheduleLocalNotification:notifyAlarm];
+
+    
+   
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -55,13 +73,55 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+-(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+   
 }
 
+
+- (void)addNewSchedult:(NSDate *)date {
+    UIApplication* app = [UIApplication sharedApplication];
+    UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
+    
+    notifyAlarm.fireDate = date;
+    notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
+    notifyAlarm.repeatInterval = 0;
+    notifyAlarm.soundName = @"";
+    notifyAlarm.alertBody = [NSString stringWithFormat: @"上傳完成"];
+    notifyAlarm.applicationIconBadgeNumber=1;
+    [app scheduleLocalNotification:notifyAlarm];
+    
+    
+}
+
+#pragma mark - 判斷前景or背景
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    if ([AppDelegate runningInForeground]) {
+        return;
+    }
+}
+//背景
++(BOOL)runningInBackground
+{
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    BOOL result = (state == UIApplicationStateBackground);
+    
+    return result;
+}
+//前景
++(BOOL)runningInForeground
+{
+    UIApplicationState state = [UIApplication sharedApplication].applicationState;
+    BOOL result = (state == UIApplicationStateActive);
+    
+    return result;
+}
 
 
 @end
