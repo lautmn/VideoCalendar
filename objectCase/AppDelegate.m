@@ -76,7 +76,7 @@
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
       
     
-    if ([appupload boolForKey:@"appupload"] == false) {
+    if ([appupload boolForKey:@"appupload"] == true) {
         [app scheduleLocalNotification:notifyAlarm2];
     }
     

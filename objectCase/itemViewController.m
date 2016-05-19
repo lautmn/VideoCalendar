@@ -85,7 +85,7 @@
     }
     [self totalUpload];
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
+    [appupload setBool:true forKey:@"appupload"];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在上傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -93,7 +93,7 @@
         [[self restClient] cancelFileUpload:[self.pathArray objectAtIndex:count]];
         [[self restClient] cancelAllRequests];
         NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-        [appupload setBool:true forKey:@"appupload"];
+        [appupload setBool:false forKey:@"appupload"];
     }];
     
     [alertcontroller addAction:understand];
@@ -161,7 +161,7 @@
         [self presentViewController:alertcontroller animated:YES completion:nil];
         count = 0;
         NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-        [appupload setBool:true forKey:@"appupload"];
+        [appupload setBool:false forKey:@"appupload"];
     }else{
         count = count +1;
         self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.pathArray.count];

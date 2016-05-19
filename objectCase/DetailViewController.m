@@ -301,7 +301,7 @@
     }
     NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
+    [appupload setBool:true forKey:@"appupload"];
     NSString *targetPath=@"/";
     
     [[self restClient] uploadFile:fileName
@@ -313,7 +313,7 @@
         [[self restClient] cancelFileUpload:self.path];
         [[self restClient] cancelAllRequests];
         NSUserDefaults*android=[NSUserDefaults standardUserDefaults];
-        [android setBool:true forKey:@"android"];
+        [android setBool:false forKey:@"android"];
         
     }];
     [alertcontroller addAction:understand];
@@ -359,7 +359,7 @@
     
     [self presentViewController:alertcontroller animated:YES completion:nil];
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:true forKey:@"appupload"];
+    [appupload setBool:false forKey:@"appupload"];
     
 }
 
