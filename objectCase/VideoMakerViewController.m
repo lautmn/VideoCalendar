@@ -226,7 +226,7 @@
 
 
 - (void)showVideoPreView {
-    NSLog(@"updating");
+//    NSLog(@"updating");
     
     switch (effectType) {
         case 1:
@@ -337,6 +337,7 @@
     vc.effectType = [NSNumber numberWithInt:effectType];
     vc.musicType = [NSNumber numberWithInt:musicType];
     vc.imageArr = imageArr;
+//    vc.imageArr = _imageArray;
     [self showViewController:vc sender:nil];
 }
 
