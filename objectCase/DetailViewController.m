@@ -17,7 +17,7 @@
 @interface DetailViewController ()
 {
     AVPlayerLayer * playerLayer;           //播放影片的layer
-   
+    
 }
 @property (nonatomic,strong) AVPlayer *player;
 @property (weak, nonatomic) IBOutlet UISlider *AVSlider;
@@ -34,17 +34,17 @@
     [super viewDidLoad];
     self.playImageView.hidden = true;
     [self.AVSlider setThumbImage:[UIImage imageNamed:@"uncolorslider.png"] forState:UIControlStateNormal];
-//    UITapGestureRecognizer *touch  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchImageView)];
-//    [self.playImageView setUserInteractionEnabled:YES];
-//    [self.playImageView addGestureRecognizer:touch];
-//    
+    //    UITapGestureRecognizer *touch  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchImageView)];
+    //    [self.playImageView setUserInteractionEnabled:YES];
+    //    [self.playImageView addGestureRecognizer:touch];
+    //
 }
 -(void)dealloc{
     //remove聆聽
     [self removeObserverFromPlayerItem:self.player.currentItem];
     [self removeNotification];
-  
-  
+    
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -56,7 +56,7 @@
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
-
+    
     //離開頁面砍掉layer且暫停
     if (_player != nil) {
         _player.rate = 0.0;
@@ -66,7 +66,7 @@
     }
     //重整tableview
     [[NSNotificationCenter defaultCenter] postNotificationName:@"updataTableView" object:nil];
-   
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,8 +81,8 @@
     playerLayer.frame=self.AVMovieImage.bounds;
     playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     playerLayer.needsDisplayOnBoundsChange = YES;
-//    _AVMovieImage.translatesAutoresizingMaskIntoConstraints = false;
-  
+    //    _AVMovieImage.translatesAutoresizingMaskIntoConstraints = false;
+    
     [self.AVMovieImage.layer addSublayer:playerLayer];
 }
 -(AVPlayer *)player{
@@ -95,7 +95,7 @@
     return _player;
 }
 -(AVPlayerItem *)getPlayItem{
-   
+    
     NSURL *url=[NSURL URLWithString:self.test];
     AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:url];
     return playerItem;
@@ -114,13 +114,13 @@
 
 //播放完通知
 -(void)playbackFinished:(NSNotification *)notification{
-   
-        _AVSlider.value = 0;
-        [_player seekToTime:CMTimeMake(0, 1)];
-        [_player pause];
+    
+    _AVSlider.value = 0;
+    [_player seekToTime:CMTimeMake(0, 1)];
+    [_player pause];
     self.playImageView.hidden = false;
-  
-
+    
+    
 }
 
 #pragma mark - 監控
@@ -128,16 +128,16 @@
 -(void)addProgressObserver{
     
     AVPlayerItem *playerItem=self.player.currentItem;
-
+    
     UISlider * slider = self.AVSlider;
     //每秒執行一次   可用 id timeObsever = 去接 在removeTimeObserve
-   [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 20) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+    [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 20) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         float current=CMTimeGetSeconds(time);
         float total=CMTimeGetSeconds([playerItem duration]);
-       // NSLog(@"已經播放%.2fs.",current);
+        // NSLog(@"已經播放%.2fs.",current);
         if (current) {
-           //self.AVSlider.value = current/total;
-           [slider setValue:(current/total) animated:YES];
+            //self.AVSlider.value = current/total;
+            [slider setValue:(current/total) animated:YES];
         }
     }];
     
@@ -152,16 +152,16 @@
         float total = CMTimeGetSeconds([playerItem duration]);
         [_player seekToTime:CMTimeMake(current*total, 1) toleranceBefore:CMTimeMake(1, 100) toleranceAfter:CMTimeMake(1, 100)];
     }else{                        //播放中的無狀態
-    [_player pause];
-    AVPlayerItem *playerItem=_player.currentItem;
-    //從這裡開始播放
-    CGFloat current = self.AVSlider.value;
-    //獲取總時長
-    float total = CMTimeGetSeconds([playerItem duration]);
-    //獲取進度 and刻度
-    [_player seekToTime:CMTimeMake(current*total, 1) toleranceBefore:CMTimeMake(1, 100) toleranceAfter:CMTimeMake(1, 100)];
-    //播放
-    [_player play];
+        [_player pause];
+        AVPlayerItem *playerItem=_player.currentItem;
+        //從這裡開始播放
+        CGFloat current = self.AVSlider.value;
+        //獲取總時長
+        float total = CMTimeGetSeconds([playerItem duration]);
+        //獲取進度 and刻度
+        [_player seekToTime:CMTimeMake(current*total, 1) toleranceBefore:CMTimeMake(1, 100) toleranceAfter:CMTimeMake(1, 100)];
+        //播放
+        [_player play];
     }
 }
 
@@ -237,8 +237,8 @@
         [fileManager removeItemAtURL:url error:nil];
         
         //跳轉
-    AVTableViewController * tableVC =[self.storyboard instantiateViewControllerWithIdentifier:@"AVTableViewController"];
-         [self.navigationController pushViewController:tableVC animated:YES];
+        AVTableViewController * tableVC =[self.storyboard instantiateViewControllerWithIdentifier:@"AVTableViewController"];
+        [self.navigationController pushViewController:tableVC animated:YES];
     }];
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [_player play];
@@ -265,7 +265,7 @@
             
             
             [self presentViewController:alertcontroller animated:YES completion:nil];
-
+            
             
         }else{
             UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"儲存完畢" message:@""preferredStyle:UIAlertControllerStyleAlert];
@@ -276,7 +276,7 @@
             
             
             [self presentViewController:alertcontroller animated:YES completion:nil];
-
+            
         }
         
     }];
@@ -291,7 +291,7 @@
         restClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
         restClient.delegate = self;
     }
-            return restClient;
+    return restClient;
 }
 - (IBAction)uploadButton:(id)sender {
     [self.player pause];
@@ -300,17 +300,21 @@
         [[DBSession sharedSession]linkFromController:self];
     }
     NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
-    
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
     NSString *targetPath=@"/";
     
     [[self restClient] uploadFile:fileName
-                    toPath:targetPath
-             withParentRev:nil
-                  fromPath:self.path];
+                           toPath:targetPath
+                    withParentRev:nil
+                         fromPath:self.path];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [[self restClient] cancelFileUpload:self.path];
         [[self restClient] cancelAllRequests];
+        NSUserDefaults*android=[NSUserDefaults standardUserDefaults];
+        [android setBool:true forKey:@"android"];
+        
     }];
     [alertcontroller addAction:understand];
     
@@ -323,7 +327,7 @@
         self.pv.progress = 0;
         //self.pv.backgroundColor = [UIColor greenColor];
         self.pv.tintColor = [UIColor greenColor];
-    
+        
         
         
         
@@ -346,7 +350,7 @@
     [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
     
     
-   NSLog(@"File uploaded successfully: %@", metadata.path);
+    NSLog(@"File uploaded successfully: %@", metadata.path);
     [self dismissViewControllerAnimated:YES completion:nil];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
@@ -354,7 +358,8 @@
     
     
     [self presentViewController:alertcontroller animated:YES completion:nil];
-    
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:true forKey:@"appupload"];
     
 }
 
@@ -368,9 +373,9 @@
     [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
     NSLog(@"File upload failed - %@", error);
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳失敗" message:@"請再試一次"preferredStyle:UIAlertControllerStyleAlert];
-  
+    
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-
+    
     [alertcontroller addAction:understand];
     
     

@@ -8,9 +8,12 @@
 
 #import "AppDelegate.h"
 #import <DropboxSDK/DropboxSDK.h>
-
+#import "itemViewController.h"
 @interface AppDelegate ()
-
+{
+    
+    UIBackgroundTaskIdentifier bgTask;
+}
 @end
 
 @implementation AppDelegate
@@ -21,12 +24,12 @@
     UIUserNotificationType types = UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound;
     UIUserNotificationSettings * settings= [UIUserNotificationSettings settingsForTypes:types categories:nil];
     [application registerUserNotificationSettings:settings];
-
+    
     DBSession * session = [[DBSession alloc]initWithAppKey:@"aqf7x7bmxpj6wty" appSecret:@"hue5fkfolovx394" root:kDBRootAppFolder];
     session.delegate = self;
     [DBSession setSharedSession:session];
-  
-
+    
+    
     return YES;
 }
 
@@ -46,15 +49,22 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-
+    
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
+        [self endBackgroundTask];
+    }];
     
-        _alertDate=[[NSDate date] dateByAddingTimeInterval:60*60*24*7];
+    _alertDate=[[NSDate date] dateByAddingTimeInterval:60*60*24*7];
     NSLog(@"%@",_alertDate);
     UIApplication* app = [UIApplication sharedApplication];
     UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
+    UILocalNotification* notifyAlarm2 = [[UILocalNotification alloc] init];
+    notifyAlarm2.fireDate=[[NSDate date] dateByAddingTimeInterval:300];
+    notifyAlarm2.alertBody=@"請打開App,讓上傳作業繼續進行";
+    notifyAlarm2.timeZone=[NSTimeZone defaultTimeZone];
     
     notifyAlarm.fireDate = _alertDate;
     notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
@@ -63,9 +73,15 @@
     notifyAlarm.alertBody = [NSString stringWithFormat: @"已經有7天以上沒有開啟影音日記了！趕快來紀錄您的生活點滴吧！"];
     notifyAlarm.applicationIconBadgeNumber=1;
     [app scheduleLocalNotification:notifyAlarm];
-
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
     
-   
+    if ([appupload boolForKey:@"appupload"] == false) {
+        [app scheduleLocalNotification:notifyAlarm2];
+    }
+    
+    
+    
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -73,14 +89,14 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 -(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
-   
+    
 }
 
 
@@ -122,6 +138,10 @@
     
     return result;
 }
-
+-(void)endBackgroundTask{
+    UIApplication * application = [UIApplication sharedApplication];
+    [application endBackgroundTask:bgTask];
+    bgTask = UIBackgroundTaskInvalid;
+}
 
 @end
