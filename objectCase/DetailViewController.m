@@ -255,15 +255,31 @@
 - (IBAction)saveToPhoneBtnPressed:(id)sender {
     NSURL * movieURL = [NSURL URLWithString:self.test];
     ALAssetsLibrary * library = [ALAssetsLibrary new];
-    [library writeVideoAtPathToSavedPhotosAlbum:movieURL completionBlock:nil];
-    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"儲存完畢" message:@""preferredStyle:UIAlertControllerStyleAlert];
-    //準備按鈕
-    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    //將按鈕加到提示視窗
-    [alertcontroller addAction:understand];
-    
-    
-    [self presentViewController:alertcontroller animated:YES completion:nil];
+    [library writeVideoAtPathToSavedPhotosAlbum:movieURL completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (error) {
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"儲存失敗" message:@""preferredStyle:UIAlertControllerStyleAlert];
+            //準備按鈕
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            //將按鈕加到提示視窗
+            [alertcontroller addAction:understand];
+            
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+
+            
+        }else{
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"儲存完畢" message:@""preferredStyle:UIAlertControllerStyleAlert];
+            //準備按鈕
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            //將按鈕加到提示視窗
+            [alertcontroller addAction:understand];
+            
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+
+        }
+        
+    }];
     
 }
 
@@ -278,6 +294,8 @@
             return restClient;
 }
 - (IBAction)uploadButton:(id)sender {
+    [self.player pause];
+    self.playImageView.hidden = false;
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
     }
@@ -323,7 +341,7 @@
     //如果在背景跳通知
     UILocalNotification * ln = [UILocalNotification new];
     ln.soundName = UILocalNotificationDefaultSoundName;
-    ln.alertBody = @"這是detail上傳成功";
+    ln.alertBody = @"影片已上傳成功上傳成功";
     ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:1.0];
     [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
     
@@ -342,7 +360,12 @@
 
 //失敗
 -(void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-    
+    //如果在背景跳通知
+    UILocalNotification * ln = [UILocalNotification new];
+    ln.soundName = UILocalNotificationDefaultSoundName;
+    ln.alertBody = @"上傳失敗請取消OR選擇重新上傳";
+    ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:1.0];
+    [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
     NSLog(@"File upload failed - %@", error);
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳失敗" message:@"請再試一次"preferredStyle:UIAlertControllerStyleAlert];
   
@@ -352,7 +375,6 @@
     
     
     [self presentViewController:alertcontroller animated:YES completion:nil];
-
     
 }
 -(void)restClient:(DBRestClient *)client uploadProgress:(CGFloat)progress forFile:(NSString *)destPath from:(NSString *)srcPath
