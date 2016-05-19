@@ -24,6 +24,9 @@
     NSString *myMoviePath;
     NSURL *musicURL;
     UIImage *animationScaleImage;
+    UIImage *scaledImage;
+    UIImage *background;
+    UIImage *resultImage;
 }
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
@@ -37,6 +40,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self getMusicURL];
+//    animationScaleImage = [[UIImage alloc] init];
+    background = [UIImage imageNamed:@"blackBackground.jpg"];
     totalFrames = FRAMES * _imageArr.count - 1;
     myTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(logSomething) userInfo:nil repeats:true];
     
@@ -47,6 +52,51 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (UIImage*)makeImages:(int)idxx {
+    
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[_imageArr objectAtIndex:idxx]]];
+    UIImage *resizeImage = [self resizeFromImage:image];
+    
+    return resizeImage;
+    
+//    for (NSURL *url in _imageArr) {
+//        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+//        UIImage *resizeImage = [self resizeFromImage:image];
+//        NSData *imageData = UIImageJPEGRepresentation(resizeImage, 1);
+//        NSLog(@"%ld",imageData.length);
+//        [_imageArr addObject:resizeImage];
+//    }
+}
+
+- (UIImage *)resizeFromImage:(UIImage *)sourceImage {
+    
+    // Check sourceImage's size
+    CGFloat maxValue = 640.0;
+    CGSize originalSize = sourceImage.size;
+    if (originalSize.width <= maxValue && originalSize.height <= maxValue) {
+        return sourceImage;
+    }
+    // Decide final size
+    
+    CGSize targetSize;
+    if (originalSize.width >= originalSize.height) {
+        CGFloat ratio = originalSize.width/maxValue;
+        targetSize = CGSizeMake(maxValue, originalSize.height/ratio);
+    } else { // height > width
+        CGFloat ratio = originalSize.width/originalSize.height;
+        targetSize = CGSizeMake(maxValue *ratio, maxValue);
+    }
+    UIGraphicsBeginImageContext(targetSize);
+    [sourceImage drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    resultImage = [self setBlackBackground:resultImage];
+    
+    return resultImage;
+}
+
 
 
 - (void)getMusicURL {
@@ -74,13 +124,14 @@
 - (void)logSomething {
     int nowProgressFrame = idx * FRAMES + frameRemainder;
     float nowProgressPercent = (float)nowProgressFrame/totalFrames;
-    NSLog(@"===================%f===================",nowProgressPercent);
+//    NSLog(@"===================%f===================",nowProgressPercent);
     _progressView.progress = nowProgressPercent;
     _progressLabel.text = [NSString stringWithFormat:@"已完成 : %i %%",(int)(nowProgressPercent*100)];
-    NSLog(@"NOW:  : %i",nowProgressFrame);
-    NSLog(@"TOTAL : %lu",totalFrames);
+//    NSLog(@"NOW:  : %i",nowProgressFrame);
+//    NSLog(@"TOTAL : %lu",totalFrames);
     if ((int)(nowProgressPercent*100) == 100) {
         [myTimer invalidate];
+        [NSThread sleepForTimeInterval:0.0005];
         [self CompileFilesToMakeMovie];
         NSLog(@"MUSIC:%i",[_musicType intValue]);
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"完成" message:@"影片製作已完成" preferredStyle:UIAlertControllerStyleAlert];
@@ -164,6 +215,7 @@
                     float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
                     animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
                     buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
+                    animationScaleImage = nil;
                     break;
                 }
                     
@@ -173,6 +225,7 @@
                     float scaleRate = 1.1-0.1*(remainderToFloat/FRAMES);
                     animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
                     buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
+                    animationScaleImage = nil;
                     break;
                 }
                     
@@ -183,11 +236,13 @@
                         float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
                         animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
                         buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
+                        animationScaleImage = nil;
                     } else {
                         float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
                         float scaleRate = 1.1-0.1*(remainderToFloat/FRAMES);
                         animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
                         buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
+                        animationScaleImage = nil;
                     }
                     break;
                 }
@@ -197,13 +252,18 @@
             }
             
             if (buffer) {
-                NSLog(@"%d",frame);
-                if(![adaptor appendPixelBuffer:buffer withPresentationTime:CMTimeMake(frame,FRAMES/SEC_PER_PHOTO)])
+                if(![adaptor appendPixelBuffer:buffer withPresentationTime:CMTimeMake(frame,FRAMES/SEC_PER_PHOTO)]) {
                     NSLog(@"FAIL");
-                else
+                } else {
                     NSLog(@"OK");
-                CFRelease(buffer);
+//                    CFRelease(buffer);
+                }
+//                CFRelease(buffer);
+//                CVBufferRelease(buffer);
+                CVPixelBufferRelease(buffer);
+//                [NSThread sleepForTimeInterval:0.0005];
             }
+            
         }
 //        [self CompileFilesToMakeMovie];
     }];
@@ -239,24 +299,30 @@
     return pxbuffer;
 }
 
+
+
+
 - (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize {
+    
+    @autoreleasepool {
     UIGraphicsBeginImageContext(CGSizeMake(image.size.width * scaleSize, image.size.height * scaleSize));
     [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height * scaleSize)];
-    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
     scaledImage = [self setBlackBackground:scaledImage];
+    }
     
     return scaledImage;
 }
 
 - (UIImage *)setBlackBackground:(UIImage *)sourceImage {
-    UIImage *background = [UIImage imageNamed:@"blackBackground.jpg"];
     CGSize backgroundSize = CGSizeMake(640, 640);
     UIGraphicsBeginImageContext(backgroundSize);
     [background drawInRect:CGRectMake(0, 0, 640, 640)];
     [sourceImage drawInRect:CGRectMake(320-sourceImage.size.width/2, 0, sourceImage.size.width, sourceImage.size.height)];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resultImage;
 }
