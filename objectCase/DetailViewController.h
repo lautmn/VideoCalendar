@@ -14,7 +14,6 @@
     DBRestClient * restClient;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *AVMovieImage;
-@property (weak, nonatomic) IBOutlet UIButton *shareBtnPressed;
 @property (weak, nonatomic) IBOutlet UIButton *backUpBtnpressed;
 @property(nonatomic,strong)NSString * test;
 @property(nonatomic,strong)NSMutableArray * detailArray;
