@@ -109,7 +109,7 @@
 {
 
     dayView.hidden = NO;
-    [dayView.textLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:16]];
+    [dayView.textLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:18]];
     
     // Hide if from another month
     if([dayView isFromAnotherMonth]){

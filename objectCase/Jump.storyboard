@@ -54,7 +54,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cy-7T-fhG">
-                                <rect key="frame" x="20" y="20" width="48" height="30"/>
+                                <rect key="frame" x="20" y="30" width="48" height="30"/>
                                 <state key="normal" title="&lt; Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
@@ -107,7 +107,7 @@
                                     <constraint firstAttribute="height" constant="100" id="OER-QI-M7t"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.59999999999999998" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="saf-GT-ACg">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="saf-GT-ACg">
                                 <rect key="frame" x="120" y="480" width="460" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="rtH-ac-JyJ"/>
@@ -190,6 +190,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="U8I-py-6C3" secondAttribute="bottom" constant="20" id="t4A-su-14j"/>
                             <constraint firstItem="saf-GT-ACg" firstAttribute="top" secondItem="HoY-YU-3jU" secondAttribute="bottom" constant="15" id="th7-N1-oB1"/>
                             <constraint firstItem="HoY-YU-3jU" firstAttribute="top" secondItem="rSs-pu-GEi" secondAttribute="bottom" constant="10" id="uin-TZ-1m6"/>
+                            <constraint firstItem="hbS-xC-Dkb" firstAttribute="top" secondItem="8cy-7T-fhG" secondAttribute="bottom" constant="10" id="v9o-5M-oyA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="kWl-ZT-IgJ" secondAttribute="bottom" constant="20" id="vT4-hb-H3v"/>
                             <constraint firstItem="8cy-7T-fhG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="vTk-kZ-S6L"/>
                             <constraint firstItem="kWl-ZT-IgJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xeZ-zf-wQl"/>
@@ -198,6 +199,7 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="VD7-s9-Q8x"/>
+                                <exclude reference="VEJ-4c-47m"/>
                                 <exclude reference="ewg-hI-rRM"/>
                                 <exclude reference="mc5-9c-T6w"/>
                                 <exclude reference="Wg9-9h-pAC"/>
@@ -275,7 +277,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJi-kn-ibp">
-                                <rect key="frame" x="20" y="20" width="48" height="30"/>
+                                <rect key="frame" x="20" y="30" width="48" height="30"/>
                                 <state key="normal" title="&lt; Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -293,15 +295,15 @@
                                 </constraints>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QF2-hl-VkD">
-                                <rect key="frame" x="20" y="265" width="560" height="263"/>
+                                <rect key="frame" x="20" y="265" width="560" height="265"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJq-L7-wTL">
-                                <rect key="frame" x="40" y="543" width="40" height="36"/>
+                                <rect key="frame" x="40" y="544" width="49" height="36"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
-                                <state key="normal" title="儲存">
+                                <state key="normal" title=" 儲存 ">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -309,10 +311,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zua-pP-Yd4">
-                                <rect key="frame" x="518" y="542" width="42" height="38"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
-                                <state key="normal" title="刪除">
-                                    <color key="titleColor" red="1" green="0.1025861391" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="511" y="544" width="49" height="36"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                <state key="normal" title=" 刪除 ">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="deleteBtnPressed:" destination="Cot-nL-m5g" eventType="touchUpInside" id="azH-4x-tlO"/>
@@ -357,7 +359,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="say.png" translatesAutoresizingMaskIntoConstraints="NO" id="pFt-6q-aQB" userLabel="detailImage View">
-                                <rect key="frame" x="190" y="480" width="220" height="48"/>
+                                <rect key="frame" x="190" y="482" width="220" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="220" id="wHy-Bz-B3i"/>
                                 </constraints>
@@ -377,6 +379,7 @@
                             <constraint firstItem="azD-Cl-ISL" firstAttribute="centerX" secondItem="eNN-XL-Zzl" secondAttribute="centerX" id="Dbk-eC-KIq"/>
                             <constraint firstItem="QF2-hl-VkD" firstAttribute="trailing" secondItem="6F5-6e-Cv0" secondAttribute="trailingMargin" id="DyZ-PG-CwB"/>
                             <constraint firstItem="bbu-tL-Bgv" firstAttribute="top" secondItem="6F5-6e-Cv0" secondAttribute="topMargin" constant="23" id="Fsb-Dq-KlY"/>
+                            <constraint firstItem="yJi-kn-ibp" firstAttribute="centerY" secondItem="S9E-Jz-T46" secondAttribute="centerY" id="GCQ-dz-5W5"/>
                             <constraint firstItem="CxF-XQ-3NS" firstAttribute="top" secondItem="bbu-tL-Bgv" secondAttribute="bottom" id="HFN-vR-GJm"/>
                             <constraint firstItem="eNN-XL-Zzl" firstAttribute="trailing" secondItem="6F5-6e-Cv0" secondAttribute="trailingMargin" id="HyX-ab-5db"/>
                             <constraint firstItem="33h-E8-4R3" firstAttribute="top" secondItem="6F5-6e-Cv0" secondAttribute="topMargin" constant="80" id="JeU-yz-ltG"/>
@@ -391,9 +394,9 @@
                             <constraint firstItem="33h-E8-4R3" firstAttribute="leading" secondItem="6F5-6e-Cv0" secondAttribute="leadingMargin" id="Ti6-hj-viM"/>
                             <constraint firstItem="azD-Cl-ISL" firstAttribute="height" secondItem="eNN-XL-Zzl" secondAttribute="height" id="V1o-q7-Bek"/>
                             <constraint firstItem="yJi-kn-ibp" firstAttribute="leading" secondItem="6F5-6e-Cv0" secondAttribute="leadingMargin" id="W86-Kf-te5"/>
-                            <constraint firstItem="yJi-kn-ibp" firstAttribute="top" secondItem="6F5-6e-Cv0" secondAttribute="topMargin" constant="20" id="WC9-Mt-AwD"/>
                             <constraint firstItem="eNN-XL-Zzl" firstAttribute="top" secondItem="6F5-6e-Cv0" secondAttribute="topMargin" constant="104" id="WaQ-np-sE3"/>
                             <constraint firstItem="2IO-MP-0Gg" firstAttribute="leading" secondItem="33h-E8-4R3" secondAttribute="trailing" constant="8" id="XBx-U4-3Ki"/>
+                            <constraint firstItem="aTr-IR-wcN" firstAttribute="top" secondItem="yJi-kn-ibp" secondAttribute="bottom" constant="10" id="XCC-BC-yE5"/>
                             <constraint firstItem="azD-Cl-ISL" firstAttribute="width" secondItem="eNN-XL-Zzl" secondAttribute="width" id="Y5B-G6-jlK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zua-pP-Yd4" secondAttribute="trailing" constant="20" id="apz-mH-0Uk"/>
                             <constraint firstItem="9Pe-fM-NJT" firstAttribute="centerX" secondItem="QF2-hl-VkD" secondAttribute="centerX" id="c96-He-cUO"/>
@@ -418,6 +421,7 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="GCQ-dz-5W5"/>
                                 <exclude reference="vLI-ag-zTc"/>
                                 <exclude reference="1oq-vf-Ixs"/>
                                 <exclude reference="zTe-Rb-5V3"/>
@@ -436,6 +440,7 @@
                         <outlet property="imageView" destination="33h-E8-4R3" id="V6t-ej-aRL"/>
                         <outlet property="imgTitleTextView" destination="eNN-XL-Zzl" id="uV0-kT-9ID"/>
                         <outlet property="insertImgBtn" destination="2IO-MP-0Gg" id="2S2-wz-0Ei"/>
+                        <outlet property="saveBtn" destination="SJq-L7-wTL" id="huF-cm-gFe"/>
                         <outlet property="smallDateLable" destination="bbu-tL-Bgv" id="IzF-Nq-P7e"/>
                         <outlet property="smallWeekLable" destination="CxF-XQ-3NS" id="0Kz-vx-KpN"/>
                     </connections>
