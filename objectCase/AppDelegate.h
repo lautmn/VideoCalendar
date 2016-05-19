@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <DropboxSDK/DropboxSDK.h>
-@interface AppDelegate : UIResponder <UIApplicationDelegate,DBSessionDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,DBSessionDelegate>{
+  
+}
 
 @property (strong, nonatomic) UIWindow *window;
-
+@property(strong,nonatomic)NSDate * alertDate;
 
 @end
 
