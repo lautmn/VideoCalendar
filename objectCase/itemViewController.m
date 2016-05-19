@@ -92,7 +92,8 @@
         
         [[self restClient] cancelFileUpload:[self.pathArray objectAtIndex:count]];
         [[self restClient] cancelAllRequests];
-        
+        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+        [appupload setBool:true forKey:@"appupload"];
     }];
     
     [alertcontroller addAction:understand];
