@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ImageBrowser : NSObject
+@interface ImageBrowser : NSObject <UIScrollViewDelegate>
 
-+(void) showImage:(UIImageView*)imageView;
+-(void) showImage:(UIImageView*)imageView;
 
 @end

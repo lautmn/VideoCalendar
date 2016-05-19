@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *smallWeekLable;
 @property (weak, nonatomic) IBOutlet UIButton *insertImgBtn;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *imgTitleTextView;
 @property (weak, nonatomic) IBOutlet UITextView *dayDetailTextView;
