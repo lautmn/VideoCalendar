@@ -55,6 +55,11 @@
 		3CF9952B1CED9AA100EB44DE /* first2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF9952A1CED9AA100EB44DE /* first2.png */; };
 		3CF9952E1CED9DA800EB44DE /* first9.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF9952C1CED9DA800EB44DE /* first9.png */; };
 		3CF9952F1CED9DA800EB44DE /* firstBG3.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF9952D1CED9DA800EB44DE /* firstBG3.png */; };
+		3CF995351CEDAA0600EB44DE /* (happy)Jolly_Old_St_Nicholas_Instrumental.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995301CEDAA0600EB44DE /* (happy)Jolly_Old_St_Nicholas_Instrumental.mp3 */; };
+		3CF995361CEDAA0600EB44DE /* (happy2)How_About_It.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995311CEDAA0600EB44DE /* (happy2)How_About_It.mp3 */; };
+		3CF995371CEDAA0600EB44DE /* (rockSweet)Sunflower.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995321CEDAA0600EB44DE /* (rockSweet)Sunflower.mp3 */; };
+		3CF995381CEDAA0600EB44DE /* (soso)Where_I_am_From.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995331CEDAA0600EB44DE /* (soso)Where_I_am_From.mp3 */; };
+		3CF995391CEDAA0600EB44DE /* (sweet)Sweet_as_Honey.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995341CEDAA0600EB44DE /* (sweet)Sweet_as_Honey.mp3 */; };
 		3CFA5F851CE38EB100B31214 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CFA5F841CE38EB100B31214 /* DetailViewController.m */; };
 		3CFA5F871CE4502000B31214 /* insert.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CFA5F861CE4501F00B31214 /* insert.png */; };
 		E6DFA5EFDB06D492C8C72825 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D124FD1C54A190BCA81FF78 /* libPods.a */; };
@@ -158,6 +163,11 @@
 		3CF9952A1CED9AA100EB44DE /* first2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first2.png; sourceTree = "<group>"; };
 		3CF9952C1CED9DA800EB44DE /* first9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first9.png; sourceTree = "<group>"; };
 		3CF9952D1CED9DA800EB44DE /* firstBG3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firstBG3.png; sourceTree = "<group>"; };
+		3CF995301CEDAA0600EB44DE /* (happy)Jolly_Old_St_Nicholas_Instrumental.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "(happy)Jolly_Old_St_Nicholas_Instrumental.mp3"; sourceTree = "<group>"; };
+		3CF995311CEDAA0600EB44DE /* (happy2)How_About_It.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "(happy2)How_About_It.mp3"; sourceTree = "<group>"; };
+		3CF995321CEDAA0600EB44DE /* (rockSweet)Sunflower.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "(rockSweet)Sunflower.mp3"; sourceTree = "<group>"; };
+		3CF995331CEDAA0600EB44DE /* (soso)Where_I_am_From.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "(soso)Where_I_am_From.mp3"; sourceTree = "<group>"; };
+		3CF995341CEDAA0600EB44DE /* (sweet)Sweet_as_Honey.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "(sweet)Sweet_as_Honey.mp3"; sourceTree = "<group>"; };
 		3CFA5F841CE38EB100B31214 /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		3CFA5F861CE4501F00B31214 /* insert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = insert.png; sourceTree = "<group>"; };
 		667EABB150DDD23C2D575A6A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -251,6 +261,7 @@
 		3C04F1491CE1D55D006374A1 /* FinalProject */ = {
 			isa = PBXGroup;
 			children = (
+				3CF9953A1CEDAA0E00EB44DE /* Music */,
 				3C04F14A1CE1D57C006374A1 /* blackBackground.jpg */,
 				3C04F14B1CE1D57C006374A1 /* selected.png */,
 				3C04F14C1CE1D57C006374A1 /* selected@3x.png */,
@@ -336,6 +347,18 @@
 				3C04F12F1CE1CD54006374A1 /* photo.png */,
 			);
 			name = image;
+			sourceTree = "<group>";
+		};
+		3CF9953A1CEDAA0E00EB44DE /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				3CF995301CEDAA0600EB44DE /* (happy)Jolly_Old_St_Nicholas_Instrumental.mp3 */,
+				3CF995311CEDAA0600EB44DE /* (happy2)How_About_It.mp3 */,
+				3CF995321CEDAA0600EB44DE /* (rockSweet)Sunflower.mp3 */,
+				3CF995331CEDAA0600EB44DE /* (soso)Where_I_am_From.mp3 */,
+				3CF995341CEDAA0600EB44DE /* (sweet)Sweet_as_Honey.mp3 */,
+			);
+			name = Music;
 			sourceTree = "<group>";
 		};
 		5E8C50FB4692F462DE1EDAF2 /* Pods */ = {
@@ -462,6 +485,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3CF9952F1CED9DA800EB44DE /* firstBG3.png in Resources */,
+				3CF995361CEDAA0600EB44DE /* (happy2)How_About_It.mp3 in Resources */,
 				3C69425F1CE5DF68008DF05A /* action2.png in Resources */,
 				EB92E4A71CECF4EB0025CE90 /* savetophone.png in Resources */,
 				3CF9952E1CED9DA800EB44DE /* first9.png in Resources */,
@@ -471,13 +495,17 @@
 				EB92E4AB1CED5CA40025CE90 /* uncolorslider.png in Resources */,
 				3C6942491CE5AA5D008DF05A /* detail2.png in Resources */,
 				EB5E3B811CD1EE7600C5DA4D /* Main.storyboard in Resources */,
+				3CF995371CEDAA0600EB44DE /* (rockSweet)Sunflower.mp3 in Resources */,
 				3C04F1641CE3286D006374A1 /* home.png in Resources */,
 				3C6942641CE62F2A008DF05A /* myVideo.png in Resources */,
 				3CFA5F871CE4502000B31214 /* insert.png in Resources */,
 				EB7D51A51CB39985003B3BBB /* LaunchScreen.storyboard in Resources */,
 				3C6942611CE614D2008DF05A /* browse2.png in Resources */,
+				3CF995391CEDAA0600EB44DE /* (sweet)Sweet_as_Honey.mp3 in Resources */,
+				3CF995381CEDAA0600EB44DE /* (soso)Where_I_am_From.mp3 in Resources */,
 				3C6942511CE5B78D008DF05A /* imgtitle4.png in Resources */,
 				3C6942651CE62F2A008DF05A /* tool.png in Resources */,
+				3CF995351CEDAA0600EB44DE /* (happy)Jolly_Old_St_Nicholas_Instrumental.mp3 in Resources */,
 				3C04F1571CE1D57C006374A1 /* blackBackground.jpg in Resources */,
 				EB92E4A51CECF4EB0025CE90 /* pause.png in Resources */,
 				3C04F15B1CE1D57C006374A1 /* VideoStoryboard.storyboard in Resources */,
