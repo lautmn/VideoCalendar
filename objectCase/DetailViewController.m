@@ -343,6 +343,8 @@
 
              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
     //如果在背景跳通知
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
     UILocalNotification * ln = [UILocalNotification new];
     ln.soundName = UILocalNotificationDefaultSoundName;
     ln.alertBody = @"影片已上傳成功上傳成功";
@@ -358,8 +360,7 @@
     
     
     [self presentViewController:alertcontroller animated:YES completion:nil];
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
+  
     
 }
 

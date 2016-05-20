@@ -54,8 +54,8 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cy-7T-fhG">
-                                <rect key="frame" x="20" y="30" width="48" height="30"/>
-                                <state key="normal" title="&lt; Back">
+                                <rect key="frame" x="20" y="30" width="38" height="30"/>
+                                <state key="normal" title=" Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -122,7 +122,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U8I-py-6C3">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U8I-py-6C3">
                                 <rect key="frame" x="20" y="480" width="100" height="100"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -286,7 +286,7 @@
                                     <action selector="backBtnPressed:" destination="Cot-nL-m5g" eventType="touchUpInside" id="GL2-ym-LrR"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="33h-E8-4R3">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="33h-E8-4R3">
                                 <rect key="frame" x="20" y="80" width="150" height="150"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
