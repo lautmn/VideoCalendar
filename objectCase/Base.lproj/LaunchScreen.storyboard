@@ -17,10 +17,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firstBG.png" translatesAutoresizingMaskIntoConstraints="NO" id="DtV-9G-kW1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firstBG3.png" translatesAutoresizingMaskIntoConstraints="NO" id="DtV-9G-kW1">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="firstImage.png" translatesAutoresizingMaskIntoConstraints="NO" id="NY7-MS-stM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="first9.png" translatesAutoresizingMaskIntoConstraints="NO" id="NY7-MS-stM">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                         </subviews>
@@ -43,7 +43,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="firstBG.png" width="1024" height="1024"/>
-        <image name="firstImage.png" width="1024" height="1024"/>
+        <image name="first9.png" width="1024" height="1024"/>
+        <image name="firstBG3.png" width="1024" height="1024"/>
     </resources>
 </document>

@@ -18,7 +18,7 @@
 @interface DayDetailViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>
 {
     DaySingletonManager *daySingleton;
-    
+    ImageBrowser * browser;
     __weak IBOutlet NSLayoutConstraint *deleteLayout;
 }
 
@@ -82,12 +82,18 @@
     _imgTitleTextView.layer.borderWidth = 2.0f;
     _imgTitleTextView.layer.cornerRadius = 3.0f;
     _imageView.layer.cornerRadius = 3.0f;
+    _deleteBtn.layer.borderWidth = 2.0f;
+    _deleteBtn.layer.cornerRadius = 10.0f;
+    _saveBtn.layer.borderWidth = 2.0f;
+    _saveBtn.layer.cornerRadius = 10.0f;
+//    _deleteBtn.layer.borderColor = [[UIColor redColor] CGColor];
 }
 
 - (void)magnifyImage
 {
     if (_imageView.image != nil) {
-        [ImageBrowser showImage:self.imageView];
+        browser = [[ImageBrowser alloc] init];
+        [browser showImage:self.imageView];
     }
     
 }

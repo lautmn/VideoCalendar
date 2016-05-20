@@ -23,10 +23,12 @@
     if(_manager.delegate && [_manager.delegate respondsToSelector:@selector(calendarBuildMenuItemView:)]){
         return [_manager.delegate calendarBuildMenuItemView:self.manager];
     }
-    
+//    月份標籤
     UILabel *label = [UILabel new];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
+    [label setFont:[UIFont fontWithName:@"Helvetica" size:17]];
+    
     
     return label;
 }
