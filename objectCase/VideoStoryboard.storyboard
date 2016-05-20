@@ -120,13 +120,30 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UiE-jq-Ytq">
+                                <rect key="frame" x="285" y="361" width="30" height="30"/>
+                                <state key="normal" title="取消"/>
+                                <connections>
+                                    <action selector="cancelVidio:" destination="vNr-7Y-h3n" eventType="touchUpInside" id="4Ad-fe-74o"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="影片製作中，請勿退出程式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="834-z5-dkJ">
+                                <rect key="frame" x="198" y="246" width="204" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="xZL-SM-Z5B" firstAttribute="top" secondItem="834-z5-dkJ" secondAttribute="bottom" constant="32" id="EyW-8Y-VsN"/>
+                            <constraint firstItem="834-z5-dkJ" firstAttribute="centerX" secondItem="53N-jI-O2j" secondAttribute="centerX" id="Kxt-Oi-Zdu"/>
                             <constraint firstItem="xZL-SM-Z5B" firstAttribute="centerY" secondItem="53N-jI-O2j" secondAttribute="centerY" id="OGz-4k-pWP"/>
                             <constraint firstItem="wcK-Ta-fpb" firstAttribute="centerX" secondItem="53N-jI-O2j" secondAttribute="centerX" id="UPG-8t-dk1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xZL-SM-Z5B" secondAttribute="trailing" id="V8V-Hw-7YA"/>
                             <constraint firstItem="wcK-Ta-fpb" firstAttribute="top" secondItem="xZL-SM-Z5B" secondAttribute="bottom" constant="20" id="cds-E8-WGk"/>
+                            <constraint firstItem="UiE-jq-Ytq" firstAttribute="top" secondItem="wcK-Ta-fpb" secondAttribute="bottom" constant="19" id="dgn-Cr-aui"/>
+                            <constraint firstItem="UiE-jq-Ytq" firstAttribute="centerX" secondItem="53N-jI-O2j" secondAttribute="centerX" id="qAJ-CM-fGm"/>
                             <constraint firstItem="xZL-SM-Z5B" firstAttribute="leading" secondItem="53N-jI-O2j" secondAttribute="leadingMargin" id="wFC-tg-XnR"/>
                         </constraints>
                     </view>
@@ -137,7 +154,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8qH-XW-i6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3793" y="743"/>
+            <point key="canvasLocation" x="3525" y="360"/>
         </scene>
         <!--選擇日期-->
         <scene sceneID="O0m-Iu-dVf">

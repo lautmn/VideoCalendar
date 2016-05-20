@@ -55,7 +55,7 @@
     NSLog(@"%@",_alertDate);
     UIApplication* app = [UIApplication sharedApplication];
     UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
-    
+
     notifyAlarm.fireDate = _alertDate;
     notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
     notifyAlarm.repeatInterval = 0;
