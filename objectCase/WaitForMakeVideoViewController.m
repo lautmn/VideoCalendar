@@ -105,15 +105,14 @@
     switch ([_musicType intValue]) {
         case 1:
         {
-            musicURL = [[NSBundle mainBundle] URLForResource:@"Animals.mp3" withExtension:nil];
-            NSLog(@"ANIMALS");
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(happy)Jolly_Old_St_Nicholas_Instrumental.mp3" withExtension:nil];
+            
             break;
         }
             
         case 2:
         {
-            musicURL = [[NSBundle mainBundle] URLForResource:@"Maps.mp3" withExtension:nil];
-            NSLog(@"MAPS");
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It.mp3" withExtension:nil];
             break;
         }
             

@@ -469,7 +469,7 @@
 - (void)music1 {
     musicType = 1;
     replayBtn.hidden = true;
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"Animals.mp3" withExtension:nil];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy)Jolly_Old_St_Nicholas_Instrumental.mp3" withExtension:nil];
     musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     musicPlayer.numberOfLoops = 0;
     [musicPlayer prepareToPlay];
@@ -484,7 +484,7 @@
 - (void)music2 {
     musicType = 2;
     replayBtn.hidden = true;
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"Maps.mp3" withExtension:nil];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It" withExtension:nil];
     musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     musicPlayer.numberOfLoops = 0;
     [musicPlayer prepareToPlay];
