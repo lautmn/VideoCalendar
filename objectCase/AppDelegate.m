@@ -61,6 +61,7 @@
     NSLog(@"%@",_alertDate);
     UIApplication* app = [UIApplication sharedApplication];
     UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
+
     UILocalNotification* notifyAlarm2 = [[UILocalNotification alloc] init];
     notifyAlarm2.fireDate=[[NSDate date] dateByAddingTimeInterval:10];
     notifyAlarm2.alertBody=@"請打開App,讓上傳作業繼續進行";

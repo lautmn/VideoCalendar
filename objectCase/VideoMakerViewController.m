@@ -45,7 +45,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
 //    [self music1];
     photoCount = 0;
     photoFrame = 0;
@@ -60,6 +60,10 @@
     videoPreview.contentMode = UIViewContentModeScaleAspectFit;
     videoPreview.backgroundColor = [UIColor blackColor];
     [self.view addSubview:videoPreview];
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    
     
     
     // Resize all photo to 640*640, and add into imageArr
@@ -78,6 +82,7 @@
         //切回主執行緒
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         dispatch_async(mainQueue, ^{
+            self.navigationItem.rightBarButtonItem.enabled = YES;
         });
     });
 
@@ -89,14 +94,14 @@
     musicMode.backgroundColor = [UIColor blackColor];
     [musicMode addTarget:self action:@selector(musicMode) forControlEvents:UIControlEventTouchUpInside];
     [musicMode setImage:[UIImage imageNamed:@"music.png"] forState:UIControlStateNormal];
-    musicMode.frame = CGRectMake(0, 0, screenWidth/2, 60);
+    musicMode.frame = CGRectMake(screenWidth/2, 0, screenWidth/2, 60);
     [musicOrEffect addSubview:musicMode];
     
     UIButton *effectMode = [UIButton buttonWithType:UIButtonTypeCustom];
     effectMode.backgroundColor = [UIColor blackColor];
     [effectMode addTarget:self action:@selector(effectMode) forControlEvents:UIControlEventTouchUpInside];
     [effectMode setImage:[UIImage imageNamed:@"effect.png"] forState:UIControlStateNormal];
-    effectMode.frame = CGRectMake(screenWidth/2, 0, screenWidth/2, 60);
+    effectMode.frame = CGRectMake(0, 0, screenWidth/2, 60);
     [musicOrEffect addSubview:effectMode];
     
     replayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -113,7 +118,7 @@
     musicSelect.scrollEnabled=YES;
     musicSelect.userInteractionEnabled=YES;
     [self.view addSubview:musicSelect];
-    musicSelect.contentSize = CGSizeMake(960,120);
+    musicSelect.contentSize = CGSizeMake(580,120);
     musicSelect.hidden = true;
     
     UIButton *music1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -130,13 +135,34 @@
     music2.frame = CGRectMake(120.0, 5.0, 110.0, 110.0);
     [musicSelect addSubview:music2];
     
+    UIButton *music3 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music3.backgroundColor = [UIColor blueColor];
+    [music3 addTarget:self action:@selector(music3) forControlEvents:UIControlEventTouchUpInside];
+    [music3 setTitle:@"Music3" forState:UIControlStateNormal];
+    music3.frame = CGRectMake(235.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music3];
+    
+    UIButton *music4 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music4.backgroundColor = [UIColor blueColor];
+    [music4 addTarget:self action:@selector(music4) forControlEvents:UIControlEventTouchUpInside];
+    [music4 setTitle:@"Music4" forState:UIControlStateNormal];
+    music4.frame = CGRectMake(350.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music4];
+    
+    UIButton *music5 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music5.backgroundColor = [UIColor blueColor];
+    [music5 addTarget:self action:@selector(music5) forControlEvents:UIControlEventTouchUpInside];
+    [music5 setTitle:@"Music5" forState:UIControlStateNormal];
+    music5.frame = CGRectMake(465.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music5];
+    
     effectSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
     effectSelect.backgroundColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1.0];
     effectSelect.showsVerticalScrollIndicator=YES;
     effectSelect.scrollEnabled=YES;
     effectSelect.userInteractionEnabled=YES;
     [self.view addSubview:effectSelect];
-    effectSelect.contentSize = CGSizeMake(960,120);
+    effectSelect.contentSize = CGSizeMake(695,120);
     
     UIButton *effect1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     effect1.backgroundColor = [UIColor blueColor];
@@ -159,7 +185,34 @@
     effect3.frame = CGRectMake(235.0, 5.0, 110.0, 110.0);
     [effectSelect addSubview:effect3];
     
+    UIButton *effect4 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    effect4.backgroundColor = [UIColor greenColor];
+    [effect4 addTarget:self  action:@selector(effect4) forControlEvents:UIControlEventTouchUpInside];
+    [effect4 setTitle:@"Effect4" forState:UIControlStateNormal];
+    effect4.frame = CGRectMake(350.0, 5.0, 110.0, 110.0);
+    [effectSelect addSubview:effect4];
+    
+    UIButton *effect5 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    effect5.backgroundColor = [UIColor greenColor];
+    [effect5 addTarget:self  action:@selector(effect5) forControlEvents:UIControlEventTouchUpInside];
+    [effect5 setTitle:@"Effect5" forState:UIControlStateNormal];
+    effect5.frame = CGRectMake(465.0, 5.0, 110.0, 110.0);
+    [effectSelect addSubview:effect5];
+    
+    UIButton *effect6 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    effect6.backgroundColor = [UIColor greenColor];
+    [effect6 addTarget:self  action:@selector(effect6) forControlEvents:UIControlEventTouchUpInside];
+    [effect6 setTitle:@"Effect6" forState:UIControlStateNormal];
+    effect6.frame = CGRectMake(580.0, 5.0, 110.0, 110.0);
+    [effectSelect addSubview:effect6];
+
 }
+
+//- (void) dealloc {
+//    
+//    NSLog(@"VideoMakerViewController dealloc.");
+//    
+//}
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:true];
@@ -227,93 +280,98 @@
 
 - (void)showVideoPreView {
 //    NSLog(@"updating");
-    
-    switch (effectType) {
-        case 1:
-        {
-            if (photoCount < imageArr.count) {
-                if (photoFrame<FRAMES) {
-                    float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
+    if (photoCount < imageArr.count) {
+        if (photoFrame<FRAMES) {
+            float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
+            switch (effectType) {
+                case 1:
+                {
                     videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
-                } else {
-                    photoFrame = 0;
-                    photoCount++;
+                    break;
                 }
-                photoFrame++;
-            } else {
-                NSLog(@"photo:%i , imageArr:%lu",photoCount,(unsigned long)imageArr.count);
-                photoFrame = 0;
-                photoCount = 0;
-                [musicPlayer pause];
-                musicPlayer.currentTime = 0.0;
-//                [musicPlayer play];
-                [previewTimer invalidate];
-                replayBtn.hidden = false;
-            }
-            break;
-        }
-            
-        case 2:
-        {
-            if (photoCount < imageArr.count) {
-                if (photoFrame<FRAMES){
-                    float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
-                    videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:1.1-0.1*(frameToFloat/FRAMES)];
-                } else {
-                    photoFrame = 0;
-                    photoCount++;
+                case 2:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectInstant" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
                 }
-                photoFrame++;
-            } else {
-                photoFrame = 0;
-                photoCount = 0;
-                [musicPlayer pause];
-                musicPlayer.currentTime = 0.0;
-//                [musicPlayer play];
-                [previewTimer invalidate];
-                replayBtn.hidden = false;
-            }
-            break;
-        }
-            
-        case 3:
-        {
-            if (photoCount < imageArr.count) {
-                if (photoCount%2==0) {
-                    if (photoFrame<FRAMES){
-                        float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
-                        videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
-                    } else {
-                        photoFrame = 0;
-                        photoCount++;
-                    }
-                    photoFrame++;
-                } else {
-                    if (photoFrame<FRAMES){
-                        float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
-                        videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:1.1-0.1*(frameToFloat/FRAMES)];
-                    } else {
-                        photoFrame = 0;
-                        photoCount++;
-                    }
-                    photoFrame++;
+                case 3:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectProcess" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
                 }
-            } else {
-                photoFrame = 0;
-                photoCount = 0;
-                [musicPlayer pause];
-                musicPlayer.currentTime = 0.0;
-//                [musicPlayer play];
-                [previewTimer invalidate];
-                replayBtn.hidden = false;
+                case 4:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
+                }
+                case 5:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectChrome" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
+                }
+                case 6:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectFade" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
+                }
+                default:
+                    break;
             }
-            break;
+        } else {
+            photoFrame = 0;
+            photoCount++;
         }
-            
-        default:
-            break;
+        photoFrame++;
+    } else {
+        NSLog(@"photo:%i , imageArr:%lu",photoCount,(unsigned long)imageArr.count);
+        photoFrame = 0;
+        photoCount = 0;
+        [musicPlayer pause];
+        musicPlayer.currentTime = 0.0;
+//        [musicPlayer play];
+        [previewTimer invalidate];
+        replayBtn.hidden = false;
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -333,6 +391,7 @@
 
 - (IBAction)saveBtnPressed:(id)sender {
     [musicPlayer stop];
+//    [previewTimer invalidate];
     WaitForMakeVideoViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"WaitForMakeVideoViewController"];
     vc.effectType = [NSNumber numberWithInt:effectType];
     vc.musicType = [NSNumber numberWithInt:musicType];
@@ -380,6 +439,51 @@
     }
 }
 
+- (void)effect4 {
+    effectType = 4;
+    photoCount = 0;
+    photoFrame = 0;
+    [musicPlayer pause];
+    musicPlayer.currentTime = 0.0;
+    [musicPlayer play];
+    replayBtn.hidden = true;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)effect5 {
+    effectType = 5;
+    photoCount = 0;
+    photoFrame = 0;
+    [musicPlayer pause];
+    musicPlayer.currentTime = 0.0;
+    [musicPlayer play];
+    replayBtn.hidden = true;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)effect6 {
+    effectType = 6;
+    photoCount = 0;
+    photoFrame = 0;
+    [musicPlayer pause];
+    musicPlayer.currentTime = 0.0;
+    [musicPlayer play];
+    replayBtn.hidden = true;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+
+
+
+
+
+
 - (void)musicMode {
     effectSelect.hidden = true;
     musicSelect.hidden = false;
@@ -393,7 +497,7 @@
 - (void)music1 {
     musicType = 1;
     replayBtn.hidden = true;
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"Animals.mp3" withExtension:nil];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy)Jolly_Old_St_Nicholas_Instrumental.mp3" withExtension:nil];
     musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     musicPlayer.numberOfLoops = 0;
     [musicPlayer prepareToPlay];
@@ -408,7 +512,7 @@
 - (void)music2 {
     musicType = 2;
     replayBtn.hidden = true;
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"Maps.mp3" withExtension:nil];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It.mp3" withExtension:nil];
     musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     musicPlayer.numberOfLoops = 0;
     [musicPlayer prepareToPlay];
@@ -419,6 +523,52 @@
         previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
     }
 }
+
+- (void)music3 {
+    musicType = 3;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(rockSweet)Sunflower.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)music4 {
+    musicType = 4;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(soso)Where_I_am_From.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)music5 {
+    musicType = 5;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(sweet)Sweet_as_Honey.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
 
 - (void)replayBtnPressed {
     NSLog(@"Pressed");

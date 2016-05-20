@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		081B32941CE8B60300BEF0AF /* Maps.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 081B32931CE8B60300BEF0AF /* Maps.mp3 */; };
-		08BC99541CE89F8400B2443E /* Animals.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 08BC99531CE89F8400B2443E /* Animals.mp3 */; };
-		08E09E2B1CE74B4A005D4126 /* effect.png in Resources */ = {isa = PBXBuildFile; fileRef = 08E09E291CE74B4A005D4126 /* effect.png */; };
 		08E09E2C1CE74B4A005D4126 /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = 08E09E2A1CE74B4A005D4126 /* music.png */; };
 		08E20A001CE8BC1000E46CCC /* WaitForMakeVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E209FF1CE8BC1000E46CCC /* WaitForMakeVideoViewController.m */; };
+		08F83AC71CED9BDC00A3DD8D /* effect.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F83AC61CED9BDC00A3DD8D /* effect.png */; };
 		3C04F13A1CE1CD54006374A1 /* image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F12E1CE1CD54006374A1 /* image.jpg */; };
 		3C04F13B1CE1CD54006374A1 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F12F1CE1CD54006374A1 /* photo.png */; };
 		3C04F13C1CE1CD54006374A1 /* OneDayData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C04F1311CE1CD54006374A1 /* OneDayData.m */; };
@@ -103,12 +101,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		081B32931CE8B60300BEF0AF /* Maps.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Maps.mp3; sourceTree = "<group>"; };
-		08BC99531CE89F8400B2443E /* Animals.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Animals.mp3; sourceTree = "<group>"; };
-		08E09E291CE74B4A005D4126 /* effect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect.png; sourceTree = "<group>"; };
 		08E09E2A1CE74B4A005D4126 /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music.png; sourceTree = "<group>"; };
 		08E209FE1CE8BC1000E46CCC /* WaitForMakeVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitForMakeVideoViewController.h; sourceTree = "<group>"; };
 		08E209FF1CE8BC1000E46CCC /* WaitForMakeVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitForMakeVideoViewController.m; sourceTree = "<group>"; };
+		08F83AC61CED9BDC00A3DD8D /* effect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect.png; sourceTree = "<group>"; };
 		1D98124CA5EAFD37421EFB5C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		2D124FD1C54A190BCA81FF78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C04F12E1CE1CD54006374A1 /* image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image.jpg; sourceTree = "<group>"; };
@@ -266,10 +262,8 @@
 				3C04F14B1CE1D57C006374A1 /* selected.png */,
 				3C04F14C1CE1D57C006374A1 /* selected@3x.png */,
 				3C04F14D1CE1D57C006374A1 /* selected@2x.png */,
-				08E09E291CE74B4A005D4126 /* effect.png */,
+				08F83AC61CED9BDC00A3DD8D /* effect.png */,
 				08E09E2A1CE74B4A005D4126 /* music.png */,
-				08BC99531CE89F8400B2443E /* Animals.mp3 */,
-				081B32931CE8B60300BEF0AF /* Maps.mp3 */,
 				3C04F14E1CE1D57C006374A1 /* VideoStoryboard.storyboard */,
 				3C04F14F1CE1D57C006374A1 /* TimeRangeTableViewController.h */,
 				3C04F1501CE1D57C006374A1 /* TimeRangeTableViewController.m */,
@@ -457,7 +451,7 @@
 				TargetAttributes = {
 					EB7D51911CB39985003B3BBB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 48GQCAR3WV;
+						DevelopmentTeam = 5ZYQ4553WQ;
 					};
 				};
 			};
@@ -509,9 +503,9 @@
 				3C04F1571CE1D57C006374A1 /* blackBackground.jpg in Resources */,
 				EB92E4A51CECF4EB0025CE90 /* pause.png in Resources */,
 				3C04F15B1CE1D57C006374A1 /* VideoStoryboard.storyboard in Resources */,
+				08F83AC71CED9BDC00A3DD8D /* effect.png in Resources */,
 				3C04F1621CE32696006374A1 /* calendar.png in Resources */,
 				EB92E4A11CECF4EB0025CE90 /* AVdelete.png in Resources */,
-				08BC99541CE89F8400B2443E /* Animals.mp3 in Resources */,
 				3C3DEEE31CEA003C009809BF /* firstImage.png in Resources */,
 				3C69424D1CE5B50A008DF05A /* insert3.png in Resources */,
 				3C04F1581CE1D57C006374A1 /* selected.png in Resources */,
@@ -520,11 +514,9 @@
 				3C04F13A1CE1CD54006374A1 /* image.jpg in Resources */,
 				EB92E4A21CECF4EB0025CE90 /* backupallvideo.png in Resources */,
 				EB7D51A21CB39985003B3BBB /* Assets.xcassets in Resources */,
-				08E09E2B1CE74B4A005D4126 /* effect.png in Resources */,
 				3C04F13B1CE1CD54006374A1 /* photo.png in Resources */,
 				3C04F1401CE1CD54006374A1 /* Jump.storyboard in Resources */,
 				3CF9952B1CED9AA100EB44DE /* first2.png in Resources */,
-				081B32941CE8B60300BEF0AF /* Maps.mp3 in Resources */,
 				EB92E4A61CECF4EB0025CE90 /* playorpause.png in Resources */,
 				3C6942531CE5B924008DF05A /* setting.png in Resources */,
 				3C69424F1CE5B62B008DF05A /* home2.png in Resources */,

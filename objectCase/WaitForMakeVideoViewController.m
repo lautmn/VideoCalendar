@@ -26,7 +26,7 @@
     UIImage *animationScaleImage;
     UIImage *scaledImage;
     UIImage *background;
-    UIImage *resultImage;
+    BOOL didCancelVideo;
 }
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
@@ -38,12 +38,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
     [self getMusicURL];
+    didCancelVideo = false;
 //    animationScaleImage = [[UIImage alloc] init];
+    self.navigationItem.hidesBackButton = YES;
     background = [UIImage imageNamed:@"blackBackground.jpg"];
     totalFrames = FRAMES * _imageArr.count - 1;
     myTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(logSomething) userInfo:nil repeats:true];
+
     
     [self testCompressionSession];
 }
@@ -53,20 +57,20 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (UIImage*)makeImages:(int)idxx {
+- (IBAction)cancelVidio:(id)sender {
     
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[_imageArr objectAtIndex:idxx]]];
-    UIImage *resizeImage = [self resizeFromImage:image];
+    didCancelVideo = true;
+
+    [myTimer invalidate];
     
-    return resizeImage;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
+        [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
+
+    [self dismissViewControllerAnimated:true completion:nil];
+//    NSLog(@"Dismiss worked");
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
+//        [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
     
-//    for (NSURL *url in _imageArr) {
-//        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-//        UIImage *resizeImage = [self resizeFromImage:image];
-//        NSData *imageData = UIImageJPEGRepresentation(resizeImage, 1);
-//        NSLog(@"%ld",imageData.length);
-//        [_imageArr addObject:resizeImage];
-//    }
 }
 
 - (UIImage *)resizeFromImage:(UIImage *)sourceImage {
@@ -103,15 +107,32 @@
     switch ([_musicType intValue]) {
         case 1:
         {
-            musicURL = [[NSBundle mainBundle] URLForResource:@"Animals.mp3" withExtension:nil];
-            NSLog(@"ANIMALS");
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(happy)Jolly_Old_St_Nicholas_Instrumental.mp3" withExtension:nil];
+            
             break;
         }
             
         case 2:
         {
-            musicURL = [[NSBundle mainBundle] URLForResource:@"Maps.mp3" withExtension:nil];
-            NSLog(@"MAPS");
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 3:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(rockSweet)Sunflower.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 4:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(soso)Where_I_am_From.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 5:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(sweet)Sweet_as_Honey.mp3" withExtension:nil];
             break;
         }
             
@@ -129,11 +150,12 @@
     _progressLabel.text = [NSString stringWithFormat:@"已完成 : %i %%",(int)(nowProgressPercent*100)];
 //    NSLog(@"NOW:  : %i",nowProgressFrame);
 //    NSLog(@"TOTAL : %lu",totalFrames);
+//    NSLog(@"NOW:  : %f",nowProgressPercent);
     if ((int)(nowProgressPercent*100) == 100) {
         [myTimer invalidate];
-        [NSThread sleepForTimeInterval:0.0005];
+        [NSThread sleepForTimeInterval:0.5];
         [self CompileFilesToMakeMovie];
-        NSLog(@"MUSIC:%i",[_musicType intValue]);
+//        NSLog(@"MUSIC:%i",[_musicType intValue]);
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"完成" message:@"影片製作已完成" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self dismissViewControllerAnimated:true completion:nil];
@@ -194,11 +216,26 @@
     
     [writerInput requestMediaDataWhenReadyOnQueue:dispatchQueue usingBlock:^{
         while([writerInput isReadyForMoreMediaData]) {
-            if (++frame >=[_imageArr count]*FRAMES) {
+            NSLog(@"in while");
+
+            if (didCancelVideo) {
                 [writerInput markAsFinished];
-                [videoWriter finishWriting];
+                [videoWriter finishWritingWithCompletionHandler:^{
+                    NSLog(@"did Cancel");
+                }];
                 break;
             }
+            
+            
+            if (++frame >=[_imageArr count]*FRAMES) {
+                [writerInput markAsFinished];
+//                [videoWriter finishWriting];
+                [videoWriter finishWritingWithCompletionHandler:^{
+                    NSLog(@"finish");
+                }];
+                break;
+            }
+            
             
             CVPixelBufferRef buffer = NULL;
             
@@ -208,67 +245,130 @@
             frameRemainder = frame%FRAMES;
             NSLog(@"%i",frameRemainder);
             
-            switch ([_effectType intValue]) {
-                case 1:
-                {
-                    float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
-                    float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
-                    animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
-                    buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
-                    animationScaleImage = nil;
-                    break;
-                }
-                    
-                case 2:
-                {
-                    float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
-                    float scaleRate = 1.1-0.1*(remainderToFloat/FRAMES);
-                    animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
-                    buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
-                    animationScaleImage = nil;
-                    break;
-                }
-                    
-                case 3:
-                {
-                    if (idx%2 == 0) {
-                        float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
-                        float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
+            float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
+            float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
+            
+            
+            
+            @autoreleasepool {
+                switch ([_effectType intValue]) {
+                    case 1:
+                    {
                         animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
-                        buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
-                        animationScaleImage = nil;
-                    } else {
-                        float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
-                        float scaleRate = 1.1-0.1*(remainderToFloat/FRAMES);
-                        animationScaleImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
-                        buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
-                        animationScaleImage = nil;
+                        break;
                     }
-                    break;
+                    case 2:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectInstant" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+                        
+                    case 3:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectProcess" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+
+                    case 4:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+                        
+                    case 5:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectChrome" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+
+                    case 6:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectFade" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+                    default:
+                        break;
                 }
-                    
-                default:
-                    break;
             }
+            
+            buffer = (CVPixelBufferRef)[self pixelBufferFromCGImage:[animationScaleImage CGImage] size:size];
+            animationScaleImage = nil;
+
             
             if (buffer) {
                 if(![adaptor appendPixelBuffer:buffer withPresentationTime:CMTimeMake(frame,FRAMES/SEC_PER_PHOTO)]) {
                     NSLog(@"FAIL");
                 } else {
                     NSLog(@"OK");
-//                    CFRelease(buffer);
                 }
 //                CFRelease(buffer);
-//                CVBufferRelease(buffer);
                 CVPixelBufferRelease(buffer);
-//                [NSThread sleepForTimeInterval:0.0005];
             }
-            
         }
+        
 //        [self CompileFilesToMakeMovie];
     }];
 }
 
+
+/*
+- (NSString*)getTheEffect:(int)effectType {
+    
+    float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
+    float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
+    UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+    CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectInstant" keysAndValues:kCIInputImageKey, ciImage, nil];
+    [filter setDefaults];
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *outputImage = [filter outputImage];
+    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+    animationScaleImage = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    
+    return nil;
+}
+*/
 
 
 - (CVPixelBufferRef)pixelBufferFromCGImage:(CGImageRef)image size:(CGSize)size {
@@ -304,7 +404,7 @@
 
 - (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize {
     
-    @autoreleasepool {
+//    @autoreleasepool {
     UIGraphicsBeginImageContext(CGSizeMake(image.size.width * scaleSize, image.size.height * scaleSize));
     [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height * scaleSize)];
 //    UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -312,7 +412,7 @@
     UIGraphicsEndImageContext();
     
     scaledImage = [self setBlackBackground:scaledImage];
-    }
+//    }
     
     return scaledImage;
 }
@@ -322,14 +422,14 @@
     UIGraphicsBeginImageContext(backgroundSize);
     [background drawInRect:CGRectMake(0, 0, 640, 640)];
     [sourceImage drawInRect:CGRectMake(320-sourceImage.size.width/2, 0, sourceImage.size.width, sourceImage.size.height)];
-    resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resultImage;
 }
 
 
 -(void)CompileFilesToMakeMovie {
-    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+//    NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     AVMutableComposition* mixComposition = [AVMutableComposition composition];
     
     NSURL *audio_inputFileUrl = musicURL;
