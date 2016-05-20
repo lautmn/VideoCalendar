@@ -10,27 +10,28 @@
 #import <MessageUI/MessageUI.h>
 #import <DropboxSDK/DropboxSDK.h>
 @interface itemViewController ()<MFMailComposeViewControllerDelegate>
-{   BOOL cancelDB;
+{
     int count;
 }
-@property(nonatomic,strong)NSMutableArray * pathArray;
-@property(nonatomic,strong)UIProgressView * pv;
-@property(nonatomic,strong)UILabel * myLabel;
+@property(nonatomic,strong)NSMutableArray * pathArray;        //全部path的路徑
+@property(nonatomic,strong)UIProgressView * pv;               //上傳進度條
+@property(nonatomic,strong)UILabel * myLabel;                 //檔案的label
+@property(nonatomic,strong)NSMutableArray * pathNameArray;    //全部檔案名稱的array
 @end
 
 @implementation itemViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getFileUrl];
-    count = 0;
-    cancelDB = false;
+    
+      [self getFileUrl];
+    
+      count = 0;    //記錄total檔案的計步器
+    
+     [[DBSession sharedSession] unlinkAll];   //清除所有登入資料
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+//寄信給我們
 - (IBAction)sendMailtoTeamBtnPressed:(id)sender
 {
     if (![MFMailComposeViewController canSendMail]) {
@@ -41,59 +42,94 @@
     composeVC.mailComposeDelegate = self;
     
     
-    [composeVC setToRecipients:@[@"h1205542@gmail.com"]];
-    [composeVC setSubject:@"Hello!"];
-    [composeVC setMessageBody:@"Hello VideoClander Team" isHTML:NO];
+    [composeVC setToRecipients:@[@"justtryit518@gmail.com",@"h1205542@gmail.com",@"s990647@ee.yzu.edu.tw"]];
+    [composeVC setSubject:@"Hello! VideoClander Team"];
+    [composeVC setMessageBody:@"Hello VideoClander Team :" isHTML:NO];
     
     
     [self presentViewController:composeVC animated:YES completion:nil];
 }
+//寄信如果發生錯誤
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"寄件失敗,請重新操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    
+    [alertcontroller addAction:understand];
+    
+    [self presentViewController:alertcontroller animated:YES completion:nil];
+    
 }
 
 
 
-
+//獲取 path  fileName  Url 的方法
 -(NSURL *)getFileUrl{
     NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSLog(@"%@",path);
-    
-    
-    
     NSArray * paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
     
     self.pathArray = [[NSMutableArray alloc]init];
-    
+    self.pathNameArray = [[NSMutableArray alloc]init];
     for (NSString*url in paths) {
-        if ([url hasSuffix:@".mp4"]) {
-            NSString * dirStr = [path stringByAppendingString:@"/"];
-            NSString * mp4Path = [dirStr stringByAppendingString:url];
-            NSLog(@"mp4path :    %@",mp4Path);
-            [self.pathArray addObject:mp4Path];
-            
-        }
+        
+        NSString * dirStr = [path stringByAppendingString:@"/"];
+        NSString * Path = [dirStr stringByAppendingString:url];
+        NSLog(@"mp4path :    %@",Path);
+        [self.pathNameArray addObject:url];
+        [self.pathArray addObject:Path];
     }
-    
     return 0;
 }
-- (IBAction)backToDropBoxBtnPressed:(id)sender {
+
+#pragma mark - DropBox 部分
+//連線DropBox
+-(DBRestClient *)restClient{
+    if(!restClient){
+        restClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
+    }
+    return restClient;
+}
+
+#pragma mark - 下載部分
+- (IBAction)downloadToDropBoxBtnPressed:(id)sender {
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
     }
+    [self backupDownload];
+}
+-(void)backupDownload{
+    NSString * tmpFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"1.mp4"];
+    [restClient loadFile:@"1.mp4" intoPath:tmpFilePath];
+}
+
+
+#pragma mark - 上傳部分
+- (IBAction)backToDropBoxBtnPressed:(id)sender {
+    
+    //沒登入給使用者登入
+    if (![[DBSession sharedSession]isLinked]) {
+        [[DBSession sharedSession]linkFromController:self];
+    }
+    
+    //如果有登入才做
+     if ([[DBSession sharedSession]isLinked])
+    {
     [self totalUpload];
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
     [appupload setBool:true forKey:@"appupload"];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在上傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        //(3分鐘未上傳完通知取消)
+        [appupload setBool:false forKey:@"appupload"];
+        [self cancelNotification];
+        //上傳連結
         [[self restClient] cancelFileUpload:[self.pathArray objectAtIndex:count]];
         [[self restClient] cancelAllRequests];
-        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-        [appupload setBool:false forKey:@"appupload"];
+       
     }];
     
     [alertcontroller addAction:understand];
@@ -110,39 +146,36 @@
         
         self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.pathArray.count];
         
-        
-        
-        
         [alertcontroller.view addSubview:self.pv];
         [alertcontroller.view addSubview:self.myLabel];
     }];
+   
+    }
 }
+
+
+//所有檔案上傳的方法
 -(void)totalUpload{
-    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
+    //    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
     
     NSString *targetPath=@"/";
-    [[self restClient] uploadFile:fileName
+    [[self restClient] uploadFile:[self.pathNameArray objectAtIndex:count]
                            toPath:targetPath
                     withParentRev:nil
                          fromPath:[self.pathArray objectAtIndex:count]];
     
-    
 }
-#pragma mark - Upload DropBox
-//連線DropBox
--(DBRestClient *)restClient{
-    if(!restClient){
-        restClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
-        restClient.delegate = self;
-    }
-    return restClient;
-}
+
+
+
 //上傳成功
 -(void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
 
              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
     NSLog(@"File uploaded successfully: %@", metadata.path);
-    
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+    [self cancelNotification];
     
     
     if (count+1 == self.pathArray.count) {
@@ -160,8 +193,7 @@
         
         [self presentViewController:alertcontroller animated:YES completion:nil];
         count = 0;
-        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-        [appupload setBool:false forKey:@"appupload"];
+     
     }else{
         count = count +1;
         self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.pathArray.count];
@@ -172,6 +204,9 @@
 //失敗
 -(void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
     
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+    [self cancelNotification];
     NSLog(@"File upload failed - %@", error);
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳失敗" message:@"請再試一次"preferredStyle:UIAlertControllerStyleAlert];
     
@@ -184,8 +219,27 @@
     
     
 }
+//獲取進度條
 -(void)restClient:(DBRestClient *)client uploadProgress:(CGFloat)progress forFile:(NSString *)destPath from:(NSString *)srcPath
 {
     self.pv.progress = progress;
+}
+
+//當上傳成功remove掉 3分鐘提醒
+-(void)cancelNotification
+{
+    
+    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    //拿全部的通知出來
+    if (!notificaitons || notificaitons.count <= 0) {
+        return;
+    }
+    for (UILocalNotification *notify in notificaitons) {
+        if ([notify.userInfo objectForKey:@"unload"]) {
+            //取消一个特定的通知
+            [[UIApplication sharedApplication] cancelLocalNotification:notify];
+            break;
+        }
+    }
 }
 @end
