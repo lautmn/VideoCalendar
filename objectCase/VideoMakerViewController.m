@@ -118,7 +118,7 @@
     musicSelect.scrollEnabled=YES;
     musicSelect.userInteractionEnabled=YES;
     [self.view addSubview:musicSelect];
-    musicSelect.contentSize = CGSizeMake(960,120);
+    musicSelect.contentSize = CGSizeMake(580,120);
     musicSelect.hidden = true;
     
     UIButton *music1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -134,6 +134,27 @@
     [music2 setTitle:@"Music2" forState:UIControlStateNormal];
     music2.frame = CGRectMake(120.0, 5.0, 110.0, 110.0);
     [musicSelect addSubview:music2];
+    
+    UIButton *music3 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music3.backgroundColor = [UIColor blueColor];
+    [music3 addTarget:self action:@selector(music3) forControlEvents:UIControlEventTouchUpInside];
+    [music3 setTitle:@"Music3" forState:UIControlStateNormal];
+    music3.frame = CGRectMake(235.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music3];
+    
+    UIButton *music4 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music4.backgroundColor = [UIColor blueColor];
+    [music4 addTarget:self action:@selector(music4) forControlEvents:UIControlEventTouchUpInside];
+    [music4 setTitle:@"Music4" forState:UIControlStateNormal];
+    music4.frame = CGRectMake(350.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music4];
+    
+    UIButton *music5 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    music5.backgroundColor = [UIColor blueColor];
+    [music5 addTarget:self action:@selector(music5) forControlEvents:UIControlEventTouchUpInside];
+    [music5 setTitle:@"Music5" forState:UIControlStateNormal];
+    music5.frame = CGRectMake(465.0, 5.0, 110.0, 110.0);
+    [musicSelect addSubview:music5];
     
     effectSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
     effectSelect.backgroundColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1.0];
@@ -186,6 +207,12 @@
     [effectSelect addSubview:effect6];
 
 }
+
+//- (void) dealloc {
+//    
+//    NSLog(@"VideoMakerViewController dealloc.");
+//    
+//}
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:true];
@@ -364,6 +391,7 @@
 
 - (IBAction)saveBtnPressed:(id)sender {
     [musicPlayer stop];
+//    [previewTimer invalidate];
     WaitForMakeVideoViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"WaitForMakeVideoViewController"];
     vc.effectType = [NSNumber numberWithInt:effectType];
     vc.musicType = [NSNumber numberWithInt:musicType];
@@ -484,7 +512,7 @@
 - (void)music2 {
     musicType = 2;
     replayBtn.hidden = true;
-    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It" withExtension:nil];
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It.mp3" withExtension:nil];
     musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
     musicPlayer.numberOfLoops = 0;
     [musicPlayer prepareToPlay];
@@ -495,6 +523,52 @@
         previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
     }
 }
+
+- (void)music3 {
+    musicType = 3;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(rockSweet)Sunflower.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)music4 {
+    musicType = 4;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(soso)Where_I_am_From.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
+- (void)music5 {
+    musicType = 5;
+    replayBtn.hidden = true;
+    NSURL *url = [[NSBundle mainBundle] URLForResource:@"(sweet)Sweet_as_Honey.mp3" withExtension:nil];
+    musicPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
+    musicPlayer.numberOfLoops = 0;
+    [musicPlayer prepareToPlay];
+    [musicPlayer play];
+    photoFrame = 0;
+    photoCount = 0;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
+
 
 - (void)replayBtnPressed {
     NSLog(@"Pressed");

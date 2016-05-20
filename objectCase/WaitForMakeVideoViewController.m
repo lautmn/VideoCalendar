@@ -61,6 +61,8 @@
     
     didCancelVideo = true;
 
+    [myTimer invalidate];
+    
     if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
         [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
 
@@ -113,6 +115,24 @@
         case 2:
         {
             musicURL = [[NSBundle mainBundle] URLForResource:@"(happy2)How_About_It.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 3:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(rockSweet)Sunflower.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 4:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(soso)Where_I_am_From.mp3" withExtension:nil];
+            break;
+        }
+            
+        case 5:
+        {
+            musicURL = [[NSBundle mainBundle] URLForResource:@"(sweet)Sweet_as_Honey.mp3" withExtension:nil];
             break;
         }
             
