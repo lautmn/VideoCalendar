@@ -27,29 +27,7 @@
     daySingleton = [DaySingletonManager sharedData];
     [self getDataPlist];
     
-    
-    
-//    NSString *data = @"abcde,";
-//    if([data hasSuffix:@"mp4"]){
-//        NSLog(data);
-//        
-//        
-//        NSString *path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
-//        //    NSLog(@"%@",path);
-//        NSArray *paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-//
-//        
-//    }
-//    NSMutableArray * totalMp4 = 
-
 }
-
-//- (NSString*) saveFilePath: (NSString *) add
-//{
-//    NSString *filename = [NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:add ofType:@"mp4"]isDirectory:NO]];
-//    return filename;
-//}
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

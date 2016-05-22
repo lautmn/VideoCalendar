@@ -20,9 +20,9 @@
     
 }
 @property (nonatomic,strong) AVPlayer *player;
-@property (weak, nonatomic) IBOutlet UISlider *AVSlider;
-@property (weak, nonatomic) IBOutlet UIImageView *playImageView;
-@property(nonatomic,strong)UIProgressView * pv;
+@property (weak, nonatomic) IBOutlet UISlider *AVSlider;          //進度條
+@property (weak, nonatomic) IBOutlet UIImageView *playImageView;  //播放暫停鈕
+@property(nonatomic,strong)UIProgressView * pv;                   //上傳進度條
 
 
 
@@ -33,18 +33,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.playImageView.hidden = true;
+    //Slider圖片改成透明
     [self.AVSlider setThumbImage:[UIImage imageNamed:@"uncolorslider.png"] forState:UIControlStateNormal];
-    //    UITapGestureRecognizer *touch  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchImageView)];
-    //    [self.playImageView setUserInteractionEnabled:YES];
-    //    [self.playImageView addGestureRecognizer:touch];
-    //
+    //刪除dropbox 連結
+    [[DBSession sharedSession] unlinkAll];
 }
+
 -(void)dealloc{
     //remove聆聽
     [self removeObserverFromPlayerItem:self.player.currentItem];
     [self removeNotification];
-    
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -54,9 +52,9 @@
     [self addNotification];
     
 }
+//離開頁面後
 -(void)viewWillDisappear:(BOOL)animated
 {
-    
     //離開頁面砍掉layer且暫停
     if (_player != nil) {
         _player.rate = 0.0;
@@ -66,7 +64,6 @@
     }
     //重整tableview
     [[NSNotificationCenter defaultCenter] postNotificationName:@"updataTableView" object:nil];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,10 +78,9 @@
     playerLayer.frame=self.AVMovieImage.bounds;
     playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     playerLayer.needsDisplayOnBoundsChange = YES;
-    //    _AVMovieImage.translatesAutoresizingMaskIntoConstraints = false;
-    
     [self.AVMovieImage.layer addSublayer:playerLayer];
 }
+//Player加入播放資訊
 -(AVPlayer *)player{
     if (!_player) {
         AVPlayerItem *playerItem=[self getPlayItem];
@@ -94,20 +90,20 @@
     }
     return _player;
 }
+//獲取要播放的路徑
 -(AVPlayerItem *)getPlayItem{
     
     NSURL *url=[NSURL URLWithString:self.test];
     AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:url];
     return playerItem;
 }
-#pragma mark - 通知
 
+#pragma mark - 通知
 //播放器通知
 -(void)addNotification{
     //给AVPlayerItem添加播放完成通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:self.player.currentItem];
 }
-
 -(void)removeNotification{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -124,26 +120,25 @@
 }
 
 #pragma mark - 監控
-
+//監控播放進度
 -(void)addProgressObserver{
     
     AVPlayerItem *playerItem=self.player.currentItem;
     
     UISlider * slider = self.AVSlider;
-    //每秒執行一次   可用 id timeObsever = 去接 在removeTimeObserve
+    //每1/20秒執行一次   可用 id timeObsever = 去接 在removeTimeObserve
     [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 20) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         float current=CMTimeGetSeconds(time);
         float total=CMTimeGetSeconds([playerItem duration]);
-        // NSLog(@"已經播放%.2fs.",current);
+        
         if (current) {
-            //self.AVSlider.value = current/total;
             [slider setValue:(current/total) animated:YES];
         }
     }];
     
 }
 
-#pragma mark - slider
+//Slider
 - (IBAction)AVSliderBt:(id)sender {
     if (self.player.rate==0)  //暫停狀態
     {
@@ -205,10 +200,12 @@
 #pragma mark - play or pause
 - (IBAction)touchImageView:(id)sender {
     
-    if(self.player.rate==0){ //如果是暫停 就播放
+    if(self.player.rate==0)             //如果是暫停 就播放
+    {
         [self.player play];
         self.playImageView.hidden = true;
-    }else if(self.player.rate==1){//正在播放 就暫停
+    }else if(self.player.rate==1)       //正在播放 就暫停
+    {
         [self.player pause];
         self.playImageView.hidden = false;
     }
@@ -221,8 +218,8 @@
     [self.player pause];
     //取得plist檔案路徑
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"確認要刪除影片？" message:@""preferredStyle:UIAlertControllerStyleAlert];
-    //準備按鈕
     UIAlertAction * determine = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //停止影片
         if (_player != nil) {
             _player.rate = 0.0;
             [playerLayer removeFromSuperlayer];
@@ -231,12 +228,12 @@
         }
         //刪除陣列中路徑
         [self.detailArray removeObject:self.test];
-        
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL * url = [NSURL URLWithString:self.test];
         [fileManager removeItemAtURL:url error:nil];
         
-        //跳轉
+        
+        //跳轉 回 tableview
         AVTableViewController * tableVC =[self.storyboard instantiateViewControllerWithIdentifier:@"AVTableViewController"];
         [self.navigationController pushViewController:tableVC animated:YES];
     }];
@@ -251,7 +248,8 @@
     [self presentViewController:alertcontroller animated:YES completion:nil];
 }
 
-#pragma mark - save
+
+#pragma mark - 存入手機
 - (IBAction)saveToPhoneBtnPressed:(id)sender {
     NSURL * movieURL = [NSURL URLWithString:self.test];
     ALAssetsLibrary * library = [ALAssetsLibrary new];
@@ -284,7 +282,9 @@
 }
 
 
-#pragma mark - Upload DropBox
+
+
+#pragma mark - 上傳DropBox
 //連線DropBox
 -(DBRestClient *)restClient{
     if(!restClient){
@@ -299,9 +299,13 @@
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
     }
-    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
+    if ([[DBSession sharedSession]isLinked]) {
+   
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
     [appupload setBool:true forKey:@"appupload"];
+    
+    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
+
     NSString *targetPath=@"/";
     
     [[self restClient] uploadFile:fileName
@@ -310,10 +314,12 @@
                          fromPath:self.path];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //取消通知動作
+        [appupload setBool:false forKey:@"appupload"];
+        [self cancelNotification];
+        //取消上傳動作
         [[self restClient] cancelFileUpload:self.path];
         [[self restClient] cancelAllRequests];
-        NSUserDefaults*android=[NSUserDefaults standardUserDefaults];
-        [android setBool:false forKey:@"android"];
         
     }];
     [alertcontroller addAction:understand];
@@ -334,7 +340,7 @@
         [alertcontroller.view addSubview:self.pv];
     }];
     
-    
+    }
 }
 
 
@@ -343,29 +349,31 @@
 
              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
     //如果在背景跳通知
+    //先取消背景上傳超時提醒
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+    [self cancelNotification];
     UILocalNotification * ln = [UILocalNotification new];
     ln.soundName = UILocalNotificationDefaultSoundName;
-    ln.alertBody = @"影片已上傳成功上傳成功";
+    ln.alertBody = @"影片已上傳成功";
     ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:1.0];
     [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
-    
-    
+
     NSLog(@"File uploaded successfully: %@", metadata.path);
     [self dismissViewControllerAnimated:YES completion:nil];
     UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertcontroller addAction:understand];
-    
-    
-    [self presentViewController:alertcontroller animated:YES completion:nil];
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
-    
+        [self presentViewController:alertcontroller animated:YES completion:nil];
 }
 
 //失敗
 -(void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
     //如果在背景跳通知
+    //先取消背景上傳超時提醒
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+    [self cancelNotification];
     UILocalNotification * ln = [UILocalNotification new];
     ln.soundName = UILocalNotificationDefaultSoundName;
     ln.alertBody = @"上傳失敗請取消OR選擇重新上傳";
@@ -378,7 +386,6 @@
     
     [alertcontroller addAction:understand];
     
-    
     [self presentViewController:alertcontroller animated:YES completion:nil];
     
 }
@@ -386,4 +393,26 @@
 {
     self.pv.progress = progress;
 }
+
+
+//當上傳成功remove掉 3分鐘提醒
+-(void)cancelNotification
+{
+    
+NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+//拿全部的通知出來
+if (!notificaitons || notificaitons.count <= 0) {
+    return;
+}
+for (UILocalNotification *notify in notificaitons) {
+    if ([notify.userInfo objectForKey:@"unload"]) {
+        //取消一个特定的通知
+        [[UIApplication sharedApplication] cancelLocalNotification:notify];
+        break;
+    }
+}
+}
+
+
+
 @end
