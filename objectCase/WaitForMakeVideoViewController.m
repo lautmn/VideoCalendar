@@ -12,6 +12,9 @@
 #import <CoreVideo/CoreVideo.h>
 #import <QuartzCore/QuartzCore.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import "OneDayData.h"
+#import "DaySingletonManager.h"
+
 
 #define FRAMES 60
 #define SEC_PER_PHOTO 3.0
@@ -27,6 +30,10 @@
     UIImage *scaledImage;
     UIImage *background;
     BOOL didCancelVideo;
+    float nowProgressPercent;
+    OneDayData *oneDayData;
+    DaySingletonManager *daySingleton;
+
 }
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
@@ -59,48 +66,33 @@
 
 - (IBAction)cancelVidio:(id)sender {
     
-    didCancelVideo = true;
-
-    [myTimer invalidate];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
-        [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
-
-    [self dismissViewControllerAnimated:true completion:nil];
-//    NSLog(@"Dismiss worked");
-//    if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
-//        [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"停止製作影片" message:@"確定要停止嗎?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"停止製作" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        didCancelVideo = true;
+        
+        [myTimer invalidate];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:myMoviePath])
+            [[NSFileManager defaultManager] removeItemAtPath:myMoviePath error:nil];
+        
+        [self dismissViewControllerAnimated:true completion:nil];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"繼續製作" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if ((int)(nowProgressPercent*100) == 100) {
+            UIAlertController *alert2 = [UIAlertController alertControllerWithTitle:@"完成" message:@"影片製作已完成" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ok2 = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self dismissViewControllerAnimated:true completion:nil];
+            }];
+            [alert2 addAction:ok2];
+            [self presentViewController:alert2 animated:true completion:nil];
+        }
+    }];
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:true completion:nil];
     
 }
-
-- (UIImage *)resizeFromImage:(UIImage *)sourceImage {
-    
-    // Check sourceImage's size
-    CGFloat maxValue = 640.0;
-    CGSize originalSize = sourceImage.size;
-    if (originalSize.width <= maxValue && originalSize.height <= maxValue) {
-        return sourceImage;
-    }
-    // Decide final size
-    
-    CGSize targetSize;
-    if (originalSize.width >= originalSize.height) {
-        CGFloat ratio = originalSize.width/maxValue;
-        targetSize = CGSizeMake(maxValue, originalSize.height/ratio);
-    } else { // height > width
-        CGFloat ratio = originalSize.width/originalSize.height;
-        targetSize = CGSizeMake(maxValue *ratio, maxValue);
-    }
-    UIGraphicsBeginImageContext(targetSize);
-    [sourceImage drawInRect:CGRectMake(0, 0, targetSize.width, targetSize.height)];
-    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    resultImage = [self setBlackBackground:resultImage];
-    
-    return resultImage;
-}
-
 
 
 - (void)getMusicURL {
@@ -144,8 +136,7 @@
 
 - (void)logSomething {
     int nowProgressFrame = idx * FRAMES + frameRemainder;
-    float nowProgressPercent = (float)nowProgressFrame/totalFrames;
-//    NSLog(@"===================%f===================",nowProgressPercent);
+    nowProgressPercent = (float)nowProgressFrame/totalFrames;
     _progressView.progress = nowProgressPercent;
     _progressLabel.text = [NSString stringWithFormat:@"已完成 : %i %%",(int)(nowProgressPercent*100)];
 //    NSLog(@"NOW:  : %i",nowProgressFrame);
@@ -155,7 +146,6 @@
         [myTimer invalidate];
         [NSThread sleepForTimeInterval:0.5];
         [self CompileFilesToMakeMovie];
-//        NSLog(@"MUSIC:%i",[_musicType intValue]);
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"完成" message:@"影片製作已完成" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self dismissViewControllerAnimated:true completion:nil];
@@ -216,7 +206,6 @@
     
     [writerInput requestMediaDataWhenReadyOnQueue:dispatchQueue usingBlock:^{
         while([writerInput isReadyForMoreMediaData]) {
-            NSLog(@"in while");
 
             if (didCancelVideo) {
                 [writerInput markAsFinished];
@@ -229,7 +218,6 @@
             
             if (++frame >=[_imageArr count]*FRAMES) {
                 [writerInput markAsFinished];
-//                [videoWriter finishWriting];
                 [videoWriter finishWritingWithCompletionHandler:^{
                     NSLog(@"finish");
                 }];
@@ -246,7 +234,7 @@
             NSLog(@"%i",frameRemainder);
             
             float remainderToFloat = [[NSNumber numberWithInt: frameRemainder] floatValue];
-            float scaleRate = 1.0+0.1*(remainderToFloat/FRAMES);
+            float scaleRate = 1.2+0.1*(remainderToFloat/FRAMES);
             
             
             
@@ -326,6 +314,23 @@
                         CGImageRelease(cgImage);
                         break;
                     }
+                        
+                    case 7:
+                    {
+                        UIImage *originalImage = [self scaleImage:[_imageArr objectAtIndex:idx] toScale:scaleRate];
+                        CIImage *ciImage = [[CIImage alloc] initWithImage:originalImage];
+                        CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectTransfer" keysAndValues:kCIInputImageKey, ciImage, nil];
+                        [filter setDefaults];
+                        CIContext *context = [CIContext contextWithOptions:nil];
+                        CIImage *outputImage = [filter outputImage];
+                        CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                        animationScaleImage = [UIImage imageWithCGImage:cgImage];
+                        CGImageRelease(cgImage);
+                        break;
+                    }
+                        
+                        
+                        
                     default:
                         break;
                 }
@@ -341,12 +346,9 @@
                 } else {
                     NSLog(@"OK");
                 }
-//                CFRelease(buffer);
                 CVPixelBufferRelease(buffer);
             }
         }
-        
-//        [self CompileFilesToMakeMovie];
     }];
 }
 
@@ -418,10 +420,43 @@
 }
 
 - (UIImage *)setBlackBackground:(UIImage *)sourceImage {
+    
+    
+    NSString *filePath = _imagePathArr[idx];
+    NSString *fileName = [filePath componentsSeparatedByString:@"/"].lastObject;
+    NSString *year = [fileName substringWithRange:NSMakeRange(0, 4)];
+    NSString *month = [fileName substringWithRange:NSMakeRange(4, 2)];
+    NSString *date = [fileName substringWithRange:NSMakeRange(6, 2)];
+    NSString *fileNameWithDash = [NSString stringWithFormat:@"%@-%@-%@",year,month,date];
+    
+    NSString *imageTitle = [self showDayData:fileNameWithDash];
+    
+    NSInteger lineCount = [imageTitle componentsSeparatedByString:@"\n"].count;
+    NSData *labelData = [imageTitle dataUsingEncoding:NSUTF8StringEncoding];
+    
+    UILabel *imageTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 640, 40)];
+    [imageTitleLabel setNumberOfLines:0];
+    imageTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    imageTitleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    imageTitleLabel.text = imageTitle;
+    imageTitleLabel.textColor = [UIColor whiteColor];
+
+    if ((long)lineCount>1 || labelData.length >50) {
+        imageTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
+    } else {
+        imageTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:32.0];
+    }
+
+    
     CGSize backgroundSize = CGSizeMake(640, 640);
     UIGraphicsBeginImageContext(backgroundSize);
     [background drawInRect:CGRectMake(0, 0, 640, 640)];
     [sourceImage drawInRect:CGRectMake(320-sourceImage.size.width/2, 0, sourceImage.size.width, sourceImage.size.height)];
+    [background drawInRect:CGRectMake(0, 576, 640, 64)];
+    [imageTitleLabel drawTextInRect:CGRectMake(0, 576, 640, 64)];
+    
+    
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resultImage;
@@ -488,6 +523,52 @@
         }
     }];
 }
+
+
+
+
+-(NSString *) showDayData:(NSString *)dateWithDash {
+    
+    //    load day data plist
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [docPath stringByAppendingPathComponent:@"dayData.plist"];
+    
+    NSMutableDictionary *allDayDatas = [NSKeyedUnarchiver unarchiveObjectWithFile:plistPath];
+    
+    
+    
+    
+    //    oneDayData = daySingleton.allDayDatas[_smallDateLable.text];
+    
+    //    將plist讀取出來的資料，給當天這個物件
+    oneDayData = allDayDatas[dateWithDash];
+    
+    //    第一次使用app，plist的allDayDatas是nil，如果不打if這行，會造成singleton nil
+    if (allDayDatas != nil) {
+        daySingleton.allDayDatas = allDayDatas;
+    }
+    
+    //沒資料的話隱藏標籤，否則顯示出來
+    if (oneDayData == nil) {
+        
+        return nil;
+    }
+    
+    
+    //    標籤內容自動換行
+    
+    NSString *imageTitle = oneDayData.imgTitle;
+    
+    //    doc資料夾位置會變，所以不能用存在plist裡的URL
+    //    _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:oneDayData.imageURL]];
+    //    NSLog(@"imageURL: %@",oneDayData.imageURL);
+    
+    
+    return imageTitle;
+    
+}
+
 
 
 
