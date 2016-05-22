@@ -18,5 +18,6 @@
 @property(nonatomic,strong)NSString * test;
 @property(nonatomic,strong)NSMutableArray * detailArray;
 @property(nonatomic,strong)NSString * path;
+@property(nonatomic,strong)NSString * pathName;
 -(DBRestClient *)restClient;
 @end

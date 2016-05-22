@@ -16,8 +16,9 @@
 
 
 
-@property(nonatomic,strong)NSMutableArray * AVurlArray;
-@property(nonatomic,strong)NSMutableArray * pathArray;
+@property(nonatomic,strong)NSMutableArray * AVurlArray;      //完整URL路徑
+@property(nonatomic,strong)NSMutableArray * pathArray;       //path路徑
+@property(nonatomic,strong)NSMutableArray * fileNameArray;   //檔案名稱
 
 @end
 
@@ -43,6 +44,7 @@
     
     self.AVurlArray = [[NSMutableArray alloc] init];
     self.pathArray = [[NSMutableArray alloc]init];
+    self.fileNameArray = [[NSMutableArray alloc]init];
     // 找出document mp4檔存在array
     for (NSString*url in paths) {
         if ([url hasSuffix:@".mp4"]) {
@@ -54,6 +56,7 @@
             NSLog(@"fuleURl:    %@",fileUrl);
             [self.pathArray addObject:mp4Path];
             [self.AVurlArray addObject:fileUrl];
+            [self.fileNameArray addObject:url];
             
             
         }
@@ -97,8 +100,8 @@
     CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(40, 10) actualTime:nil error:nil];
     UIImage * image = [UIImage imageWithCGImage:cgImage];
     
-    
-    
+    cell.imageLabel.text = [self.fileNameArray objectAtIndex:indexPath.row];
+    NSLog(@"imagelabel   %@",[self.fileNameArray objectAtIndex:indexPath.row]);
     
     cell.AVImageView.image=image;
     
@@ -117,61 +120,15 @@
     
     //準備下一頁
     DetailViewController * detailVC =[self.storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    detailVC.test = self.AVurlArray[indexPath.row];
-    detailVC.detailArray = self.AVurlArray;
-    detailVC.path = self.pathArray[indexPath.row];
-    NSLog(@"%@",detailVC.path);
-    //    [self presentViewController:detailVC animated:YES completion:nil];
+    detailVC.detailArray = self.AVurlArray;         //與detailarray串接所有影片路徑
+    detailVC.test = self.AVurlArray[indexPath.row]; //對應的URL
+    detailVC.path = self.pathArray[indexPath.row];  //對應的Path
+    detailVC.pathName = self.fileNameArray[indexPath.row];  //對應的檔名
+  
     [self.navigationController pushViewController:detailVC animated:YES];
     
     
 }
-
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 
 // reload tableview

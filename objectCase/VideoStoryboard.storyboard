@@ -130,7 +130,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="影片製作中，請勿退出程式" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="834-z5-dkJ">
                                 <rect key="frame" x="198" y="246" width="204" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -236,7 +236,8 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="選擇日期" id="VDv-eI-QP2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="dO1-lP-97r">
+                        <barButtonItem key="leftBarButtonItem" image="return" id="dO1-lP-97r">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="backBtnPressed:" destination="hgn-p7-6lr" id="bDd-CS-NQJ"/>
                             </connections>
@@ -292,4 +293,7 @@
             <point key="canvasLocation" x="410" y="360"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="return" width="22" height="22"/>
+    </resources>
 </document>

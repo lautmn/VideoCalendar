@@ -28,6 +28,9 @@
     DBSession * session = [[DBSession alloc]initWithAppKey:@"aqf7x7bmxpj6wty" appSecret:@"hue5fkfolovx394" root:kDBRootAppFolder];
     session.delegate = self;
     [DBSession setSharedSession:session];
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+  
     
     
     return YES;
@@ -57,32 +60,32 @@
         [self endBackgroundTask];
     }];
     
-    _alertDate=[[NSDate date] dateByAddingTimeInterval:60*60*24*7];
-    NSLog(@"%@",_alertDate);
+   
+   //7天未開啟app的通知
     UIApplication* app = [UIApplication sharedApplication];
     UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
-
-    UILocalNotification* notifyAlarm2 = [[UILocalNotification alloc] init];
-    notifyAlarm2.fireDate=[[NSDate date] dateByAddingTimeInterval:10];
-    notifyAlarm2.alertBody=@"請打開App,讓上傳作業繼續進行";
-    notifyAlarm2.timeZone=[NSTimeZone defaultTimeZone];
-    
-    notifyAlarm.fireDate = _alertDate;
+    notifyAlarm.fireDate = [[NSDate date] dateByAddingTimeInterval:60*60*24*7];
     notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
     notifyAlarm.repeatInterval = 0;
     notifyAlarm.soundName = UILocalNotificationDefaultSoundName;
     notifyAlarm.alertBody = [NSString stringWithFormat: @"已經有7天以上沒有開啟影音日記了！趕快來紀錄您的生活點滴吧！"];
     notifyAlarm.applicationIconBadgeNumber=1;
     [app scheduleLocalNotification:notifyAlarm];
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-      
     
-    if ([appupload boolForKey:@"appupload"] == true) {
+    //如果3分鐘上傳下載動作沒做完的通知
+    UILocalNotification* notifyAlarm2 = [[UILocalNotification alloc] init];
+    notifyAlarm2.fireDate=[[NSDate date] dateByAddingTimeInterval:180];
+    notifyAlarm2.alertBody=@"請打開App,讓上傳作業繼續進行";
+    notifyAlarm2.timeZone=[NSTimeZone defaultTimeZone];
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObject:@"call" forKey:@"unload"];
+    notifyAlarm2.userInfo = infoDic;
+    [[UIApplication sharedApplication] cancelLocalNotification:notifyAlarm2];
+    
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    if ([appupload boolForKey:@"appupload"] == true)
+    {
         [app scheduleLocalNotification:notifyAlarm2];
     }
-    
-    
-    
     
 }
 
@@ -98,22 +101,6 @@
 }
 -(void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
 {
-    
-}
-
-
-- (void)addNewSchedult:(NSDate *)date {
-    UIApplication* app = [UIApplication sharedApplication];
-    UILocalNotification* notifyAlarm = [[UILocalNotification alloc] init];
-    
-    notifyAlarm.fireDate = date;
-    notifyAlarm.timeZone = [NSTimeZone defaultTimeZone];
-    notifyAlarm.repeatInterval = 0;
-    notifyAlarm.soundName = @"";
-    notifyAlarm.alertBody = [NSString stringWithFormat: @"上傳完成"];
-    notifyAlarm.applicationIconBadgeNumber=1;
-    [app scheduleLocalNotification:notifyAlarm];
-    
     
 }
 
@@ -140,6 +127,7 @@
     
     return result;
 }
+//爭取背景執行時間
 -(void)endBackgroundTask{
     UIApplication * application = [UIApplication sharedApplication];
     [application endBackgroundTask:bgTask];
