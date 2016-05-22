@@ -14,6 +14,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "SelectImageCollectionViewController.h"
 #import "WaitForMakeVideoViewController.h"
+#import "OneDayData.h"
+#import "DaySingletonManager.h"
 
 // Frames per Photo
 #define FRAMES 60
@@ -35,6 +37,8 @@
     UIScrollView *musicSelect;
     AVAudioPlayer *musicPlayer;
     UIButton *replayBtn;
+    OneDayData *oneDayData;
+    DaySingletonManager *daySingleton;
 }
 
 
@@ -55,16 +59,18 @@
     
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     CGFloat screenWidth = screenSize.width;
+    CGFloat screenHeight = screenSize.height;
+    CGFloat screenLeftHeight = screenHeight-screenWidth-60;
+    
+    NSLog(@"HEIGHT : %f",screenHeight);
     
     videoPreview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenWidth)];
+//    videoPreview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, screenWidth, screenHeight-65)];
     videoPreview.contentMode = UIViewContentModeScaleAspectFit;
     videoPreview.backgroundColor = [UIColor blackColor];
     [self.view addSubview:videoPreview];
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    
-    
     
     // Resize all photo to 640*640, and add into imageArr
     
@@ -72,9 +78,10 @@
     dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //派工到背景執行緒上
     dispatch_async(aQueue, ^{
-        for (NSURL *url in _imageArray) {
-            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
-            UIImage *resizeImage = [self resizeFromImage:image];
+//        for (NSURL *url in _imageArray) {
+        for (NSString *url in _imageArray) {
+//            UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+            UIImage *resizeImage = [self resizeFromImage:url];
             NSData *imageData = UIImageJPEGRepresentation(resizeImage, 1);
             NSLog(@"%ld",imageData.length);
             [imageArr addObject:resizeImage];
@@ -86,7 +93,8 @@
         });
     });
 
-    UIView *musicOrEffect = [[UIView alloc] initWithFrame:CGRectMake(0, screenWidth, screenWidth, 60)];
+//    UIView *musicOrEffect = [[UIView alloc] initWithFrame:CGRectMake(0, screenWidth, screenWidth, 60)];
+    UIView *musicOrEffect = [[UIView alloc] initWithFrame:CGRectMake(0, screenWidth, screenWidth, 0.35*screenLeftHeight)];
     musicOrEffect.backgroundColor = [UIColor blackColor];
     [self.view addSubview:musicOrEffect];
     
@@ -94,117 +102,121 @@
     musicMode.backgroundColor = [UIColor blackColor];
     [musicMode addTarget:self action:@selector(musicMode) forControlEvents:UIControlEventTouchUpInside];
     [musicMode setImage:[UIImage imageNamed:@"music.png"] forState:UIControlStateNormal];
-    musicMode.frame = CGRectMake(screenWidth/2, 0, screenWidth/2, 60);
+//    musicMode.frame = CGRectMake(screenWidth/2, 0, screenWidth/2, 60);
+    musicMode.frame = CGRectMake(screenWidth/2, 0, screenWidth/2, 0.35*screenLeftHeight);
     [musicOrEffect addSubview:musicMode];
     
     UIButton *effectMode = [UIButton buttonWithType:UIButtonTypeCustom];
     effectMode.backgroundColor = [UIColor blackColor];
     [effectMode addTarget:self action:@selector(effectMode) forControlEvents:UIControlEventTouchUpInside];
     [effectMode setImage:[UIImage imageNamed:@"effect.png"] forState:UIControlStateNormal];
-    effectMode.frame = CGRectMake(0, 0, screenWidth/2, 60);
+//    effectMode.frame = CGRectMake(0, 0, screenWidth/2, 60);
+    effectMode.frame = CGRectMake(0, 0, screenWidth/2, 0.35*screenLeftHeight);
     [musicOrEffect addSubview:effectMode];
     
     replayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    replayBtn.backgroundColor = [UIColor blackColor];
     [replayBtn addTarget:self action:@selector(replayBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    [replayBtn setImage:[UIImage imageNamed:@"effect.png"] forState:UIControlStateNormal];
-    replayBtn.frame = CGRectMake(0, 0, screenWidth/2, 60);
+    [replayBtn setImage:[UIImage imageNamed:@"playorpause.png"] forState:UIControlStateNormal];
+    replayBtn.frame = CGRectMake(screenWidth*0.5-60, screenWidth*0.5-60, 120, 120);
     [self.view addSubview:replayBtn];
     replayBtn.hidden = true;
     
-    musicSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
+//    musicSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
+    musicSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,screenWidth+0.35*screenLeftHeight,screenWidth,0.65*screenLeftHeight)];
     musicSelect.backgroundColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1.0];
     musicSelect.showsVerticalScrollIndicator=YES;
     musicSelect.scrollEnabled=YES;
     musicSelect.userInteractionEnabled=YES;
     [self.view addSubview:musicSelect];
-    musicSelect.contentSize = CGSizeMake(580,120);
+    musicSelect.contentSize = CGSizeMake(580,0.65*screenLeftHeight);
     musicSelect.hidden = true;
     
-    UIButton *music1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    music1.backgroundColor = [UIColor redColor];
-    [music1 addTarget:self action:@selector(music1) forControlEvents:UIControlEventTouchUpInside];
-    [music1 setTitle:@"Music1" forState:UIControlStateNormal];
-    music1.frame = CGRectMake(5.0, 5.0, 110.0, 110.0);
+    //======================================================================
+    
+    UIButton *music1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [music1 addTarget:self  action:@selector(music1) forControlEvents:UIControlEventTouchUpInside];
+    [music1 setImage:[UIImage imageNamed:@"happy.png"] forState:UIControlStateNormal];
+    music1.frame = CGRectMake(5.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music1];
     
-    UIButton *music2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    music2.backgroundColor = [UIColor blueColor];
-    [music2 addTarget:self action:@selector(music2) forControlEvents:UIControlEventTouchUpInside];
-    [music2 setTitle:@"Music2" forState:UIControlStateNormal];
-    music2.frame = CGRectMake(120.0, 5.0, 110.0, 110.0);
+    UIButton *music2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [music2 addTarget:self  action:@selector(music2) forControlEvents:UIControlEventTouchUpInside];
+    [music2 setImage:[UIImage imageNamed:@"light.png"] forState:UIControlStateNormal];
+    music2.frame = CGRectMake(120.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music2];
     
-    UIButton *music3 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    music3.backgroundColor = [UIColor blueColor];
-    [music3 addTarget:self action:@selector(music3) forControlEvents:UIControlEventTouchUpInside];
-    [music3 setTitle:@"Music3" forState:UIControlStateNormal];
-    music3.frame = CGRectMake(235.0, 5.0, 110.0, 110.0);
+    UIButton *music3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [music3 addTarget:self  action:@selector(music3) forControlEvents:UIControlEventTouchUpInside];
+    [music3 setImage:[UIImage imageNamed:@"rural.png"] forState:UIControlStateNormal];
+    music3.frame = CGRectMake(235.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music3];
     
-    UIButton *music4 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    music4.backgroundColor = [UIColor blueColor];
-    [music4 addTarget:self action:@selector(music4) forControlEvents:UIControlEventTouchUpInside];
-    [music4 setTitle:@"Music4" forState:UIControlStateNormal];
-    music4.frame = CGRectMake(350.0, 5.0, 110.0, 110.0);
+    UIButton *music4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [music4 addTarget:self  action:@selector(music4) forControlEvents:UIControlEventTouchUpInside];
+    [music4 setImage:[UIImage imageNamed:@"lazy.png"] forState:UIControlStateNormal];
+    music4.frame = CGRectMake(350.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music4];
     
-    UIButton *music5 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    music5.backgroundColor = [UIColor blueColor];
-    [music5 addTarget:self action:@selector(music5) forControlEvents:UIControlEventTouchUpInside];
-    [music5 setTitle:@"Music5" forState:UIControlStateNormal];
-    music5.frame = CGRectMake(465.0, 5.0, 110.0, 110.0);
+    UIButton *music5 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [music5 addTarget:self  action:@selector(music5) forControlEvents:UIControlEventTouchUpInside];
+    [music5 setImage:[UIImage imageNamed:@"romantic.png"] forState:UIControlStateNormal];
+    music5.frame = CGRectMake(465.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music5];
     
-    effectSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
+    
+    
+    
+    
+//    effectSelect=[[UIScrollView alloc]initWithFrame:CGRectMake(0,60+screenWidth,screenWidth,120)];
+    effectSelect = [[UIScrollView alloc]initWithFrame:CGRectMake(0,screenWidth+0.35*screenLeftHeight,screenWidth,0.65*screenLeftHeight)];
     effectSelect.backgroundColor = [UIColor colorWithRed:74.0/255 green:74.0/255 blue:74.0/255 alpha:1.0];
     effectSelect.showsVerticalScrollIndicator=YES;
     effectSelect.scrollEnabled=YES;
     effectSelect.userInteractionEnabled=YES;
     [self.view addSubview:effectSelect];
-    effectSelect.contentSize = CGSizeMake(695,120);
+    effectSelect.contentSize = CGSizeMake(810,120);
     
-    UIButton *effect1 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect1.backgroundColor = [UIColor blueColor];
+    UIButton *effect1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect1 addTarget:self  action:@selector(effect1) forControlEvents:UIControlEventTouchUpInside];
-    [effect1 setTitle:@"Effect1" forState:UIControlStateNormal];
-    effect1.frame = CGRectMake(5.0, 5.0, 110.0, 110.0);
+    [effect1 setImage:[UIImage imageNamed:@"original.png"] forState:UIControlStateNormal];
+    effect1.frame = CGRectMake(5.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect1];
     
-    UIButton *effect2 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect2.backgroundColor = [UIColor yellowColor];
+    UIButton *effect2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect2 addTarget:self  action:@selector(effect2) forControlEvents:UIControlEventTouchUpInside];
-    [effect2 setTitle:@"Effect2" forState:UIControlStateNormal];
-    effect2.frame = CGRectMake(120.0, 5.0, 110.0, 110.0);
+    [effect2 setImage:[UIImage imageNamed:@"instant.png"] forState:UIControlStateNormal];
+    effect2.frame = CGRectMake(120.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect2];
     
-    UIButton *effect3 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect3.backgroundColor = [UIColor greenColor];
+    UIButton *effect3 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect3 addTarget:self  action:@selector(effect3) forControlEvents:UIControlEventTouchUpInside];
-    [effect3 setTitle:@"Effect3" forState:UIControlStateNormal];
-    effect3.frame = CGRectMake(235.0, 5.0, 110.0, 110.0);
+    [effect3 setImage:[UIImage imageNamed:@"process.png"] forState:UIControlStateNormal];
+    effect3.frame = CGRectMake(235.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect3];
     
-    UIButton *effect4 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect4.backgroundColor = [UIColor greenColor];
+    UIButton *effect4 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect4 addTarget:self  action:@selector(effect4) forControlEvents:UIControlEventTouchUpInside];
-    [effect4 setTitle:@"Effect4" forState:UIControlStateNormal];
-    effect4.frame = CGRectMake(350.0, 5.0, 110.0, 110.0);
+    [effect4 setImage:[UIImage imageNamed:@"linear.png"] forState:UIControlStateNormal];
+    effect4.frame = CGRectMake(350.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect4];
     
-    UIButton *effect5 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect5.backgroundColor = [UIColor greenColor];
+    UIButton *effect5 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect5 addTarget:self  action:@selector(effect5) forControlEvents:UIControlEventTouchUpInside];
-    [effect5 setTitle:@"Effect5" forState:UIControlStateNormal];
-    effect5.frame = CGRectMake(465.0, 5.0, 110.0, 110.0);
+    [effect5 setImage:[UIImage imageNamed:@"chrome.png"] forState:UIControlStateNormal];
+    effect5.frame = CGRectMake(465.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect5];
     
-    UIButton *effect6 = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    effect6.backgroundColor = [UIColor greenColor];
+    UIButton *effect6 = [UIButton buttonWithType:UIButtonTypeCustom];
     [effect6 addTarget:self  action:@selector(effect6) forControlEvents:UIControlEventTouchUpInside];
-    [effect6 setTitle:@"Effect6" forState:UIControlStateNormal];
-    effect6.frame = CGRectMake(580.0, 5.0, 110.0, 110.0);
+    [effect6 setImage:[UIImage imageNamed:@"fade.png"] forState:UIControlStateNormal];
+    effect6.frame = CGRectMake(580.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [effectSelect addSubview:effect6];
+    
+    UIButton *effect7 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [effect7 addTarget:self  action:@selector(effect7) forControlEvents:UIControlEventTouchUpInside];
+    [effect7 setImage:[UIImage imageNamed:@"transfer.png"] forState:UIControlStateNormal];
+    effect7.frame = CGRectMake(695.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
+    [effectSelect addSubview:effect7];
 
 }
 
@@ -227,8 +239,9 @@
     previewTimer = nil;
 }
 
-- (UIImage *)resizeFromImage:(UIImage *)sourceImage {
-    
+- (UIImage *)resizeFromImage:(NSString *)url {
+
+    UIImage *sourceImage = [UIImage imageWithContentsOfFile:url];
     // Check sourceImage's size
     CGFloat maxValue = 640.0;
     CGSize originalSize = sourceImage.size;
@@ -272,10 +285,63 @@
     UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
-    scaledImage = [self setBlackBackground:scaledImage];
-    
+    scaledImage = [self setBlackBackground:scaledImage withCount:photoCount];
     return scaledImage;
 }
+
+- (UIImage *)setBlackBackground:(UIImage *)sourceImage withCount:(int)fileCount{
+    NSString *filePath = _imageArray[fileCount];
+//    NSLog(@"%@",fileName);
+    //    UIImage *sourceImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+    NSString *fileName = [filePath componentsSeparatedByString:@"/"].lastObject;
+    //    NSString *fileNameWithoutExtension = [fileName componentsSeparatedByString:@"."].firstObject;
+    NSString *year = [fileName substringWithRange:NSMakeRange(0, 4)];
+    NSString *month = [fileName substringWithRange:NSMakeRange(4, 2)];
+    NSString *date = [fileName substringWithRange:NSMakeRange(6, 2)];
+    
+    NSString *fileNameWithDash = [NSString stringWithFormat:@"%@-%@-%@",year,month,date];
+//    NSLog(@"%@",fileNameWithDash);
+    
+    NSString *imageTitle = [self showDayData:fileNameWithDash];
+    
+    NSInteger lineCount = [imageTitle componentsSeparatedByString:@"\n"].count;
+    NSData *labelData = [imageTitle dataUsingEncoding:NSUTF8StringEncoding];
+    
+    UILabel *imageTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 640, 64)];
+    [imageTitleLabel setNumberOfLines:0];
+    imageTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    imageTitleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    imageTitleLabel.text = imageTitle;
+    imageTitleLabel.textColor = [UIColor whiteColor];
+
+    
+    if ((long)lineCount>1 || labelData.length >50) {
+        imageTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:24.0];
+    } else {
+        imageTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:32.0];
+    }
+    
+    UIImage *background = [UIImage imageNamed:@"blackBackground.jpg"];
+    CGSize backgroundSize = CGSizeMake(640, 640);
+    UIGraphicsBeginImageContext(backgroundSize);
+    [background drawInRect:CGRectMake(0, 0, 640, 640)];
+    [sourceImage drawInRect:CGRectMake(320-sourceImage.size.width/2, 0, sourceImage.size.width, sourceImage.size.height)];
+    [background drawInRect:CGRectMake(0, 576, 640, 64)];
+    [imageTitleLabel drawTextInRect:CGRectMake(0, 576, 640, 64)];
+    
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultImage;
+}
+
+
+
+
+
+
+
+
 
 
 - (void)showVideoPreView {
@@ -283,15 +349,16 @@
     if (photoCount < imageArr.count) {
         if (photoFrame<FRAMES) {
             float frameToFloat = [[NSNumber numberWithInt: photoFrame] floatValue];
+            float scaleRate = 1.2+0.1*(frameToFloat/FRAMES);
             switch (effectType) {
                 case 1:
                 {
-                    videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    videoPreview.image = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     break;
                 }
                 case 2:
                 {
-                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
                     CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectInstant" keysAndValues:kCIInputImageKey, ciImage, nil];
                     [filter setDefaults];
@@ -304,7 +371,7 @@
                 }
                 case 3:
                 {
-                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
                     CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectProcess" keysAndValues:kCIInputImageKey, ciImage, nil];
                     [filter setDefaults];
@@ -317,7 +384,7 @@
                 }
                 case 4:
                 {
-                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
                     CIFilter *filter = [CIFilter filterWithName:@"CISRGBToneCurveToLinear" keysAndValues:kCIInputImageKey, ciImage, nil];
                     [filter setDefaults];
@@ -330,7 +397,7 @@
                 }
                 case 5:
                 {
-                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
                     CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectChrome" keysAndValues:kCIInputImageKey, ciImage, nil];
                     [filter setDefaults];
@@ -343,7 +410,7 @@
                 }
                 case 6:
                 {
-                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:1.0+0.1*(frameToFloat/FRAMES)];
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
                     CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
                     CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectFade" keysAndValues:kCIInputImageKey, ciImage, nil];
                     [filter setDefaults];
@@ -354,6 +421,21 @@
                     CGImageRelease(cgImage);
                     break;
                 }
+                    
+                case 7:
+                {
+                    UIImage *animationImage = [self scaleImage:imageArr[photoCount] toScale:scaleRate];
+                    CIImage *ciImage = [[CIImage alloc] initWithImage:animationImage];
+                    CIFilter *filter = [CIFilter filterWithName:@"CIPhotoEffectTransfer" keysAndValues:kCIInputImageKey, ciImage, nil];
+                    [filter setDefaults];
+                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *outputImage = [filter outputImage];
+                    CGImageRef cgImage = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    videoPreview.image = [UIImage imageWithCGImage:cgImage];
+                    CGImageRelease(cgImage);
+                    break;
+                }
+                    
                 default:
                     break;
             }
@@ -396,6 +478,7 @@
     vc.effectType = [NSNumber numberWithInt:effectType];
     vc.musicType = [NSNumber numberWithInt:musicType];
     vc.imageArr = imageArr;
+    vc.imagePathArr = _imageArray;
 //    vc.imageArr = _imageArray;
     [self showViewController:vc sender:nil];
 }
@@ -478,6 +561,18 @@
     }
 }
 
+- (void)effect7 {
+    effectType = 7;
+    photoCount = 0;
+    photoFrame = 0;
+    [musicPlayer pause];
+    musicPlayer.currentTime = 0.0;
+    [musicPlayer play];
+    replayBtn.hidden = true;
+    if (!previewTimer.valid) {
+        previewTimer = [NSTimer scheduledTimerWithTimeInterval:SEC_PER_PHOTO/FRAMES target:self selector:@selector(showVideoPreView) userInfo:nil repeats:true];
+    }
+}
 
 
 
@@ -576,6 +671,52 @@
     [musicPlayer play];
     replayBtn.hidden = true;
 }
+
+
+
+
+-(NSString *) showDayData:(NSString *)dateWithDash {
+    
+    //    load day data plist
+    
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *plistPath = [docPath stringByAppendingPathComponent:@"dayData.plist"];
+    
+    NSMutableDictionary *allDayDatas = [NSKeyedUnarchiver unarchiveObjectWithFile:plistPath];
+    
+    
+    
+    
+    //    oneDayData = daySingleton.allDayDatas[_smallDateLable.text];
+    
+    //    將plist讀取出來的資料，給當天這個物件
+    oneDayData = allDayDatas[dateWithDash];
+    
+    //    第一次使用app，plist的allDayDatas是nil，如果不打if這行，會造成singleton nil
+    if (allDayDatas != nil) {
+        daySingleton.allDayDatas = allDayDatas;
+    }
+    
+    //沒資料的話隱藏標籤，否則顯示出來
+    if (oneDayData == nil) {
+        
+        return nil;
+    }
+    
+    
+    //    標籤內容自動換行
+    
+    NSString *imageTitle = oneDayData.imgTitle;
+    
+    //    doc資料夾位置會變，所以不能用存在plist裡的URL
+    //    _imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:oneDayData.imageURL]];
+    //    NSLog(@"imageURL: %@",oneDayData.imageURL);
+    
+    
+    return imageTitle;
+ 
+}
+
 
 @end
 

@@ -11,6 +11,7 @@
 @interface WaitForMakeVideoViewController : UIViewController
 
 @property (nonatomic,strong) NSMutableArray * imageArr;
+@property (nonatomic,strong) NSMutableArray * imagePathArr;
 @property (nonatomic,strong) NSNumber * effectType;
 @property (nonatomic,strong) NSNumber * musicType;
 
