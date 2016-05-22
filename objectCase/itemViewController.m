@@ -30,7 +30,6 @@
     
       count = 0;    //記錄total檔案的計步器
     
-     [[DBSession sharedSession] unlinkAll];   //清除所有登入資料
 }
 
 //寄信給我們

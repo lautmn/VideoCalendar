@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "DayDetailViewController.h"
 #import "DaySingletonManager.h"
-
+#import <DropboxSDK/DropboxSDK.h>
 @interface ViewController ()
 {
     DaySingletonManager *daySingleton;
@@ -26,7 +26,7 @@
     
     daySingleton = [DaySingletonManager sharedData];
     [self getDataPlist];
-    
+    [[DBSession sharedSession] unlinkAll];   //清除所有登入資料
 }
 
 - (void)didReceiveMemoryWarning {
@@ -74,7 +74,13 @@
     }
 
 }
-
+-(DBRestClient *)restClient{
+    if(!restClient){
+        restClient = [[DBRestClient alloc]initWithSession:[DBSession sharedSession]];
+        restClient.delegate = self;
+    }
+    return restClient;
+}
 
 
 
