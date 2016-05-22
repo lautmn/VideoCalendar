@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -53,9 +53,9 @@
                                     <constraint firstAttribute="height" constant="50" id="0JX-2s-77K"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cy-7T-fhG">
-                                <rect key="frame" x="20" y="30" width="38" height="30"/>
-                                <state key="normal" title=" Back">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8cy-7T-fhG">
+                                <rect key="frame" x="20" y="28" width="22" height="22"/>
+                                <state key="normal" image="return">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -190,7 +190,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="U8I-py-6C3" secondAttribute="bottom" constant="20" id="t4A-su-14j"/>
                             <constraint firstItem="saf-GT-ACg" firstAttribute="top" secondItem="HoY-YU-3jU" secondAttribute="bottom" constant="15" id="th7-N1-oB1"/>
                             <constraint firstItem="HoY-YU-3jU" firstAttribute="top" secondItem="rSs-pu-GEi" secondAttribute="bottom" constant="10" id="uin-TZ-1m6"/>
-                            <constraint firstItem="hbS-xC-Dkb" firstAttribute="top" secondItem="8cy-7T-fhG" secondAttribute="bottom" constant="10" id="v9o-5M-oyA"/>
+                            <constraint firstItem="hbS-xC-Dkb" firstAttribute="top" secondItem="8cy-7T-fhG" secondAttribute="bottom" constant="20" id="v9o-5M-oyA"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="kWl-ZT-IgJ" secondAttribute="bottom" constant="20" id="vT4-hb-H3v"/>
                             <constraint firstItem="8cy-7T-fhG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="vTk-kZ-S6L"/>
                             <constraint firstItem="kWl-ZT-IgJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="xeZ-zf-wQl"/>
@@ -276,9 +276,9 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJi-kn-ibp">
-                                <rect key="frame" x="20" y="30" width="48" height="30"/>
-                                <state key="normal" title="&lt; Back">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yJi-kn-ibp">
+                                <rect key="frame" x="20" y="28" width="22" height="22"/>
+                                <state key="normal" image="return">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -396,7 +396,7 @@
                             <constraint firstItem="yJi-kn-ibp" firstAttribute="leading" secondItem="6F5-6e-Cv0" secondAttribute="leadingMargin" id="W86-Kf-te5"/>
                             <constraint firstItem="eNN-XL-Zzl" firstAttribute="top" secondItem="6F5-6e-Cv0" secondAttribute="topMargin" constant="104" id="WaQ-np-sE3"/>
                             <constraint firstItem="2IO-MP-0Gg" firstAttribute="leading" secondItem="33h-E8-4R3" secondAttribute="trailing" constant="8" id="XBx-U4-3Ki"/>
-                            <constraint firstItem="aTr-IR-wcN" firstAttribute="top" secondItem="yJi-kn-ibp" secondAttribute="bottom" constant="10" id="XCC-BC-yE5"/>
+                            <constraint firstItem="aTr-IR-wcN" firstAttribute="top" secondItem="yJi-kn-ibp" secondAttribute="bottom" constant="20" id="XCC-BC-yE5"/>
                             <constraint firstItem="azD-Cl-ISL" firstAttribute="width" secondItem="eNN-XL-Zzl" secondAttribute="width" id="Y5B-G6-jlK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="zua-pP-Yd4" secondAttribute="trailing" constant="20" id="apz-mH-0Uk"/>
                             <constraint firstItem="9Pe-fM-NJT" firstAttribute="centerX" secondItem="QF2-hl-VkD" secondAttribute="centerX" id="c96-He-cUO"/>
@@ -461,6 +461,7 @@
         <image name="imgtitle4.png" width="221" height="154"/>
         <image name="insert3.png" width="170" height="170"/>
         <image name="photo.png" width="512" height="512"/>
+        <image name="return" width="22" height="22"/>
         <image name="say.png" width="183" height="48"/>
     </resources>
 </document>

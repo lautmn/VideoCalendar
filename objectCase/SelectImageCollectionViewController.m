@@ -49,8 +49,10 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
             NSString *fileName = [url componentsSeparatedByString:@"."].firstObject;
             int fileNameInt = [fileName intValue];
             if (fileNameInt >= startDateInt && fileNameInt <= endDateInt) {
-                NSURL *fullURL = [documentsURL URLByAppendingPathComponent:url];
-                [_imageURLArray addObject:fullURL];
+                NSString *fullPath = [NSString stringWithFormat:@"%@/%@",path,url];
+//                NSURL *fullURL = [documentsURL URLByAppendingPathComponent:url];
+//                [_imageURLArray addObject:fullURL];
+                [_imageURLArray addObject:fullPath];
                 [_imageSelected addObject:@(true)];
             }
         }
@@ -108,7 +110,8 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SelectImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:_imageURLArray[indexPath.row]]];
+//    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:_imageURLArray[indexPath.row]]];
+    UIImage *image = [UIImage imageWithContentsOfFile:_imageURLArray[indexPath.row]];
     
     cell.photoImageView.image = [self resizeFromImage:image];
     
