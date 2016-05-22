@@ -115,10 +115,9 @@
     [musicOrEffect addSubview:effectMode];
     
     replayBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    replayBtn.backgroundColor = [UIColor blackColor];
     [replayBtn addTarget:self action:@selector(replayBtnPressed) forControlEvents:UIControlEventTouchUpInside];
-    [replayBtn setImage:[UIImage imageNamed:@"effect.png"] forState:UIControlStateNormal];
-    replayBtn.frame = CGRectMake(0, 0, screenWidth/2, 60);
+    [replayBtn setImage:[UIImage imageNamed:@"playorpause.png"] forState:UIControlStateNormal];
+    replayBtn.frame = CGRectMake(screenWidth*0.5-60, screenWidth*0.5-60, 120, 120);
     [self.view addSubview:replayBtn];
     replayBtn.hidden = true;
     
@@ -136,31 +135,31 @@
     
     UIButton *music1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [music1 addTarget:self  action:@selector(music1) forControlEvents:UIControlEventTouchUpInside];
-    [music1 setImage:[UIImage imageNamed:@"original.png"] forState:UIControlStateNormal];
+    [music1 setImage:[UIImage imageNamed:@"happy.png"] forState:UIControlStateNormal];
     music1.frame = CGRectMake(5.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music1];
     
     UIButton *music2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [music2 addTarget:self  action:@selector(music2) forControlEvents:UIControlEventTouchUpInside];
-    [music2 setImage:[UIImage imageNamed:@"instant.png"] forState:UIControlStateNormal];
+    [music2 setImage:[UIImage imageNamed:@"light.png"] forState:UIControlStateNormal];
     music2.frame = CGRectMake(120.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music2];
     
     UIButton *music3 = [UIButton buttonWithType:UIButtonTypeCustom];
     [music3 addTarget:self  action:@selector(music3) forControlEvents:UIControlEventTouchUpInside];
-    [music3 setImage:[UIImage imageNamed:@"process.png"] forState:UIControlStateNormal];
+    [music3 setImage:[UIImage imageNamed:@"rural.png"] forState:UIControlStateNormal];
     music3.frame = CGRectMake(235.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music3];
     
     UIButton *music4 = [UIButton buttonWithType:UIButtonTypeCustom];
     [music4 addTarget:self  action:@selector(music4) forControlEvents:UIControlEventTouchUpInside];
-    [music4 setImage:[UIImage imageNamed:@"linear.png"] forState:UIControlStateNormal];
+    [music4 setImage:[UIImage imageNamed:@"lazy.png"] forState:UIControlStateNormal];
     music4.frame = CGRectMake(350.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music4];
     
     UIButton *music5 = [UIButton buttonWithType:UIButtonTypeCustom];
     [music5 addTarget:self  action:@selector(music5) forControlEvents:UIControlEventTouchUpInside];
-    [music5 setImage:[UIImage imageNamed:@"chrome.png"] forState:UIControlStateNormal];
+    [music5 setImage:[UIImage imageNamed:@"romantic.png"] forState:UIControlStateNormal];
     music5.frame = CGRectMake(465.0, 5.0, 110.0, 0.65*screenLeftHeight-15);
     [musicSelect addSubview:music5];
     
