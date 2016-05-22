@@ -91,7 +91,7 @@
     AVtableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     
-    NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:indexPath.row]];
+    NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)]];
     AVURLAsset * asset = [AVURLAsset URLAssetWithURL:url options:nil];
     AVAssetImageGenerator * generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
     generator.appliesPreferredTrackTransform = true;
@@ -100,7 +100,7 @@
     CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(40, 10) actualTime:nil error:nil];
     UIImage * image = [UIImage imageWithCGImage:cgImage];
     //拆成xxxx年xx月xx日
-    NSString * string = [self.fileNameArray objectAtIndex:indexPath.row];
+    NSString * string = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];
     NSString * year = [[string substringToIndex:4]stringByAppendingString:@"年"];
     NSRange monthRange = NSMakeRange(4, 2);
     NSString * month = [[string substringWithRange:monthRange]stringByAppendingString:@"月"];;
@@ -127,10 +127,10 @@
     
     //準備下一頁
     DetailViewController * detailVC =[self.storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    detailVC.detailArray = self.AVurlArray;         //與detailarray串接所有影片路徑
-    detailVC.test = self.AVurlArray[indexPath.row]; //對應的URL
-    detailVC.path = self.pathArray[indexPath.row];  //對應的Path
-    detailVC.pathName = self.fileNameArray[indexPath.row];  //對應的檔名
+    detailVC.detailArray = [[[self.AVurlArray reverseObjectEnumerator]allObjects]mutableCopy ];         //與detailarray串接所有影片路徑
+    detailVC.test = [self.AVurlArray objectAtIndex:(self.AVurlArray.count-indexPath.row-1)];; //對應的URL
+    detailVC.path = [self.pathArray objectAtIndex:(self.pathArray.count-indexPath.row-1)];;  //對應的Path
+    detailVC.pathName = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];;  //對應的檔名
   
     [self.navigationController pushViewController:detailVC animated:YES];
     
