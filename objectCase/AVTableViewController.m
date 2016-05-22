@@ -52,8 +52,6 @@
             NSString * dirStr = [path stringByAppendingString:@"/"];
             NSString * mp4Path = [dirStr stringByAppendingString:url];
             NSString * fileUrl = [@"file://" stringByAppendingString:mp4Path];
-            NSLog(@"mp4path :    %@",mp4Path);
-            NSLog(@"fuleURl:    %@",fileUrl);
             [self.pathArray addObject:mp4Path];
             [self.AVurlArray addObject:fileUrl];
             [self.fileNameArray addObject:url];
@@ -61,6 +59,8 @@
             
         }
         NSLog(@"avurl %@", self.AVurlArray);
+        NSLog(@"filenamearray  %@", self.fileNameArray);
+        NSLog(@"patjarray %@",self.pathArray);
     }
     
     return 0;
@@ -128,6 +128,8 @@
     //準備下一頁
     DetailViewController * detailVC =[self.storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
     detailVC.detailArray = [[[self.AVurlArray reverseObjectEnumerator]allObjects]mutableCopy ];         //與detailarray串接所有影片路徑
+    detailVC.fileNameArray = [[[self.fileNameArray reverseObjectEnumerator]allObjects]mutableCopy ];  //串接的檔名
+       detailVC.pathArray = [[[self.pathArray reverseObjectEnumerator]allObjects]mutableCopy ];  //串接的path
     detailVC.test = [self.AVurlArray objectAtIndex:(self.AVurlArray.count-indexPath.row-1)];; //對應的URL
     detailVC.path = [self.pathArray objectAtIndex:(self.pathArray.count-indexPath.row-1)];;  //對應的Path
     detailVC.pathName = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];;  //對應的檔名

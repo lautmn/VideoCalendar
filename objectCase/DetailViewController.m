@@ -228,6 +228,8 @@
         }
         //刪除陣列中路徑
         [self.detailArray removeObject:self.test];
+        [self.pathArray removeObject:self.path];
+        [self.fileNameArray removeObject:self.pathName];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSURL * url = [NSURL URLWithString:self.test];
         [fileManager removeItemAtURL:url error:nil];
@@ -305,11 +307,11 @@
     NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
     [appupload setBool:true forKey:@"appupload"];
     
-    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
+   
 
     NSString *targetPath=@"/";
     
-    [[self restClient] uploadFile:fileName
+    [[self restClient] uploadFile:self.pathName
                            toPath:targetPath
                     withParentRev:nil
                          fromPath:self.path];

@@ -15,9 +15,11 @@
 }
 @property (weak, nonatomic) IBOutlet UIImageView *AVMovieImage;
 @property (weak, nonatomic) IBOutlet UIButton *backUpBtnpressed;
-@property(nonatomic,strong)NSString * test;
-@property(nonatomic,strong)NSMutableArray * detailArray;
-@property(nonatomic,strong)NSString * path;
-@property(nonatomic,strong)NSString * pathName;
+@property(nonatomic,strong)NSMutableArray * detailArray;   //串接用URLarray
+@property(nonatomic,strong)NSMutableArray * fileNameArray; //串接用檔名array
+@property(nonatomic,strong)NSMutableArray * pathArray;     //串接用path array
+@property(nonatomic,strong)NSString * test;    //URL
+@property(nonatomic,strong)NSString * path;    //path路徑
+@property(nonatomic,strong)NSString * pathName;  //檔名
 -(DBRestClient *)restClient;
 @end
