@@ -234,7 +234,7 @@
                                     <action selector="uploadButton:" destination="QYh-Zy-wMv" eventType="touchUpInside" id="gXp-Ua-i3E"/>
                                 </connections>
                             </button>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YeI-ge-paS">
+                            <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YeI-ge-paS">
                                 <rect key="frame" x="0.0" y="20" width="600" height="360"/>
                                 <color key="backgroundColor" red="0.021392342929999999" green="0.01901137722" blue="0.0213504196" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
@@ -314,10 +314,10 @@
                                 <rect key="frame" x="-14" y="-11" width="630" height="557"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvw-Rs-IR4">
-                                <rect key="frame" x="235" y="20" width="130" height="130"/>
+                                <rect key="frame" x="235" y="17" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="HUa-jA-nLj"/>
-                                    <constraint firstAttribute="width" constant="130" id="sD2-WE-RWn"/>
+                                    <constraint firstAttribute="width" constant="130" id="BuC-6D-y4m"/>
+                                    <constraint firstAttribute="height" constant="130" id="ldl-vh-fWe"/>
                                 </constraints>
                                 <state key="normal" image="backupallvideo.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -327,10 +327,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diq-C5-oIG">
-                                <rect key="frame" x="235" y="170" width="130" height="130"/>
+                                <rect key="frame" x="235" y="203" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="czE-ce-umX"/>
-                                    <constraint firstAttribute="height" constant="130" id="qNF-ip-Ank"/>
+                                    <constraint firstAttribute="height" constant="130" id="W8T-Mp-rwE"/>
+                                    <constraint firstAttribute="width" constant="130" id="hL0-Xo-xlg"/>
                                 </constraints>
                                 <state key="normal" image="emailtome.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -340,10 +340,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
-                                <rect key="frame" x="235" y="320" width="130" height="130"/>
+                                <rect key="frame" x="235" y="389" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="xpo-dD-VaX"/>
-                                    <constraint firstAttribute="height" constant="130" id="zUQ-us-VXG"/>
+                                    <constraint firstAttribute="width" constant="130" id="Qmh-hT-hhp"/>
+                                    <constraint firstAttribute="height" constant="130" id="jjs-CR-l9P"/>
                                 </constraints>
                                 <state key="normal" image="givemegrade.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -352,16 +352,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="pt2-pI-6jG" firstAttribute="top" secondItem="diq-C5-oIG" secondAttribute="bottom" constant="20" id="2b0-wN-gPw"/>
-                            <constraint firstItem="pt2-pI-6jG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="Clg-gb-Ptp"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="top" secondItem="kvw-Rs-IR4" secondAttribute="bottom" constant="20" id="Gjp-Od-pvp"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="17" id="9bq-vm-Ufk"/>
+                            <constraint firstItem="xSZ-J0-ai5" firstAttribute="top" secondItem="pt2-pI-6jG" secondAttribute="bottom" constant="17" id="FmG-Nm-N4X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pOW-aU-FJi" secondAttribute="trailing" constant="-36" id="ItX-Rw-Aq4"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="Mt7-dT-aXX"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="OQv-Xx-3XK"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="leading" secondItem="ixq-D0-q5X" secondAttribute="leadingMargin" constant="-34" id="OWx-cw-x7g"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="top" secondItem="ixq-D0-q5X" secondAttribute="topMargin" constant="-11" id="PgH-gV-Z29"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="WG2-Ft-7En"/>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="YI0-yb-nU3"/>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="20" id="xOF-wH-0hq"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="SIN-SM-fBc"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="kgS-PY-J4g"/>
+                            <constraint firstItem="pt2-pI-6jG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="rJR-qA-k3l"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="設定" id="SlF-SU-N3p">

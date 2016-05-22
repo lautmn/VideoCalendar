@@ -99,10 +99,17 @@
     
     CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(40, 10) actualTime:nil error:nil];
     UIImage * image = [UIImage imageWithCGImage:cgImage];
+    //拆成xxxx年xx月xx日
+    NSString * string = [self.fileNameArray objectAtIndex:indexPath.row];
+    NSString * year = [[string substringToIndex:4]stringByAppendingString:@"年"];
+    NSRange monthRange = NSMakeRange(4, 2);
+    NSString * month = [[string substringWithRange:monthRange]stringByAppendingString:@"月"];;
+    NSRange dayRange = NSMakeRange(6, 2);
+    NSString * day = [[string substringWithRange:dayRange]stringByAppendingString:@"日"];;
+    NSString * filename = [[year stringByAppendingString:month] stringByAppendingString:day];
     
-    cell.imageLabel.text = [self.fileNameArray objectAtIndex:indexPath.row];
-    NSLog(@"imagelabel   %@",[self.fileNameArray objectAtIndex:indexPath.row]);
-    
+    cell.imageLabel.text = filename;
+
     cell.AVImageView.image=image;
     
     

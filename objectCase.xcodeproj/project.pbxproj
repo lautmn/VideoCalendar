@@ -282,15 +282,7 @@
 		3C04F1601CE21603006374A1 /* ObjectCase */ = {
 			isa = PBXGroup;
 			children = (
-				EB92E4981CECF4EA0025CE90 /* AVdelete.png */,
-				EB92E4991CECF4EB0025CE90 /* backupallvideo.png */,
-				EB92E49A1CECF4EB0025CE90 /* emailtome.png */,
-				EB92E49C1CECF4EB0025CE90 /* pause.png */,
-				EB92E49E1CECF4EB0025CE90 /* savetophone.png */,
-				EBB9918C1CEFA74D00B5CDFA /* playorpause.png */,
-				EB92E4AA1CED5CA40025CE90 /* uncolorslider.png */,
-				EB92E4A01CECF4EB0025CE90 /* upload.png */,
-				EBB9918E1CEFA87600B5CDFA /* givemegrade.png */,
+				EB18600D1CF1B10500A38AD1 /* image */,
 				EB7D51981CB39985003B3BBB /* AppDelegate.h */,
 				EB7D51991CB39985003B3BBB /* AppDelegate.m */,
 				EB7D519B1CB39985003B3BBB /* ViewController.h */,
@@ -362,6 +354,22 @@
 				1D98124CA5EAFD37421EFB5C /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		EB18600D1CF1B10500A38AD1 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				EB92E4981CECF4EA0025CE90 /* AVdelete.png */,
+				EB92E4991CECF4EB0025CE90 /* backupallvideo.png */,
+				EB92E49A1CECF4EB0025CE90 /* emailtome.png */,
+				EB92E49C1CECF4EB0025CE90 /* pause.png */,
+				EB92E49E1CECF4EB0025CE90 /* savetophone.png */,
+				EBB9918C1CEFA74D00B5CDFA /* playorpause.png */,
+				EB92E4AA1CED5CA40025CE90 /* uncolorslider.png */,
+				EB92E4A01CECF4EB0025CE90 /* upload.png */,
+				EBB9918E1CEFA87600B5CDFA /* givemegrade.png */,
+			);
+			name = image;
 			sourceTree = "<group>";
 		};
 		EB7D51891CB39985003B3BBB = {

@@ -17,6 +17,8 @@
 @property(nonatomic,strong)UIProgressView * pv;               //上傳進度條
 @property(nonatomic,strong)UILabel * myLabel;                 //檔案的label
 @property(nonatomic,strong)NSMutableArray * pathNameArray;    //全部檔案名稱的array
+@property(nonatomic,strong)NSString * tmpFilePath;
+@property(nonatomic,strong)NSString * textpath;
 @end
 
 @implementation itemViewController
@@ -49,25 +51,70 @@
     
     [self presentViewController:composeVC animated:YES completion:nil];
 }
-//寄信如果發生錯誤
+//寄件result判斷
 - (void)mailComposeController:(MFMailComposeViewController *)controller
           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"寄件失敗,請重新操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    
-    [alertcontroller addAction:understand];
-    
-    [self presentViewController:alertcontroller animated:YES completion:nil];
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            break;
+        case MFMailComposeResultSaved:{
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"已存入草稿" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [alertcontroller addAction:understand];
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+            break;
+            
+        }
+        case MFMailComposeResultSent:{
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"感謝您的來信！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [alertcontroller addAction:understand];
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+            break;
+            
+            }
+        case MFMailComposeResultFailed:{
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"寄件失敗,請重新操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [alertcontroller addAction:understand];
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+            break;
+            
+        }
+            
+        default:
+        {
+            UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"寄件失敗,請重新操作" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+            
+            [alertcontroller addAction:understand];
+            
+            [self presentViewController:alertcontroller animated:YES completion:nil];
+        }
+            break;
+    }
+
+  
 }
-
-
 
 //獲取 path  fileName  Url 的方法
 -(NSURL *)getFileUrl{
     NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSLog(@"%@",path);
+    _textpath = path;
     NSArray * paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
     
     self.pathArray = [[NSMutableArray alloc]init];
@@ -93,18 +140,59 @@
     return restClient;
 }
 
-#pragma mark - 下載部分
-- (IBAction)downloadToDropBoxBtnPressed:(id)sender {
-    if (![[DBSession sharedSession]isLinked]) {
-        [[DBSession sharedSession]linkFromController:self];
-    }
-    [self backupDownload];
-}
--(void)backupDownload{
-    NSString * tmpFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"1.mp4"];
-    [restClient loadFile:@"1.mp4" intoPath:tmpFilePath];
-}
-
+//#pragma mark - 下載部分
+//- (IBAction)downloadToDropBoxBtnPressed:(id)sender {
+//    if (![[DBSession sharedSession]isLinked]) {
+//        [[DBSession sharedSession]linkFromController:self];
+//    }
+//    [self backupDownload];
+//}
+//-(void)backupDownload{
+//    _tmpFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"filename"];
+//    [[self restClient] loadFile:@"/filename" intoPath:_tmpFilePath];
+//   
+//}
+//-(void)tmpCopyToDocument
+//{
+//    NSString * targetFilePath = [_textpath stringByAppendingString:@"filename"];
+//    [[NSFileManager defaultManager]copyItemAtPath:_tmpFilePath toPath:targetFilePath error:nil];
+// 
+//}
+////load Success
+//-(void)restClient:(DBRestClient *)restClient loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
+//{
+//    
+//    NSLog(@"Success");
+//    [self tmpCopyToDocument];
+//}
+////load Error
+//-(void)restClient:(DBRestClient *)restClient loadFileFailedWithError:(NSError *)error
+//{
+//    NSLog(@"ERROR");
+//}
+//-(void)textloadfile{
+//    [[self restClient] load
+//}
+//-(void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+//      NSMutableArray *   allFolders = [[NSMutableArray alloc] init];
+//    if (allFolders == nil) {
+//        allFolders = [[NSMutableArray alloc] init];
+//        [allFolders addObject:@"/"];
+//    }
+//    
+//    for (DBMetadata *fileMetadata in metadata.contents) {
+//        
+//        if ([fileMetadata isDirectory]) {
+//            NSArray *filePathComponents = [fileMetadata.path pathComponents];
+//            NSString *inFolder = [filePathComponents objectAtIndex:[filePathComponents count]-2];
+//            NSLog(@"file is in folder %@",inFolder);
+//            [allFolders insertObject:fileMetadata.filename atIndex:[allFolders indexOfObject:inFolder]];
+//            if ([metadata.contents count] > 0) [[self restClient] loadMetadata:fileMetadata.path];
+//            
+//        }
+//        
+//    }
+//}
 
 #pragma mark - 上傳部分
 - (IBAction)backToDropBoxBtnPressed:(id)sender {

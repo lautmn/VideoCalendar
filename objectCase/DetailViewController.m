@@ -36,7 +36,7 @@
     //Slider圖片改成透明
     [self.AVSlider setThumbImage:[UIImage imageNamed:@"uncolorslider.png"] forState:UIControlStateNormal];
     //刪除dropbox 連結
-    [[DBSession sharedSession] unlinkAll];
+   [[DBSession sharedSession] unlinkAll];
 }
 
 -(void)dealloc{
@@ -279,6 +279,7 @@
         
     }];
     
+   
 }
 
 
