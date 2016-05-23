@@ -54,6 +54,13 @@ static NSString *kOtherCell = @"otherCell";     // the remaining cells at the en
     [bar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [bar setBarTintColor:[UIColor blackColor]];
     
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundImage.png"]];
+    [tempImageView setFrame:self.tableView.frame];
+    
+    self.tableView.backgroundView = tempImageView;
+    
+    
+
     
     
     // setup our data source
@@ -267,6 +274,9 @@ NSUInteger DeviceSystemMajorVersion()
         //
         cell.textLabel.text = [itemData valueForKey:kTitleKey];
     }
+    
+    cell.backgroundColor = [UIColor clearColor];
+    cell.opaque = NO;
     
     return cell;
 }
