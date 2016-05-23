@@ -26,6 +26,11 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
 //    NSLog(@"%@",_startDate);
 //    NSLog(@"%@",_endDate);
     
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"backgroundImage.png"]];
+    [tempImageView setFrame:self.collectionView.frame];
+    self.collectionView.backgroundView = tempImageView;
+    
+    
     NSArray *startDateArray = [_startDate componentsSeparatedByString:@"/"];
     NSArray *endDateArray = [_endDate componentsSeparatedByString:@"/"];
     
@@ -115,12 +120,16 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
     
     cell.photoImageView.image = [self resizeFromImage:image];
     
+    cell.imageBorder.image = [UIImage imageNamed:@"imageBorderBlack.png"];
+    
     if ([_imageSelected[indexPath.row]  isEqual: @(true)]) {
         cell.checkedImageView.image = [UIImage imageNamed:@"selected.png"];
     }
     else {
         cell.checkedImageView.image = nil;
     }
+    
+    cell.layer.cornerRadius = 5.0f;
     
 //    NSLog(@"%@",_imageSelected[indexPath.row]);
 
