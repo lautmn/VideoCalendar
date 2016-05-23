@@ -7,8 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DropboxSDK/DropboxSDK.h>
+@interface ViewController : UIViewController<DBRestClientDelegate>
+{
+    DBRestClient * restClient;
+}
+-(DBRestClient *)restClient;
 
-@interface ViewController : UIViewController
 
 
 @end
