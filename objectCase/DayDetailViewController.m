@@ -109,19 +109,19 @@
 
 - (IBAction)insertImgBtnPressed:(id)sender {
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Choose Image Source" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"選擇照片來源" message:nil preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *camera = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [self launchImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
     }];
     
-    UIAlertAction *library = [UIAlertAction actionWithTitle:@"Photo Library" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *library = [UIAlertAction actionWithTitle:@"從相簿選取" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         [self launchImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
     }];
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     
     [alert addAction:camera];
     [alert addAction:library];
