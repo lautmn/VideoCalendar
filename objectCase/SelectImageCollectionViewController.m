@@ -13,6 +13,7 @@
 @interface SelectImageCollectionViewController () {
     NSString *startDateSting;
     NSString *endDateSting;
+    NSMutableArray *resizeImageArray;
 }
 
 @end
@@ -63,6 +64,25 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
         }
     }
     
+    resizeImageArray = [[NSMutableArray alloc] init];
+    
+    
+    dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(aQueue, ^{
+        for (NSString *url in _imageURLArray) {
+            UIImage *resizeImage = [self resizeFromImage:[UIImage imageWithContentsOfFile:url]];
+            [resizeImageArray addObject:resizeImage];
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                [self.collectionView reloadData];
+            });
+        }
+    });
+    
+//    NSLog(@"%@",resizeImageArray[50]);
+    
+    
+    
     if (_imageURLArray.count == 0) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"錯誤" message:@"所選的時間範圍內沒有照片" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -110,15 +130,27 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return _imageURLArray.count;
+//    return resizeImageArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     SelectImageCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
-//    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:_imageURLArray[indexPath.row]]];
-    UIImage *image = [UIImage imageWithContentsOfFile:_imageURLArray[indexPath.row]];
+//    UIImage *image = [UIImage imageWithContentsOfFile:_imageURLArray[indexPath.row]];
     
-    cell.photoImageView.image = [self resizeFromImage:image];
+//    cell.photoImageView.image = [self resizeFromImage:image];
+    
+    if (resizeImageArray.count == 0) {
+        cell.photoImageView.image = [UIImage imageNamed:@"blackBackground.jpg"];
+    } else if (indexPath.row+1 > resizeImageArray.count){
+        cell.photoImageView.image = [UIImage imageNamed:@"blackBackground.jpg"];
+    } else {
+//        NSLog(@"INDEX: %i",indexPath.row);
+//        NSLog(@"COUNT: %i",resizeImageArray.count);
+        cell.photoImageView.image = resizeImageArray[indexPath.row];
+    }
+    
+//    cell.photoImageView.image = resizeImageArray[indexPath.row];
     
     cell.imageBorder.image = [UIImage imageNamed:@"imageBorderBlack.png"];
     
@@ -190,7 +222,8 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
 
 
 - (UIImage *)resizeFromImage:(UIImage *)sourceImage {
-    
+    @autoreleasepool {
+        NSLog(@"resize");
     CGFloat maxValue = 200.0;
     CGSize originalSize = sourceImage.size;
     if (originalSize.width <= maxValue && originalSize.height <= maxValue) {
@@ -212,8 +245,8 @@ static NSString * const reuseIdentifier = @"SelectImageCollectionViewCell";
     
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
     return resultImage;
+    }
 }
 
 /*
