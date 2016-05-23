@@ -12,5 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *checkedImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *imageBorder;
+
 
 @end

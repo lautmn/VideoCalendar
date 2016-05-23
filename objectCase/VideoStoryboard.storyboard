@@ -37,19 +37,27 @@
                                                 <constraint firstAttribute="height" constant="30" id="wPY-HW-aLy"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Smc-NE-MiS">
+                                            <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
+                                        </imageView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Smc-NE-MiS" secondAttribute="bottom" id="2uu-zT-f4W"/>
                                     <constraint firstAttribute="trailing" secondItem="7er-m5-1dy" secondAttribute="trailing" id="7nv-tM-Rwg"/>
                                     <constraint firstAttribute="trailing" secondItem="xsI-8F-9NR" secondAttribute="trailing" id="8cD-Ad-GMu"/>
+                                    <constraint firstAttribute="trailing" secondItem="Smc-NE-MiS" secondAttribute="trailing" id="F7b-r7-X0W"/>
+                                    <constraint firstItem="Smc-NE-MiS" firstAttribute="leading" secondItem="8a2-Ox-9IK" secondAttribute="leading" id="NT4-WX-1vC"/>
                                     <constraint firstItem="7er-m5-1dy" firstAttribute="leading" secondItem="8a2-Ox-9IK" secondAttribute="leading" id="XQr-xg-xwI"/>
                                     <constraint firstItem="7er-m5-1dy" firstAttribute="top" secondItem="8a2-Ox-9IK" secondAttribute="top" id="pSk-pg-lVS"/>
                                     <constraint firstAttribute="bottom" secondItem="7er-m5-1dy" secondAttribute="bottom" id="s4a-wZ-NX3"/>
+                                    <constraint firstItem="Smc-NE-MiS" firstAttribute="top" secondItem="8a2-Ox-9IK" secondAttribute="top" id="y9M-AT-XST"/>
                                     <constraint firstItem="xsI-8F-9NR" firstAttribute="top" secondItem="8a2-Ox-9IK" secondAttribute="top" id="zUO-Xz-W5J"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkedImageView" destination="xsI-8F-9NR" id="rfk-yF-N4A"/>
+                                    <outlet property="imageBorder" destination="Smc-NE-MiS" id="iN2-x8-Oje"/>
                                     <outlet property="photoImageView" destination="7er-m5-1dy" id="KHd-rb-h7g"/>
                                 </connections>
                             </collectionViewCell>
