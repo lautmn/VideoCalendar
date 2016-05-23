@@ -97,7 +97,7 @@
     generator.appliesPreferredTrackTransform = true;
     
     
-    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(40, 10) actualTime:nil error:nil];
+    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(1, 1) actualTime:nil error:nil];
     UIImage * image = [UIImage imageWithCGImage:cgImage];
     //拆成xxxx年xx月xx日
     NSString * string = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];
