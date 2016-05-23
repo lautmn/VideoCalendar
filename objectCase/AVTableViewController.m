@@ -52,8 +52,6 @@
             NSString * dirStr = [path stringByAppendingString:@"/"];
             NSString * mp4Path = [dirStr stringByAppendingString:url];
             NSString * fileUrl = [@"file://" stringByAppendingString:mp4Path];
-            NSLog(@"mp4path :    %@",mp4Path);
-            NSLog(@"fuleURl:    %@",fileUrl);
             [self.pathArray addObject:mp4Path];
             [self.AVurlArray addObject:fileUrl];
             [self.fileNameArray addObject:url];
@@ -61,6 +59,8 @@
             
         }
         NSLog(@"avurl %@", self.AVurlArray);
+        NSLog(@"filenamearray  %@", self.fileNameArray);
+        NSLog(@"patjarray %@",self.pathArray);
     }
     
     return 0;
@@ -91,18 +91,25 @@
     AVtableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     
-    NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:indexPath.row]];
+    NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)]];
     AVURLAsset * asset = [AVURLAsset URLAssetWithURL:url options:nil];
     AVAssetImageGenerator * generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
     generator.appliesPreferredTrackTransform = true;
     
     
-    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(40, 10) actualTime:nil error:nil];
+    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(1, 1) actualTime:nil error:nil];
     UIImage * image = [UIImage imageWithCGImage:cgImage];
+    //拆成xxxx年xx月xx日
+    NSString * string = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];
+    NSString * year = [[string substringToIndex:4]stringByAppendingString:@"年"];
+    NSRange monthRange = NSMakeRange(4, 2);
+    NSString * month = [[string substringWithRange:monthRange]stringByAppendingString:@"月"];;
+    NSRange dayRange = NSMakeRange(6, 2);
+    NSString * day = [[string substringWithRange:dayRange]stringByAppendingString:@"日"];;
+    NSString * filename = [[year stringByAppendingString:month] stringByAppendingString:day];
     
-    cell.imageLabel.text = [self.fileNameArray objectAtIndex:indexPath.row];
-    NSLog(@"imagelabel   %@",[self.fileNameArray objectAtIndex:indexPath.row]);
-    
+    cell.imageLabel.text = filename;
+
     cell.AVImageView.image=image;
     
     
@@ -120,10 +127,12 @@
     
     //準備下一頁
     DetailViewController * detailVC =[self.storyboard instantiateViewControllerWithIdentifier:@"DetailViewController"];
-    detailVC.detailArray = self.AVurlArray;         //與detailarray串接所有影片路徑
-    detailVC.test = self.AVurlArray[indexPath.row]; //對應的URL
-    detailVC.path = self.pathArray[indexPath.row];  //對應的Path
-    detailVC.pathName = self.fileNameArray[indexPath.row];  //對應的檔名
+    detailVC.detailArray = [[[self.AVurlArray reverseObjectEnumerator]allObjects]mutableCopy ];         //與detailarray串接所有影片路徑
+    detailVC.fileNameArray = [[[self.fileNameArray reverseObjectEnumerator]allObjects]mutableCopy ];  //串接的檔名
+       detailVC.pathArray = [[[self.pathArray reverseObjectEnumerator]allObjects]mutableCopy ];  //串接的path
+    detailVC.test = [self.AVurlArray objectAtIndex:(self.AVurlArray.count-indexPath.row-1)];; //對應的URL
+    detailVC.path = [self.pathArray objectAtIndex:(self.pathArray.count-indexPath.row-1)];;  //對應的Path
+    detailVC.pathName = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];;  //對應的檔名
   
     [self.navigationController pushViewController:detailVC animated:YES];
     
