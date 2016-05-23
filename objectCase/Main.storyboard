@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -199,10 +199,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z6X-p1-0Ha">
-                                <rect key="frame" x="265" y="510" width="70" height="70"/>
+                                <rect key="frame" x="490" y="510" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="ZlN-fi-f72"/>
-                                    <constraint firstAttribute="height" constant="70" id="kmV-Ok-afR"/>
+                                    <constraint firstAttribute="width" constant="70" id="Teq-z9-Icj"/>
+                                    <constraint firstAttribute="height" constant="70" id="aFJ-4Z-YYI"/>
                                 </constraints>
                                 <state key="normal" image="AVdelete.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -211,7 +211,7 @@
                                     <action selector="deleteBtnPressed:" destination="QYh-Zy-wMv" eventType="touchUpInside" id="05f-aP-GhI"/>
                                 </connections>
                             </button>
-                            <slider contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="S5q-jw-9NL">
+                            <slider contentMode="scaleAspectFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="S5q-jw-9NL">
                                 <rect key="frame" x="18" y="415" width="564" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="ynW-jj-n55"/>
@@ -221,20 +221,7 @@
                                     <action selector="AVSliderBt:" destination="QYh-Zy-wMv" eventType="valueChanged" id="nNZ-ou-DEe"/>
                                 </connections>
                             </slider>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZlP-6B-hrf">
-                                <rect key="frame" x="490" y="510" width="70" height="70"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="Teg-dB-Ipe"/>
-                                    <constraint firstAttribute="height" constant="70" id="yJ4-20-BQZ"/>
-                                </constraints>
-                                <state key="normal" image="upload.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="uploadButton:" destination="QYh-Zy-wMv" eventType="touchUpInside" id="gXp-Ua-i3E"/>
-                                </connections>
-                            </button>
-                            <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YeI-ge-paS">
+                            <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YeI-ge-paS">
                                 <rect key="frame" x="0.0" y="20" width="600" height="360"/>
                                 <color key="backgroundColor" red="0.021392342929999999" green="0.01901137722" blue="0.0213504196" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
@@ -250,10 +237,10 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F4J-Hf-5TR">
-                                <rect key="frame" x="40" y="510" width="70" height="70"/>
+                                <rect key="frame" x="265" y="510" width="70" height="70"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="01p-t6-4bt"/>
-                                    <constraint firstAttribute="height" constant="70" id="diC-LF-ZND"/>
+                                    <constraint firstAttribute="width" constant="70" id="FbF-QH-JLK"/>
+                                    <constraint firstAttribute="height" constant="70" id="ocX-aS-QE3"/>
                                 </constraints>
                                 <state key="normal" image="savetophone.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -262,24 +249,36 @@
                                     <action selector="saveToPhoneBtnPressed:" destination="QYh-Zy-wMv" eventType="touchUpInside" id="1Jr-sL-vVj"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZlP-6B-hrf">
+                                <rect key="frame" x="40" y="510" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="5OP-5a-O05"/>
+                                    <constraint firstAttribute="width" constant="70" id="Dgi-mp-7ZR"/>
+                                </constraints>
+                                <state key="normal" image="upload.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="uploadButton:" destination="QYh-Zy-wMv" eventType="touchUpInside" id="gXp-Ua-i3E"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.24022414921465973" green="0.24022414921465973" blue="0.24022414921465973" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="S5q-jw-9NL" firstAttribute="leading" secondItem="rJB-zu-N4m" secondAttribute="leadingMargin" id="0xH-CX-yYc"/>
-                            <constraint firstItem="F4J-Hf-5TR" firstAttribute="top" secondItem="S5q-jw-9NL" secondAttribute="bottom" constant="65" id="1MP-cp-w4R"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="ZlP-6B-hrf" secondAttribute="trailing" constant="20" id="3vs-WN-Sn0"/>
-                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="F4J-Hf-5TR" secondAttribute="bottom" constant="20" id="4nd-q5-qQt"/>
-                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="ZlP-6B-hrf" secondAttribute="bottom" constant="20" id="8FK-po-Psu"/>
+                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="ZlP-6B-hrf" secondAttribute="bottom" constant="20" id="7Pz-V7-i8O"/>
                             <constraint firstItem="S5q-jw-9NL" firstAttribute="top" secondItem="YeI-ge-paS" secondAttribute="bottom" constant="35" id="9rR-Jb-gqf"/>
-                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="z6X-p1-0Ha" secondAttribute="bottom" constant="20" id="Dd0-nZ-Fsw"/>
                             <constraint firstItem="YeI-ge-paS" firstAttribute="leading" secondItem="rJB-zu-N4m" secondAttribute="leadingMargin" constant="-20" id="F0d-5u-yJG"/>
-                            <constraint firstItem="F4J-Hf-5TR" firstAttribute="leading" secondItem="rJB-zu-N4m" secondAttribute="leadingMargin" constant="20" id="H9h-Mk-x4U"/>
-                            <constraint firstItem="z6X-p1-0Ha" firstAttribute="centerX" secondItem="rJB-zu-N4m" secondAttribute="centerX" id="MSt-iS-sAi"/>
+                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="F4J-Hf-5TR" secondAttribute="bottom" constant="20" id="Lj7-XU-gSR"/>
+                            <constraint firstItem="F4J-Hf-5TR" firstAttribute="centerX" secondItem="rJB-zu-N4m" secondAttribute="centerX" id="YNm-zM-Hdn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YeI-ge-paS" secondAttribute="trailing" constant="-20" id="YmN-ce-mJ8"/>
                             <constraint firstItem="cix-2z-7hy" firstAttribute="centerX" secondItem="rJB-zu-N4m" secondAttribute="centerX" id="afm-KA-SSj"/>
                             <constraint firstItem="cix-2z-7hy" firstAttribute="top" secondItem="F7y-mD-9ey" secondAttribute="bottom" constant="100" id="kQL-If-G5L"/>
+                            <constraint firstItem="ZlP-6B-hrf" firstAttribute="leading" secondItem="rJB-zu-N4m" secondAttribute="leadingMargin" constant="20" id="mVu-OU-2rU"/>
                             <constraint firstItem="S5q-jw-9NL" firstAttribute="trailing" secondItem="rJB-zu-N4m" secondAttribute="trailingMargin" id="pBB-Vv-9iJ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="z6X-p1-0Ha" secondAttribute="trailing" constant="20" id="yfK-zd-cXo"/>
                             <constraint firstItem="YeI-ge-paS" firstAttribute="top" secondItem="F7y-mD-9ey" secondAttribute="bottom" id="zi3-pl-Gqz"/>
+                            <constraint firstItem="G7d-RV-ydC" firstAttribute="top" secondItem="z6X-p1-0Ha" secondAttribute="bottom" constant="20" id="zxT-Ux-zAM"/>
                         </constraints>
                     </view>
                     <connections>
