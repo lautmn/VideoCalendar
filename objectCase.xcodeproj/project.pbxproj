@@ -14,6 +14,7 @@
 		0838BDAC1CF2AF9C007C62A7 /* rural.png in Resources */ = {isa = PBXBuildFile; fileRef = 0838BDA71CF2AF9C007C62A7 /* rural.png */; };
 		08607D681CF20E2E0060D5CA /* effect.png in Resources */ = {isa = PBXBuildFile; fileRef = 08607D661CF20E2E0060D5CA /* effect.png */; };
 		08607D691CF20E2E0060D5CA /* music.png in Resources */ = {isa = PBXBuildFile; fileRef = 08607D671CF20E2E0060D5CA /* music.png */; };
+		08911BBA1CF2C0E80021ED16 /* backgroundImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 08911BB91CF2C0E70021ED16 /* backgroundImage.png */; };
 		08DF02141CEEF88C004A13C2 /* transfer.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DF020D1CEEF88C004A13C2 /* transfer.png */; };
 		08DF02151CEEF88C004A13C2 /* chrome.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DF020E1CEEF88C004A13C2 /* chrome.png */; };
 		08DF02161CEEF88C004A13C2 /* fade.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DF020F1CEEF88C004A13C2 /* fade.png */; };
@@ -22,6 +23,7 @@
 		08DF02191CEEF88C004A13C2 /* linear.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DF02121CEEF88C004A13C2 /* linear.png */; };
 		08DF021A1CEEF88C004A13C2 /* process.png in Resources */ = {isa = PBXBuildFile; fileRef = 08DF02131CEEF88C004A13C2 /* process.png */; };
 		08E20A001CE8BC1000E46CCC /* WaitForMakeVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08E209FF1CE8BC1000E46CCC /* WaitForMakeVideoViewController.m */; };
+		08F32EE71CF2C5C50044DEC5 /* imageBorderBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 08F32EE61CF2C5C50044DEC5 /* imageBorderBlack.png */; };
 		3C04F13A1CE1CD54006374A1 /* image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F12E1CE1CD54006374A1 /* image.jpg */; };
 		3C04F13B1CE1CD54006374A1 /* photo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C04F12F1CE1CD54006374A1 /* photo.png */; };
 		3C04F13C1CE1CD54006374A1 /* OneDayData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C04F1311CE1CD54006374A1 /* OneDayData.m */; };
@@ -121,6 +123,7 @@
 		0838BDA71CF2AF9C007C62A7 /* rural.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rural.png; sourceTree = "<group>"; };
 		08607D661CF20E2E0060D5CA /* effect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = effect.png; sourceTree = "<group>"; };
 		08607D671CF20E2E0060D5CA /* music.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = music.png; sourceTree = "<group>"; };
+		08911BB91CF2C0E70021ED16 /* backgroundImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backgroundImage.png; sourceTree = "<group>"; };
 		08DF020D1CEEF88C004A13C2 /* transfer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = transfer.png; sourceTree = "<group>"; };
 		08DF020E1CEEF88C004A13C2 /* chrome.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chrome.png; sourceTree = "<group>"; };
 		08DF020F1CEEF88C004A13C2 /* fade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fade.png; sourceTree = "<group>"; };
@@ -130,6 +133,7 @@
 		08DF02131CEEF88C004A13C2 /* process.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = process.png; sourceTree = "<group>"; };
 		08E209FE1CE8BC1000E46CCC /* WaitForMakeVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitForMakeVideoViewController.h; sourceTree = "<group>"; };
 		08E209FF1CE8BC1000E46CCC /* WaitForMakeVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitForMakeVideoViewController.m; sourceTree = "<group>"; };
+		08F32EE61CF2C5C50044DEC5 /* imageBorderBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imageBorderBlack.png; sourceTree = "<group>"; };
 		1D98124CA5EAFD37421EFB5C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		2D124FD1C54A190BCA81FF78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C04F12E1CE1CD54006374A1 /* image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image.jpg; sourceTree = "<group>"; };
@@ -286,6 +290,7 @@
 				3CF9953A1CEDAA0E00EB44DE /* Music */,
 				3C04F14A1CE1D57C006374A1 /* blackBackground.jpg */,
 				3C04F14B1CE1D57C006374A1 /* selected.png */,
+				08911BB91CF2C0E70021ED16 /* backgroundImage.png */,
 				3C04F14C1CE1D57C006374A1 /* selected@3x.png */,
 				3C04F14D1CE1D57C006374A1 /* selected@2x.png */,
 				08607D661CF20E2E0060D5CA /* effect.png */,
@@ -302,6 +307,7 @@
 				08DF020E1CEEF88C004A13C2 /* chrome.png */,
 				08DF020F1CEEF88C004A13C2 /* fade.png */,
 				08DF020D1CEEF88C004A13C2 /* transfer.png */,
+				08F32EE61CF2C5C50044DEC5 /* imageBorderBlack.png */,
 				3C04F14E1CE1D57C006374A1 /* VideoStoryboard.storyboard */,
 				3C04F14F1CE1D57C006374A1 /* TimeRangeTableViewController.h */,
 				3C04F1501CE1D57C006374A1 /* TimeRangeTableViewController.m */,
@@ -498,7 +504,7 @@
 				TargetAttributes = {
 					EB7D51911CB39985003B3BBB = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 8LXUQ4L5E9;
+						DevelopmentTeam = 48GQCAR3WV;
 					};
 				};
 			};
@@ -534,6 +540,7 @@
 				3CF9952E1CED9DA800EB44DE /* first9.png in Resources */,
 				08607D691CF20E2E0060D5CA /* music.png in Resources */,
 				3C3DEEE21CEA003C009809BF /* firstBG.png in Resources */,
+				08911BBA1CF2C0E80021ED16 /* backgroundImage.png in Resources */,
 				3C04F16E1CE36A93006374A1 /* insert2.png in Resources */,
 				EB92E4A31CECF4EB0025CE90 /* emailtome.png in Resources */,
 				0838BDA91CF2AF9C007C62A7 /* lazy.png in Resources */,
@@ -575,6 +582,7 @@
 				EB7D51A21CB39985003B3BBB /* Assets.xcassets in Resources */,
 				3C04F13B1CE1CD54006374A1 /* photo.png in Resources */,
 				3C04F1401CE1CD54006374A1 /* Jump.storyboard in Resources */,
+				08F32EE71CF2C5C50044DEC5 /* imageBorderBlack.png in Resources */,
 				08DF02191CEEF88C004A13C2 /* linear.png in Resources */,
 				08DF02151CEEF88C004A13C2 /* chrome.png in Resources */,
 				3CF9952B1CED9AA100EB44DE /* first2.png in Resources */,
@@ -777,7 +785,7 @@
 				INFOPLIST_FILE = objectCase/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = objective.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.team.VideoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -799,7 +807,7 @@
 				INFOPLIST_FILE = objectCase/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = objective.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.team.VideoCalendar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
