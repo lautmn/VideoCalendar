@@ -313,10 +313,10 @@
                                 <rect key="frame" x="-14" y="-11" width="630" height="557"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvw-Rs-IR4">
-                                <rect key="frame" x="235" y="17" width="130" height="130"/>
+                                <rect key="frame" x="235" y="30" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="BuC-6D-y4m"/>
-                                    <constraint firstAttribute="height" constant="130" id="ldl-vh-fWe"/>
+                                    <constraint firstAttribute="width" constant="130" id="BnT-P3-9DG"/>
+                                    <constraint firstAttribute="height" constant="130" id="voD-1b-LuA"/>
                                 </constraints>
                                 <state key="normal" image="backupallvideo.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -328,8 +328,8 @@
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diq-C5-oIG">
                                 <rect key="frame" x="235" y="203" width="130" height="130"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="130" id="W8T-Mp-rwE"/>
-                                    <constraint firstAttribute="width" constant="130" id="hL0-Xo-xlg"/>
+                                    <constraint firstAttribute="width" constant="130" id="Tjh-Qi-stn"/>
+                                    <constraint firstAttribute="height" constant="130" id="Uph-58-i3s"/>
                                 </constraints>
                                 <state key="normal" image="emailtome.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -338,12 +338,8 @@
                                     <action selector="sendMailtoTeamBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="bCw-Be-MyS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
+                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
                                 <rect key="frame" x="235" y="389" width="130" height="130"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="Qmh-hT-hhp"/>
-                                    <constraint firstAttribute="height" constant="130" id="jjs-CR-l9P"/>
-                                </constraints>
                                 <state key="normal" image="givemegrade.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
@@ -351,16 +347,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="17" id="9bq-vm-Ufk"/>
-                            <constraint firstItem="xSZ-J0-ai5" firstAttribute="top" secondItem="pt2-pI-6jG" secondAttribute="bottom" constant="17" id="FmG-Nm-N4X"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pOW-aU-FJi" secondAttribute="trailing" constant="-36" id="ItX-Rw-Aq4"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="Mt7-dT-aXX"/>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="OQv-Xx-3XK"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="leading" secondItem="ixq-D0-q5X" secondAttribute="leadingMargin" constant="-34" id="OWx-cw-x7g"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="top" secondItem="ixq-D0-q5X" secondAttribute="topMargin" constant="-11" id="PgH-gV-Z29"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="SIN-SM-fBc"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="kgS-PY-J4g"/>
-                            <constraint firstItem="pt2-pI-6jG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="rJR-qA-k3l"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="Rk9-fL-QpG"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="Xjl-Gb-az6"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="maP-KI-ivX"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="30" id="swF-XM-8q5"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="設定" id="SlF-SU-N3p">
