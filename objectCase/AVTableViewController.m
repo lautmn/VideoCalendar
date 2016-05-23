@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSMutableArray * AVurlArray;      //完整URL路徑
 @property(nonatomic,strong)NSMutableArray * pathArray;       //path路徑
 @property(nonatomic,strong)NSMutableArray * fileNameArray;   //檔案名稱
+@property(nonatomic,strong)NSMutableArray * imagearray;      //imagearray
 
 @end
 
@@ -45,6 +46,7 @@
     self.AVurlArray = [[NSMutableArray alloc] init];
     self.pathArray = [[NSMutableArray alloc]init];
     self.fileNameArray = [[NSMutableArray alloc]init];
+     self.imagearray = [[NSMutableArray alloc]init];
     // 找出document mp4檔存在array
     for (NSString*url in paths) {
         if ([url hasSuffix:@".mp4"]) {
@@ -62,7 +64,23 @@
         NSLog(@"filenamearray  %@", self.fileNameArray);
         NSLog(@"patjarray %@",self.pathArray);
     }
-    
+    for (int i=0; i<self.AVurlArray.count; i++) {
+        
+        NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:i]];
+        AVURLAsset * asset = [AVURLAsset URLAssetWithURL:url options:nil];
+        AVAssetImageGenerator * generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
+        generator.appliesPreferredTrackTransform = true;
+        
+        
+        CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(1, 1) actualTime:nil error:nil];
+        UIImage * image = [UIImage imageWithCGImage:cgImage];
+        
+        [_imagearray addObject:image];
+        
+        
+    }
+    _imagearray= [[[_imagearray reverseObjectEnumerator] allObjects] mutableCopy];
+
     return 0;
 }
 
@@ -91,15 +109,7 @@
     AVtableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     
-    NSURL * url = [NSURL URLWithString:[self.AVurlArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)]];
-    AVURLAsset * asset = [AVURLAsset URLAssetWithURL:url options:nil];
-    AVAssetImageGenerator * generator = [AVAssetImageGenerator assetImageGeneratorWithAsset:asset];
-    generator.appliesPreferredTrackTransform = true;
-    
-    
-    CGImageRef cgImage = [generator copyCGImageAtTime:CMTimeMake(1, 1) actualTime:nil error:nil];
-    UIImage * image = [UIImage imageWithCGImage:cgImage];
-    //拆成xxxx年xx月xx日
+        //拆成xxxx年xx月xx日
     NSString * string = [self.fileNameArray objectAtIndex:(self.fileNameArray.count-indexPath.row-1)];
     NSString * year = [[string substringToIndex:4]stringByAppendingString:@"年"];
     NSRange monthRange = NSMakeRange(4, 2);
@@ -108,6 +118,9 @@
     NSString * day = [[string substringWithRange:dayRange]stringByAppendingString:@"日"];;
     NSString * filename = [[year stringByAppendingString:month] stringByAppendingString:day];
     
+    
+    
+    UIImage * image = self.imagearray[indexPath.row];
     cell.imageLabel.text = filename;
 
     cell.AVImageView.image=image;
