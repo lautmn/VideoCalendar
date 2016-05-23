@@ -33,6 +33,7 @@
     float nowProgressPercent;
     OneDayData *oneDayData;
     DaySingletonManager *daySingleton;
+    BOOL mergeMovieFinished;
 
 }
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
@@ -46,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    mergeMovieFinished = false;
     // Do any additional setup after loading the view.
     [self getMusicURL];
     didCancelVideo = false;
@@ -144,7 +146,9 @@
 //    NSLog(@"NOW:  : %f",nowProgressPercent);
     if ((int)(nowProgressPercent*100) == 100) {
         [myTimer invalidate];
-        [NSThread sleepForTimeInterval:0.5];
+        while (mergeMovieFinished == false) {
+            [NSThread sleepForTimeInterval:0.1];
+        }
         [self CompileFilesToMakeMovie];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"完成" message:@"影片製作已完成" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ok = [UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -220,6 +224,7 @@
                 [writerInput markAsFinished];
                 [videoWriter finishWritingWithCompletionHandler:^{
                     NSLog(@"finish");
+                    mergeMovieFinished = true;
                 }];
                 break;
             }
