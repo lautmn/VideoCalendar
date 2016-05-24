@@ -12,13 +12,15 @@
 @interface itemViewController ()<MFMailComposeViewControllerDelegate>
 {
     int count;
+    BOOL downloadOrload;
 }
 @property(nonatomic,strong)NSMutableArray * pathArray;        //全部path的路徑
 @property(nonatomic,strong)UIProgressView * pv;               //上傳進度條
 @property(nonatomic,strong)UILabel * myLabel;                 //檔案的label
-@property(nonatomic,strong)NSMutableArray * pathNameArray;    //全部檔案名稱的array
-@property(nonatomic,strong)NSString * tmpFilePath;
-@property(nonatomic,strong)NSString * textpath;
+@property(nonatomic,strong)NSMutableArray * pathNameArray;    //上傳全部檔案名稱的array
+@property(nonatomic,strong)NSString * loadtmpPath;            //tmp路徑
+@property(nonatomic,strong)NSString * loadDocumentPath;       // document路徑
+@property(nonatomic,strong)NSMutableArray * allFolder;       //DropBox app備份的所有檔案
 @end
 
 @implementation itemViewController
@@ -113,9 +115,11 @@
 -(NSURL *)getFileUrl{
     NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
     NSLog(@"%@",path);
-    _textpath = path;
+    _loadDocumentPath = [path stringByAppendingString:@"/"];
+    _loadtmpPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@""];
+    NSLog(@"tmppath :   %@",_loadtmpPath);
     NSArray * paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
-    
+   
     self.pathArray = [[NSMutableArray alloc]init];
     self.pathNameArray = [[NSMutableArray alloc]init];
     for (NSString*url in paths) {
@@ -139,59 +143,183 @@
     return restClient;
 }
 
-//#pragma mark - 下載部分
-//- (IBAction)downloadToDropBoxBtnPressed:(id)sender {
-//    if (![[DBSession sharedSession]isLinked]) {
-//        [[DBSession sharedSession]linkFromController:self];
-//    }
-//    [self backupDownload];
-//}
-//-(void)backupDownload{
-//    _tmpFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"filename"];
-//    [[self restClient] loadFile:@"/filename" intoPath:_tmpFilePath];
-//   
-//}
-//-(void)tmpCopyToDocument
-//{
-//    NSString * targetFilePath = [_textpath stringByAppendingString:@"filename"];
-//    [[NSFileManager defaultManager]copyItemAtPath:_tmpFilePath toPath:targetFilePath error:nil];
-// 
-//}
-////load Success
-//-(void)restClient:(DBRestClient *)restClient loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
-//{
-//    
-//    NSLog(@"Success");
-//    [self tmpCopyToDocument];
-//}
-////load Error
-//-(void)restClient:(DBRestClient *)restClient loadFileFailedWithError:(NSError *)error
-//{
-//    NSLog(@"ERROR");
-//}
-//-(void)textloadfile{
-//    [[self restClient] load
-//}
-//-(void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
-//      NSMutableArray *   allFolders = [[NSMutableArray alloc] init];
-//    if (allFolders == nil) {
-//        allFolders = [[NSMutableArray alloc] init];
-//        [allFolders addObject:@"/"];
-//    }
-//    
-//    for (DBMetadata *fileMetadata in metadata.contents) {
-//        
-//        if ([fileMetadata isDirectory]) {
-//            NSArray *filePathComponents = [fileMetadata.path pathComponents];
-//            NSString *inFolder = [filePathComponents objectAtIndex:[filePathComponents count]-2];
-//            NSLog(@"file is in folder %@",inFolder);
-//            [allFolders insertObject:fileMetadata.filename atIndex:[allFolders indexOfObject:inFolder]];
-//            if ([metadata.contents count] > 0) [[self restClient] loadMetadata:fileMetadata.path];
-//            
-//        }
-//        
-//    }
-//}
+#pragma mark - 下載部分
+- (IBAction)downloadToDropBoxBtnPressed:(id)sender {
+    if (![[DBSession sharedSession]isLinked]) {
+        [[DBSession sharedSession]linkFromController:self];
+    }
+    if ([[DBSession sharedSession]isLinked]) {
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"將會覆蓋相同的檔案" message:@"還要繼續作業嗎？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"確認下載" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            downloadOrload = true;
+            [[self restClient]loadMetadata:@"/"];
+            
+        }];
+        UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"取消下載" style:UIAlertActionStyleDefault handler:nil];
+        [alertcontroller addAction:cancel];
+        [alertcontroller addAction:understand];
+        
+        [self presentViewController:alertcontroller animated:YES completion:nil];
+
+     
+
+       
+    }
+}
+-(void)downloadToDropBox
+{
+   
+     [[self restClient]loadFile:[@"/" stringByAppendingString:[self.allFolder objectAtIndex:count]] intoPath: [_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]]];
+
+    
+    [[NSFileManager defaultManager]copyItemAtPath:[_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]] toPath:[self.loadDocumentPath stringByAppendingString:[self.allFolder objectAtIndex:count]] error:nil];
+    
+}
+
+//download Success
+-(void)restClient:(DBRestClient *)restClient loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
+{
+    
+    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+    [appupload setBool:false forKey:@"appupload"];
+    [self cancelNotification];
+    
+    
+    if (count+1 == self.allFolder.count) {
+        //如果在背景跳通知
+        UILocalNotification * ln = [UILocalNotification new];
+        ln.soundName = UILocalNotificationDefaultSoundName;
+        ln.alertBody = @"所有檔案下載成功";
+        ln.fireDate = [NSDate dateWithTimeIntervalSinceNow:1.0];
+        [[UIApplication sharedApplication] presentLocalNotificationNow:ln];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"下載成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertcontroller addAction:understand];
+        
+        
+        [self presentViewController:alertcontroller animated:YES completion:nil];
+        count = 0;
+        
+    }else{
+        count = count +1;
+        self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.allFolder.count];
+        [self downloadToDropBox];
+    }
+    
+    NSLog(@"Success");
+
+}
+//load Error
+-(void)restClient:(DBRestClient *)restClient loadFileFailedWithError:(NSError *)error
+{
+    NSLog(@"ERROR");
+}
+-(void)restClient:(DBRestClient *)client loadProgress:(CGFloat)progress forFile:(NSString *)destPath
+{
+    self.pv.progress = progress;
+}
+#pragma mark - 取出Dropbox的filename
+//取出檔名  做下載動作 及 下載alert
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+     self.allFolder = [[NSMutableArray alloc]init];
+    if (metadata.isDirectory) {
+        
+        NSLog(@"Folder '%@' contains:", metadata.path);
+        for (DBMetadata *file in metadata.contents)
+        {
+            [self.allFolder addObject:file.filename];
+            
+        }
+        
+    }
+    NSLog(@"allfilename:     %@" , _allFolder);
+    //如果是下載
+    if (downloadOrload == true) {
+        [self downloadToDropBox];
+        
+        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+        [appupload setBool:true forKey:@"appupload"];
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在下傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消下傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //(3分鐘未上傳完通知取消)
+            [appupload setBool:false forKey:@"appupload"];
+            [self cancelNotification];
+            //上傳連結
+            [[self restClient] cancelFileLoad:[self.allFolder objectAtIndex:count]];
+            [[self restClient] cancelAllRequests];
+            
+        }];
+        
+        [alertcontroller addAction:understand];
+        
+        [self presentViewController:alertcontroller animated:YES completion:^{
+            
+            self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+            self.pv.frame = CGRectMake(0,60 , 270, 30);
+            
+            self.pv.progress = 0;
+            //self.pv.backgroundColor = [UIColor greenColor];
+            
+            self.myLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 5, 50, 50)];
+            
+            self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.allFolder.count];
+            
+            [alertcontroller.view addSubview:self.pv];
+            [alertcontroller.view addSubview:self.myLabel];
+        }];
+
+    }
+    
+    //如果是上傳
+    if (downloadOrload == false) {
+        NSString * path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+        //所有檔案名稱存到array
+        NSArray * paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil];
+        for (NSString*url in paths) {
+            if ([self.allFolder indexOfObject:url]!=NSNotFound) {
+                [[self restClient]deletePath:url];
+                
+            }
+            
+        }
+        [self totalUpload];
+        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+        [appupload setBool:true forKey:@"appupload"];
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在上傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //(3分鐘未上傳完通知取消)
+            [appupload setBool:false forKey:@"appupload"];
+            [self cancelNotification];
+            //上傳連結
+            [[self restClient] cancelFileUpload:[self.pathArray objectAtIndex:count]];
+            [[self restClient] cancelAllRequests];
+            
+        }];
+        
+        [alertcontroller addAction:understand];
+        
+        [self presentViewController:alertcontroller animated:YES completion:^{
+            
+            self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+            self.pv.frame = CGRectMake(0,60 , 270, 30);
+            
+            self.pv.progress = 0;
+            //self.pv.backgroundColor = [UIColor greenColor];
+            
+            self.myLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 5, 50, 50)];
+            
+            self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.pathArray.count];
+            
+            [alertcontroller.view addSubview:self.pv];
+            [alertcontroller.view addSubview:self.myLabel];
+        }];
+
+    }
+     
+}
 
 #pragma mark - 上傳部分
 - (IBAction)backToDropBoxBtnPressed:(id)sender {
@@ -204,47 +332,27 @@
     //如果有登入才做
      if ([[DBSession sharedSession]isLinked])
     {
-    [self totalUpload];
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:true forKey:@"appupload"];
-    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在上傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //(3分鐘未上傳完通知取消)
-        [appupload setBool:false forKey:@"appupload"];
-        [self cancelNotification];
-        //上傳連結
-        [[self restClient] cancelFileUpload:[self.pathArray objectAtIndex:count]];
-        [[self restClient] cancelAllRequests];
-       
-    }];
-    
-    [alertcontroller addAction:understand];
-    
-    [self presentViewController:alertcontroller animated:YES completion:^{
         
-        self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
-        self.pv.frame = CGRectMake(0,60 , 270, 30);
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"將會先刪除相同的檔案" message:@"還要繼續作業嗎？" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"確認上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            downloadOrload = false;
+            [[self restClient]loadMetadata:@"/"];
+            
+        }];
+        UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:nil];
+        [alertcontroller addAction:cancel];
+        [alertcontroller addAction:understand];
         
-        self.pv.progress = 0;
-        //self.pv.backgroundColor = [UIColor greenColor];
-        
-        self.myLabel = [[UILabel alloc] initWithFrame:CGRectMake(200, 5, 50, 50)];
-        
-        self.myLabel.text = [NSString stringWithFormat:@"%i/%li",count+1,self.pathArray.count];
-        
-        [alertcontroller.view addSubview:self.pv];
-        [alertcontroller.view addSubview:self.myLabel];
-    }];
-   
+        [self presentViewController:alertcontroller animated:YES completion:nil];
+     
+      
     }
 }
 
 
 //所有檔案上傳的方法
 -(void)totalUpload{
-    //    NSString *fileName=[NSString stringWithFormat:@"%@.mp4",[[NSDate date] description]];
-    
+  
     NSString *targetPath=@"/";
     [[self restClient] uploadFile:[self.pathNameArray objectAtIndex:count]
                            toPath:targetPath
