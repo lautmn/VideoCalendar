@@ -365,7 +365,53 @@
                 
                 [self presentViewController:alertcontroller animated:YES completion:nil];
             
-               }
+            }else{
+                {
+                    
+                        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+                        [appupload setBool:true forKey:@"appupload"];
+                        
+                        
+                        
+                        NSString *targetPath=@"/";
+                        
+                        [[self restClient] uploadFile:self.pathName
+                                               toPath:targetPath
+                                        withParentRev:nil
+                                             fromPath:self.path];
+                        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            //取消通知動作
+                            [appupload setBool:false forKey:@"appupload"];
+                            [self cancelNotification];
+                            //取消上傳動作
+                            [[self restClient] cancelFileUpload:self.path];
+                            [[self restClient] cancelAllRequests];
+                            
+                        }];
+                        [alertcontroller addAction:understand];
+                        
+                        
+                        [self presentViewController:alertcontroller animated:YES completion:^{
+                            
+                            self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+                            self.pv.frame = CGRectMake(0,60 , 270, 30);
+                            
+                            self.pv.progress = 0;
+                            
+                            self.pv.tintColor = [UIColor greenColor];
+                            
+                            
+                            
+                            
+                            [alertcontroller.view addSubview:self.pv];
+                        }];
+                        
+                        
+                
+                    
+                }
+            }
             
     }
 
