@@ -335,6 +335,9 @@
                                 <state key="normal" image="givemegrade.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="giveStarBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="A7K-K3-hQO"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA3-yT-TdM">
                                 <rect key="frame" x="440" y="30" width="140" height="140"/>

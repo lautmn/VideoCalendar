@@ -75,7 +75,7 @@
     //如果3分鐘上傳下載動作沒做完的通知
     UILocalNotification* notifyAlarm2 = [[UILocalNotification alloc] init];
     notifyAlarm2.fireDate=[[NSDate date] dateByAddingTimeInterval:180];
-    notifyAlarm2.alertBody=@"請打開App,讓上傳作業繼續進行";
+    notifyAlarm2.alertBody=@"請打開App,讓傳輸作業繼續進行";
     notifyAlarm2.timeZone=[NSTimeZone defaultTimeZone];
     NSDictionary *infoDic = [NSDictionary dictionaryWithObject:@"call" forKey:@"unload"];
     notifyAlarm2.userInfo = infoDic;

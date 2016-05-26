@@ -101,6 +101,7 @@
 		EBB9918F1CEFA87600B5CDFA /* givemegrade.png in Resources */ = {isa = PBXBuildFile; fileRef = EBB9918E1CEFA87600B5CDFA /* givemegrade.png */; };
 		EBC655611CF60CB100B471F6 /* downloadbackup.png in Resources */ = {isa = PBXBuildFile; fileRef = EBC655601CF60CB000B471F6 /* downloadbackup.png */; };
 		EBC655671CF60F3000B471F6 /* backupallvideo.png in Resources */ = {isa = PBXBuildFile; fileRef = EBC655661CF60F3000B471F6 /* backupallvideo.png */; };
+		EBC655691CF6B80100B471F6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EBC655681CF6B80100B471F6 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -230,6 +231,7 @@
 		EBB9918E1CEFA87600B5CDFA /* givemegrade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = givemegrade.png; sourceTree = "<group>"; };
 		EBC655601CF60CB000B471F6 /* downloadbackup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downloadbackup.png; sourceTree = "<group>"; };
 		EBC655661CF60F3000B471F6 /* backupallvideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backupallvideo.png; sourceTree = "<group>"; };
+		EBC655681CF6B80100B471F6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		EBE066AA1CCC95B800A268E2 /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBC655691CF6B80100B471F6 /* StoreKit.framework in Frameworks */,
 				3C04F1481CE1D3BF006374A1 /* MediaPlayer.framework in Frameworks */,
 				3C04F1461CE1D3A1006374A1 /* CoreVideo.framework in Frameworks */,
 				3C04F1441CE1D380006374A1 /* CoreMedia.framework in Frameworks */,
@@ -258,6 +261,7 @@
 		07FED9D24071A0DE8BF475CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EBC655681CF6B80100B471F6 /* StoreKit.framework */,
 				3C04F1471CE1D3BF006374A1 /* MediaPlayer.framework */,
 				3C04F1451CE1D3A1006374A1 /* CoreVideo.framework */,
 				3C04F1431CE1D380006374A1 /* CoreMedia.framework */,

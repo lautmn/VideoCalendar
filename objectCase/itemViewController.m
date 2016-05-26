@@ -9,7 +9,8 @@
 #import "itemViewController.h"
 #import <MessageUI/MessageUI.h>
 #import <DropboxSDK/DropboxSDK.h>
-@interface itemViewController ()<MFMailComposeViewControllerDelegate>
+#import <StoreKit/StoreKit.h>
+@interface itemViewController ()<MFMailComposeViewControllerDelegate,SKStoreProductViewControllerDelegate>
 {
     int count;
     BOOL downloadOrload;
@@ -180,12 +181,14 @@
 -(void)restClient:(DBRestClient *)restClient loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
 {
     
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
-    [self cancelNotification];
+   
     
     
     if (count+1 == self.allFolder.count) {
+        //取消通知
+        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+        [appupload setBool:false forKey:@"appupload"];
+        [self cancelNotification];
         //如果在背景跳通知
         UILocalNotification * ln = [UILocalNotification new];
         ln.soundName = UILocalNotificationDefaultSoundName;
@@ -367,13 +370,14 @@
 -(void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath
 
              from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
-    NSLog(@"File uploaded successfully: %@", metadata.path);
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:false forKey:@"appupload"];
-    [self cancelNotification];
+  
     
     
     if (count+1 == self.pathArray.count) {
+        NSLog(@"File uploaded successfully: %@", metadata.path);
+        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+        [appupload setBool:false forKey:@"appupload"];
+        [self cancelNotification];
         //如果在背景跳通知
         UILocalNotification * ln = [UILocalNotification new];
         ln.soundName = UILocalNotificationDefaultSoundName;
@@ -437,4 +441,25 @@
         }
     }
 }
-@end
+- (IBAction)giveStarBtnPressed:(id)sender {
+    NSString *cAppleID = @"justtryit518@gmail.com";
+    
+    if ([SKStoreProductViewController class] != nil) {
+        SKStoreProductViewController *skpvc = [[SKStoreProductViewController alloc] init];
+        skpvc.delegate = self;
+        NSDictionary *dict = [NSDictionary dictionaryWithObject:cAppleID forKey: SKStoreProductParameterITunesItemIdentifier];
+        [skpvc loadProductWithParameters:dict completionBlock:nil];
+        [self.navigationController presentViewController:skpvc animated: YES completion: nil];
+    }
+//    else {
+//        static NSString *const iOS7AppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%@";
+//        static NSString *const iOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@";
+//        NSString *url = [[NSString alloc] initWithFormat: ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0f) ? iOS7AppStoreURLFormat : iOSAppStoreURLFormat, cAppleID];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+//    }
+}
+
+#pragma mark - SKStoreProductViewControllerDelegate
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [viewController dismissViewControllerAnimated: YES completion: nil];
+}@end
