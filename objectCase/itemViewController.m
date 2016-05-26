@@ -169,19 +169,15 @@
 }
 -(void)downloadToDropBox
 {
-   
-     [[self restClient]loadFile:[@"/" stringByAppendingString:[self.allFolder objectAtIndex:count]] intoPath: [_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]]];
-
-    
-    [[NSFileManager defaultManager]copyItemAtPath:[_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]] toPath:[self.loadDocumentPath stringByAppendingString:[self.allFolder objectAtIndex:count]] error:nil];
-    
+    [[self restClient]loadFile:[@"/" stringByAppendingString:[self.allFolder objectAtIndex:count]] intoPath: [_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]]];
 }
 
 //download Success
 -(void)restClient:(DBRestClient *)restClient loadedFile:(NSString *)destPath contentType:(NSString *)contentType metadata:(DBMetadata *)metadata
 {
     
-   
+    
+    [[NSFileManager defaultManager]copyItemAtPath:[_loadtmpPath stringByAppendingPathComponent:[self.allFolder objectAtIndex:count]] toPath:[self.loadDocumentPath stringByAppendingString:[self.allFolder objectAtIndex:count]] error:nil];
     
     
     if (count+1 == self.allFolder.count) {
@@ -243,10 +239,10 @@
         
         NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
         [appupload setBool:true forKey:@"appupload"];
-        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在下傳" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"正在下載" message:nil preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消下傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            //(3分鐘未上傳完通知取消)
+        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消下載" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //(3分鐘未下載完通知取消)
             [appupload setBool:false forKey:@"appupload"];
             [self cancelNotification];
             //上傳連結
