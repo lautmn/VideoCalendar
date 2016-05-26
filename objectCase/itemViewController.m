@@ -148,6 +148,36 @@
 - (IBAction)downloadToDropBoxBtnPressed:(id)sender {
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
+    
+            dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            dispatch_async(aQueue, ^{
+                
+                while (![[DBSession sharedSession]isLinked]) {
+                    [NSThread sleepForTimeInterval:1.0];
+                }
+                
+                dispatch_queue_t mainQueue = dispatch_get_main_queue();
+                dispatch_async(mainQueue, ^{
+                    if ([[DBSession sharedSession]isLinked]) {
+                        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"將會覆蓋相同的檔案" message:@"還要繼續作業嗎？" preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"確認下載" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            downloadOrload = true;
+                            [[self restClient]loadMetadata:@"/"];
+                            
+                        }];
+                        UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"取消下載" style:UIAlertActionStyleDefault handler:nil];
+                        [alertcontroller addAction:cancel];
+                        [alertcontroller addAction:understand];
+                        
+                        [self presentViewController:alertcontroller animated:YES completion:nil];
+                        
+                    }
+                });
+            });
+            
+        
+        NSLog(@"TESTing");
+
     }
     if ([[DBSession sharedSession]isLinked]) {
         UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"將會覆蓋相同的檔案" message:@"還要繼續作業嗎？" preferredStyle:UIAlertControllerStyleAlert];
@@ -161,9 +191,6 @@
         [alertcontroller addAction:understand];
         
         [self presentViewController:alertcontroller animated:YES completion:nil];
-
-     
-
        
     }
 }
@@ -326,6 +353,35 @@
     //沒登入給使用者登入
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
+        
+        dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(aQueue, ^{
+            
+            while (![[DBSession sharedSession]isLinked]) {
+                [NSThread sleepForTimeInterval:1.0];
+            }
+            
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                if ([[DBSession sharedSession]isLinked]) {
+                    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"將會先刪除相同的檔案" message:@"還要繼續作業嗎？" preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"確認上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        downloadOrload = false;
+                        [[self restClient]loadMetadata:@"/"];
+                        
+                    }];
+                    UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:nil];
+                    [alertcontroller addAction:cancel];
+                    [alertcontroller addAction:understand];
+                    
+                    [self presentViewController:alertcontroller animated:YES completion:nil];
+
+                    
+                }
+            });
+        });
+        
+
     }
     
     //如果有登入才做

@@ -297,10 +297,12 @@
     return restClient;
 }
 - (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+     [self.player pause];
+        self.playImageView.hidden = false;
     self.allFolder = [[NSMutableArray alloc]init];
     if (metadata.isDirectory)
     {
-        
+      
         NSLog(@"Folder '%@' contains:", metadata.path);
         for (DBMetadata *file in metadata.contents)
         {
@@ -421,6 +423,25 @@
     self.playImageView.hidden = false;
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
+        dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(aQueue, ^{
+            
+            while (![[DBSession sharedSession]isLinked]) {
+                [NSThread sleepForTimeInterval:1.0];
+            }
+            
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                if ([[DBSession sharedSession]isLinked]) {
+                  
+                 [[self restClient]loadMetadata:@"/"];
+                    
+                }
+            });
+        });
+
+        
+        
     }
     if ([[DBSession sharedSession]isLinked]) {
         
