@@ -326,19 +326,6 @@
                                     <action selector="backToDropBoxBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="pqk-n8-1IO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
-                                <rect key="frame" x="440" y="198" width="140" height="140"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="0PB-w3-jTd"/>
-                                    <constraint firstAttribute="height" constant="140" id="VsE-h7-9tW"/>
-                                </constraints>
-                                <state key="normal" image="givemegrade.png">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="giveStarBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="A7K-K3-hQO"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA3-yT-TdM">
                                 <rect key="frame" x="440" y="30" width="140" height="140"/>
                                 <constraints>
@@ -361,6 +348,19 @@
                                 </state>
                                 <connections>
                                     <action selector="sendMailtoTeamBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="bCw-Be-MyS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
+                                <rect key="frame" x="440" y="198" width="140" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="0PB-w3-jTd"/>
+                                    <constraint firstAttribute="height" constant="140" id="VsE-h7-9tW"/>
+                                </constraints>
+                                <state key="normal" image="givemegrade.png">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="giveStarBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="A7K-K3-hQO"/>
                                 </connections>
                             </button>
                         </subviews>
