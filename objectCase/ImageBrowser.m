@@ -26,6 +26,9 @@ static CGRect oldframe;
     backgroundView.backgroundColor=[UIColor blackColor];
     backgroundView.alpha = 0.1; //沒反應？
     UIImageView *imageView=[[UIImageView alloc]initWithFrame:oldframe];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+
+    
     imageView.image=image;
     imageView.tag=1;
     
@@ -38,15 +41,24 @@ static CGRect oldframe;
         
               //        全螢幕
         imageView.frame = backgroundView.frame;
-        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        
+//        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        NSLog(@"imageView.width: %f",imageView.frame.size.width);
+        NSLog(@"image.width: %f",imageView.image.size.width);
+        NSLog(@"imageView.height: %f",imageView.frame.size.height);
+        NSLog(@"image.height: %f",imageView.image.size.height);
+        
         
         backgroundView.alpha=1;
     } completion:^(BOOL finished) {
         
     }];
     
+    
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:imageView.frame];
-    //    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+//        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     
     scrollView.contentSize = imageView.frame.size;
     
