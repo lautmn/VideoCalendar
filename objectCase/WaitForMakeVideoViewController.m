@@ -433,6 +433,7 @@
     NSString *month = [fileName substringWithRange:NSMakeRange(4, 2)];
     NSString *date = [fileName substringWithRange:NSMakeRange(6, 2)];
     NSString *fileNameWithDash = [NSString stringWithFormat:@"%@-%@-%@",year,month,date];
+    NSString *fileDate = [NSString stringWithFormat:@"%@/%@/%@",year,month,date];
     
     NSString *imageTitle = [self showDayData:fileNameWithDash];
     
@@ -444,7 +445,8 @@
     imageTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     imageTitleLabel.textAlignment = NSTextAlignmentCenter;
     
-    imageTitleLabel.text = imageTitle;
+//    imageTitleLabel.text = imageTitle;
+    imageTitleLabel.text = [NSString stringWithFormat:@"%@ %@",fileDate,imageTitle];
     imageTitleLabel.textColor = [UIColor whiteColor];
 
     if ((long)lineCount>1 || labelData.length >50) {

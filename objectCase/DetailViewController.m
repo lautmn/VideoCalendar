@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UISlider *AVSlider;          //進度條
 @property (weak, nonatomic) IBOutlet UIImageView *playImageView;  //播放暫停鈕
 @property(nonatomic,strong)UIProgressView * pv;                   //上傳進度條
+@property(nonatomic,strong)NSMutableArray * allFolder; //dropbox上所有檔案
 
 
 
@@ -241,8 +242,9 @@
         [_player play];
     }];
     //將按鈕加到提示視窗
+     [alertcontroller addAction:cancel];
     [alertcontroller addAction:determine];
-    [alertcontroller addAction:cancel];
+   
     
     
     [self presentViewController:alertcontroller animated:YES completion:nil];
@@ -294,52 +296,157 @@
     }
     return restClient;
 }
+- (void)restClient:(DBRestClient *)client loadedMetadata:(DBMetadata *)metadata {
+     [self.player pause];
+        self.playImageView.hidden = false;
+    self.allFolder = [[NSMutableArray alloc]init];
+    if (metadata.isDirectory)
+    {
+      
+        NSLog(@"Folder '%@' contains:", metadata.path);
+        for (DBMetadata *file in metadata.contents)
+        {
+            [self.allFolder addObject:file.filename];
+            
+        }
+      
+        //如有相同檔名
+            if ([self.allFolder indexOfObject:self.pathName]!=NSNotFound) {
+
+                UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"已有相同檔案在您的DropBox中" message:@"確定要覆蓋嗎？" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction*understand=[UIAlertAction actionWithTitle:@"確定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    [[self restClient]deletePath:self.pathName];
+                    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+                    [appupload setBool:true forKey:@"appupload"];
+                    
+                    
+                    
+                    NSString *targetPath=@"/";
+                    
+                    [[self restClient] uploadFile:self.pathName
+                                           toPath:targetPath
+                                    withParentRev:nil
+                                         fromPath:self.path];
+                    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        //取消通知動作
+                        [appupload setBool:false forKey:@"appupload"];
+                        [self cancelNotification];
+                        //取消上傳動作
+                        [[self restClient] cancelFileUpload:self.path];
+                        [[self restClient] cancelAllRequests];
+                        
+                    }];
+                    [alertcontroller addAction:understand];
+                    
+                    
+                    [self presentViewController:alertcontroller animated:YES completion:^{
+                        
+                        self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+                        self.pv.frame = CGRectMake(0,60 , 270, 30);
+                        
+                        self.pv.progress = 0;
+            
+                        self.pv.tintColor = [UIColor greenColor];
+                        
+                        
+                        
+                        
+                        [alertcontroller.view addSubview:self.pv];
+                    }];
+
+                    
+                }];
+                    
+               
+                UIAlertAction*cancel=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+                [alertcontroller addAction:cancel];
+
+                [alertcontroller addAction:understand];
+                
+                [self presentViewController:alertcontroller animated:YES completion:nil];
+            
+            }else{
+                {
+                    
+                        NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
+                        [appupload setBool:true forKey:@"appupload"];
+                        
+                        
+                        
+                        NSString *targetPath=@"/";
+                        
+                        [[self restClient] uploadFile:self.pathName
+                                               toPath:targetPath
+                                        withParentRev:nil
+                                             fromPath:self.path];
+                        UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                        UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                            //取消通知動作
+                            [appupload setBool:false forKey:@"appupload"];
+                            [self cancelNotification];
+                            //取消上傳動作
+                            [[self restClient] cancelFileUpload:self.path];
+                            [[self restClient] cancelAllRequests];
+                            
+                        }];
+                        [alertcontroller addAction:understand];
+                        
+                        
+                        [self presentViewController:alertcontroller animated:YES completion:^{
+                            
+                            self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
+                            self.pv.frame = CGRectMake(0,60 , 270, 30);
+                            
+                            self.pv.progress = 0;
+                            
+                            self.pv.tintColor = [UIColor greenColor];
+                            
+                            
+                            
+                            
+                            [alertcontroller.view addSubview:self.pv];
+                        }];
+                        
+                        
+                
+                    
+                }
+            }
+            
+    }
+
+}
 - (IBAction)uploadButton:(id)sender {
     [self.player pause];
     self.playImageView.hidden = false;
     if (![[DBSession sharedSession]isLinked]) {
         [[DBSession sharedSession]linkFromController:self];
+        dispatch_queue_t aQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(aQueue, ^{
+            
+            while (![[DBSession sharedSession]isLinked]) {
+                [NSThread sleepForTimeInterval:1.0];
+            }
+            
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                if ([[DBSession sharedSession]isLinked]) {
+                  
+                 [[self restClient]loadMetadata:@"/"];
+                    
+                }
+            });
+        });
+
+        
+        
     }
     if ([[DBSession sharedSession]isLinked]) {
+        
+     [[self restClient]loadMetadata:@"/"];
    
-    NSUserDefaults*appupload=[NSUserDefaults standardUserDefaults];
-    [appupload setBool:true forKey:@"appupload"];
-    
-   
-
-    NSString *targetPath=@"/";
-    
-    [[self restClient] uploadFile:self.pathName
-                           toPath:targetPath
-                    withParentRev:nil
-                         fromPath:self.path];
-    UIAlertController * alertcontroller=[UIAlertController alertControllerWithTitle:@"上傳中" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction*understand=[UIAlertAction actionWithTitle:@"取消上傳" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //取消通知動作
-        [appupload setBool:false forKey:@"appupload"];
-        [self cancelNotification];
-        //取消上傳動作
-        [[self restClient] cancelFileUpload:self.path];
-        [[self restClient] cancelAllRequests];
-        
-    }];
-    [alertcontroller addAction:understand];
-    
-    
-    [self presentViewController:alertcontroller animated:YES completion:^{
-        
-        self.pv = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleBar];
-        self.pv.frame = CGRectMake(0,60 , 270, 30);
-        
-        self.pv.progress = 0;
-        //self.pv.backgroundColor = [UIColor greenColor];
-        self.pv.tintColor = [UIColor greenColor];
-        
-        
-        
-        
-        [alertcontroller.view addSubview:self.pv];
-    }];
     
     }
 }

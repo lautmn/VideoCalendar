@@ -314,10 +314,10 @@
                                 <rect key="frame" x="-14" y="-11" width="630" height="557"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kvw-Rs-IR4">
-                                <rect key="frame" x="235" y="30" width="130" height="130"/>
+                                <rect key="frame" x="20" y="30" width="140" height="140"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="BnT-P3-9DG"/>
-                                    <constraint firstAttribute="height" constant="130" id="voD-1b-LuA"/>
+                                    <constraint firstAttribute="height" constant="140" id="NGK-Kf-RxQ"/>
+                                    <constraint firstAttribute="width" constant="140" id="gyQ-vk-QUi"/>
                                 </constraints>
                                 <state key="normal" image="backupallvideo.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -326,11 +326,22 @@
                                     <action selector="backToDropBoxBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="pqk-n8-1IO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diq-C5-oIG">
-                                <rect key="frame" x="235" y="203" width="130" height="130"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QA3-yT-TdM">
+                                <rect key="frame" x="440" y="30" width="140" height="140"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="130" id="Tjh-Qi-stn"/>
-                                    <constraint firstAttribute="height" constant="130" id="Uph-58-i3s"/>
+                                    <constraint firstAttribute="height" constant="140" id="BYi-yh-Mn9"/>
+                                    <constraint firstAttribute="width" constant="140" id="YDo-KO-k6t"/>
+                                </constraints>
+                                <state key="normal" image="downloadbackup.png"/>
+                                <connections>
+                                    <action selector="downloadToDropBoxBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="aG1-rX-rlg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="diq-C5-oIG">
+                                <rect key="frame" x="20" y="198" width="140" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="99b-7V-63s"/>
+                                    <constraint firstAttribute="height" constant="140" id="V5F-uC-RJA"/>
                                 </constraints>
                                 <state key="normal" image="emailtome.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -339,23 +350,34 @@
                                     <action selector="sendMailtoTeamBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="bCw-Be-MyS"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleAspectFit" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
-                                <rect key="frame" x="235" y="389" width="130" height="130"/>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pt2-pI-6jG">
+                                <rect key="frame" x="440" y="198" width="140" height="140"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="140" id="0PB-w3-jTd"/>
+                                    <constraint firstAttribute="height" constant="140" id="VsE-h7-9tW"/>
+                                </constraints>
                                 <state key="normal" image="givemegrade.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="giveStarBtnPressed:" destination="beG-7E-bqS" eventType="touchUpInside" id="A7K-K3-hQO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="pt2-pI-6jG" secondAttribute="trailing" id="3hC-lr-9Eo"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="30" id="G21-F1-cUl"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="leading" secondItem="ixq-D0-q5X" secondAttribute="leadingMargin" id="GmB-px-VXA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="pOW-aU-FJi" secondAttribute="trailing" constant="-36" id="ItX-Rw-Aq4"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="Mt7-dT-aXX"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="leading" secondItem="ixq-D0-q5X" secondAttribute="leadingMargin" constant="-34" id="OWx-cw-x7g"/>
                             <constraint firstItem="pOW-aU-FJi" firstAttribute="top" secondItem="ixq-D0-q5X" secondAttribute="topMargin" constant="-11" id="PgH-gV-Z29"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="Rk9-fL-QpG"/>
-                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="Xjl-Gb-az6"/>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="centerX" secondItem="ixq-D0-q5X" secondAttribute="centerX" id="maP-KI-ivX"/>
-                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="30" id="swF-XM-8q5"/>
+                            <constraint firstItem="QA3-yT-TdM" firstAttribute="top" secondItem="5EV-lx-iOA" secondAttribute="bottom" constant="30" id="WvH-ej-Lco"/>
+                            <constraint firstItem="diq-C5-oIG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="dA9-lh-qrC"/>
+                            <constraint firstItem="kvw-Rs-IR4" firstAttribute="leading" secondItem="ixq-D0-q5X" secondAttribute="leadingMargin" id="l7O-Hb-Jvn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QA3-yT-TdM" secondAttribute="trailing" id="pKF-2P-iSr"/>
+                            <constraint firstItem="pt2-pI-6jG" firstAttribute="centerY" secondItem="ixq-D0-q5X" secondAttribute="centerY" id="zJe-ZL-lhL"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="設定" id="SlF-SU-N3p">
@@ -446,8 +468,9 @@
     <resources>
         <image name="AVdelete.png" width="503" height="524"/>
         <image name="action.png" width="241" height="249"/>
-        <image name="backupallvideo.png" width="373" height="359"/>
+        <image name="backupallvideo.png" width="374" height="359"/>
         <image name="browse2.png" width="241" height="249"/>
+        <image name="downloadbackup.png" width="374" height="359"/>
         <image name="emailtome.png" width="373" height="359"/>
         <image name="givemegrade.png" width="373" height="359"/>
         <image name="home.png" width="414" height="736"/>
