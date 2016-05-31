@@ -494,7 +494,7 @@
     }
 }
 - (IBAction)giveStarBtnPressed:(id)sender {
-    NSString *cAppleID = @"justtryit518@gmail.com";
+    NSString *cAppleID = @"1116559208";
     
     if ([SKStoreProductViewController class] != nil) {
         SKStoreProductViewController *skpvc = [[SKStoreProductViewController alloc] init];
@@ -503,12 +503,12 @@
         [skpvc loadProductWithParameters:dict completionBlock:nil];
         [self.navigationController presentViewController:skpvc animated: YES completion: nil];
     }
-//    else {
-//        static NSString *const iOS7AppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%@";
-//        static NSString *const iOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@";
-//        NSString *url = [[NSString alloc] initWithFormat: ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0f) ? iOS7AppStoreURLFormat : iOSAppStoreURLFormat, cAppleID];
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-//    }
+    else {
+        static NSString *const iOS7AppStoreURLFormat = @"itms-apps://itunes.apple.com/app/id%@";
+        static NSString *const iOSAppStoreURLFormat = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@";
+        NSString *url = [[NSString alloc] initWithFormat: ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0f) ? iOS7AppStoreURLFormat : iOSAppStoreURLFormat, cAppleID];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    }
 }
 
 #pragma mark - SKStoreProductViewControllerDelegate
