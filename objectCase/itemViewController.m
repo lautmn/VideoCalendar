@@ -511,7 +511,9 @@
     }
 }
 
+#pragma mark -
 #pragma mark - SKStoreProductViewControllerDelegate
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [viewController dismissViewControllerAnimated: YES completion: nil];
-}@end
+}
+@end

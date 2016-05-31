@@ -94,6 +94,11 @@
     if (_imageView.image != nil) {
         browser = [[ImageBrowser alloc] init];
         [browser showImage:self.imageView];
+        
+        NSLog(@"view.width: %f",self.view.frame.size.width);
+        NSLog(@"view.image.width: %f",_imageView.image.size.width);
+        NSLog(@"view.height: %f",self.view.frame.size.height);
+        NSLog(@"view.image.height: %f",_imageView.image.size.height);
     }
     
 }

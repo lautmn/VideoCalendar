@@ -300,6 +300,8 @@
     NSString *date = [fileName substringWithRange:NSMakeRange(6, 2)];
     
     NSString *fileNameWithDash = [NSString stringWithFormat:@"%@-%@-%@",year,month,date];
+//    NSString *fileDate = [NSString stringWithFormat:@"%@年%@月%@日",year,month,date];
+    NSString *fileDate = [NSString stringWithFormat:@"%@/%@/%@",year,month,date];
 //    NSLog(@"%@",fileNameWithDash);
     
     NSString *imageTitle = [self showDayData:fileNameWithDash];
@@ -312,7 +314,8 @@
     imageTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     imageTitleLabel.textAlignment = NSTextAlignmentCenter;
     
-    imageTitleLabel.text = imageTitle;
+//    imageTitleLabel.text = imageTitle;
+    imageTitleLabel.text = [NSString stringWithFormat:@"%@ %@",fileDate,imageTitle];
     imageTitleLabel.textColor = [UIColor whiteColor];
 
     

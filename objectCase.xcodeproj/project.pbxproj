@@ -64,6 +64,7 @@
 		3C6942641CE62F2A008DF05A /* myVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942621CE62F2A008DF05A /* myVideo.png */; };
 		3C6942651CE62F2A008DF05A /* tool.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C6942631CE62F2A008DF05A /* tool.png */; };
 		3C769DF61CF1E06D007D2EE9 /* back2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C769DF51CF1E06D007D2EE9 /* back2.png */; };
+		3CD45D701CFBFFF600D47E16 /* homeB.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CD45D6F1CFBFFF600D47E16 /* homeB.png */; };
 		3CF995291CED9A4E00EB44DE /* firstBG2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF995281CED9A4E00EB44DE /* firstBG2.png */; };
 		3CF9952B1CED9AA100EB44DE /* first2.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF9952A1CED9AA100EB44DE /* first2.png */; };
 		3CF9952E1CED9DA800EB44DE /* first9.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CF9952C1CED9DA800EB44DE /* first9.png */; };
@@ -186,6 +187,7 @@
 		3C6942621CE62F2A008DF05A /* myVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = myVideo.png; sourceTree = "<group>"; };
 		3C6942631CE62F2A008DF05A /* tool.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tool.png; sourceTree = "<group>"; };
 		3C769DF51CF1E06D007D2EE9 /* back2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back2.png; sourceTree = "<group>"; };
+		3CD45D6F1CFBFFF600D47E16 /* homeB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = homeB.png; sourceTree = "<group>"; };
 		3CF995281CED9A4E00EB44DE /* firstBG2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = firstBG2.png; sourceTree = "<group>"; };
 		3CF9952A1CED9AA100EB44DE /* first2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first2.png; sourceTree = "<group>"; };
 		3CF9952C1CED9DA800EB44DE /* first9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first9.png; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				3C04F1611CE32696006374A1 /* calendar.png */,
 				3C04F1631CE3286D006374A1 /* home.png */,
 				3C69424E1CE5B62B008DF05A /* home2.png */,
+				3CD45D6F1CFBFFF600D47E16 /* homeB.png */,
 				3C769DF51CF1E06D007D2EE9 /* back2.png */,
 				3C6942481CE5AA5D008DF05A /* detail2.png */,
 				3C6942521CE5B924008DF05A /* setting.png */,
@@ -545,6 +548,7 @@
 				3CF9952F1CED9DA800EB44DE /* firstBG3.png in Resources */,
 				08DF02141CEEF88C004A13C2 /* transfer.png in Resources */,
 				3CF995361CEDAA0600EB44DE /* (happy2)How_About_It.mp3 in Resources */,
+				3CD45D701CFBFFF600D47E16 /* homeB.png in Resources */,
 				3C69425F1CE5DF68008DF05A /* action2.png in Resources */,
 				EB92E4A71CECF4EB0025CE90 /* savetophone.png in Resources */,
 				EBC655671CF60F3000B471F6 /* backupallvideo.png in Resources */,
